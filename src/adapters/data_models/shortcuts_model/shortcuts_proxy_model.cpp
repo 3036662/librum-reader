@@ -8,8 +8,8 @@
 #include "string_utils.hpp"
 #include "tag_dto.hpp"
 
-using adapters::data_models::ShortcutsModel::ShortcutRole;
-using adapters::data_models::ShortcutsModel::ValueRole;
+//using adapters::data_models::ShortcutsModel::ShortcutRole;
+//using adapters::data_models::ShortcutsModel::ValueRole;
 using adapters::dtos::TagDto;
 using domain::entities::Book;
 using domain::entities::Tag;
@@ -26,8 +26,8 @@ ShortcutsProxyModel::ShortcutsProxyModel(QObject* parent) :
 bool ShortcutsProxyModel::lessThan(const QModelIndex& left,
                                    const QModelIndex& right) const
 {
-    QString leftName = sourceModel()->data(left, ShortcutRole).toString();
-    QString rightName = sourceModel()->data(right, ShortcutRole).toString();
+    QString leftName = sourceModel()->data(left, ShortcutsModel::Roles::ShortcutRole).toString();
+    QString rightName = sourceModel()->data(right,ShortcutsModel::Roles::ShortcutRole).toString();
 
     // Sort alphabetically if no filter string is set
     if(m_filterString.isEmpty())
@@ -46,7 +46,7 @@ bool ShortcutsProxyModel::filterAcceptsRow(
         return true;
 
     auto index = sourceModel()->index(source_row, 0, source_parent);
-    auto shortcut = sourceModel()->data(index, ShortcutRole).toString();
+    auto shortcut = sourceModel()->data(index, ShortcutsModel::Roles::ShortcutRole).toString();
     auto shortcutSimilarityToFilterString =
         string_utils::fuzzCompare(shortcut, m_filterString);
     if(shortcutSimilarityToFilterString >= 60)

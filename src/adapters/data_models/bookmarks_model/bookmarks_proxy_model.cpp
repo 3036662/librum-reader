@@ -8,8 +8,8 @@
 #include "string_utils.hpp"
 #include "tag_dto.hpp"
 
-using adapters::data_models::BookmarksModel::NameRole;
-using adapters::data_models::BookmarksModel::PageNumberRole;
+//using adapters::data_models::BookmarksModel::NameRole;
+//using adapters::data_models::BookmarksModel::PageNumberRole;
 using adapters::dtos::TagDto;
 using domain::entities::Book;
 using domain::entities::Tag;
@@ -26,11 +26,11 @@ BookmarksProxyModel::BookmarksProxyModel(QObject* parent) :
 bool BookmarksProxyModel::lessThan(const QModelIndex& left,
                                    const QModelIndex& right) const
 {
-    QString leftName = sourceModel()->data(left, NameRole).toString();
-    QString rightName = sourceModel()->data(right, NameRole).toString();
+    QString leftName = sourceModel()->data(left,BookmarksModel::NameRole).toString();
+    QString rightName = sourceModel()->data(right, BookmarksModel::NameRole).toString();
 
-    int leftPageNr = sourceModel()->data(left, PageNumberRole).toInt();
-    int rightPageNr = sourceModel()->data(right, PageNumberRole).toInt();
+    int leftPageNr = sourceModel()->data(left, BookmarksModel::PageNumberRole).toInt();
+    int rightPageNr = sourceModel()->data(right, BookmarksModel::PageNumberRole).toInt();
 
     // Sort alphabetically if no filter string is set
     if(m_filterString.isEmpty())
@@ -49,7 +49,7 @@ bool BookmarksProxyModel::filterAcceptsRow(
         return true;
 
     auto index = sourceModel()->index(source_row, 0, source_parent);
-    auto shortcut = sourceModel()->data(index, NameRole).toString();
+    auto shortcut = sourceModel()->data(index, BookmarksModel::NameRole).toString();
     auto bookmarkSimilarityToFilterString =
         string_utils::fuzzCompare(shortcut, m_filterString);
     if(bookmarkSimilarityToFilterString >= 60)
