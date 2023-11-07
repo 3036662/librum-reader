@@ -14,7 +14,7 @@ AppInfoAccess::AppInfoAccess()
 
 void AppInfoAccess::getNewestAppVersion()
 {
-    auto request = createRequest(domain + data::latestAppVersionEndpoint);
+  /*  auto request = createRequest(domain + data::latestAppVersionEndpoint);
     auto reply = m_networkAccessManager.get(request);
 
 
@@ -35,11 +35,12 @@ void AppInfoAccess::getNewestAppVersion()
                 emit newestAppVersionReceived(reply->readAll());
                 reply->deleteLater();
             });
+			*/
 }
 
 void AppInfoAccess::downloadBinaries(const QString& packageName)
 {
-    auto url = data::binaryDownloadEndpoint + "/" + packageName + ".zip";
+   /* auto url = data::binaryDownloadEndpoint + "/" + packageName + ".zip";
     auto request = createRequest(url);
     auto reply = m_networkAccessManager.get(request);
 
@@ -64,6 +65,7 @@ void AppInfoAccess::downloadBinaries(const QString& packageName)
 
     connect(reply, &QNetworkReply::downloadProgress, this,
             &AppInfoAccess::downloadingBinariesProgressChanged);
+			*/
 }
 
 QNetworkRequest AppInfoAccess::createRequest(QUrl url)
