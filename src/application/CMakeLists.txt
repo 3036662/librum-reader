@@ -192,7 +192,7 @@ endif()
 
 
 ###### Install rules ######
-if(LINUX)
+if(UNIX)
     install(TARGETS application
             DESTINATION lib
             )
