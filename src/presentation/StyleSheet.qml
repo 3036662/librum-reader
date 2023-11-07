@@ -83,7 +83,7 @@ Item {
     property color colorScrollBarHandle
 
     state: (SettingsController.appearanceSettings.Theme
-            === undefined ? lastRunSettings.theme // default
+            === undefined ? "Dark"
                           : SettingsController.appearanceSettings.Theme)
 
     states: [
@@ -572,10 +572,9 @@ Item {
 
     // Settings which capture the application theme the last time the application ran.
     // This way the correct theme is also chosen before the user is authenticated.
-    Settings {
+	component Settings:QtObject{
         id: lastRunSettings
-        location: "last_run_settings"
-
+        property string location: "last_run_settings"
         property string theme: "Dark"
     }
     Component.onDestruction: lastRunSettings.theme = styleSheet.state

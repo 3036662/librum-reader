@@ -59,9 +59,7 @@ Page {
                 Layout.preferredHeight: 38
                 Layout.leftMargin: -root.horizontalPadding
                 Layout.rightMargin: -root.rightPadding
-                visible: baseRoot.notifyAboutUpdates
-                         && AppInfoController.newestVersion !== ""
-                         && AppInfoController.currentVersion !== AppInfoController.newestVersion
+				visible: false
 
                 Rectangle {
                     anchors.fill: parent
