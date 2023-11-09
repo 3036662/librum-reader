@@ -13,6 +13,7 @@ import "registerPage"
 import "freeBooksPage"
 import "settings"
 import "statisticsPage"
+import "opdsPage"
 import "addOnsPage"
 import "forgotPasswordPage"
 import "readingPage"
@@ -102,6 +103,10 @@ ApplicationWindow {
     Component {
         id: statisticsPage
         MStatisticsPage {}
+    }
+    Component {
+        id: opdsPage
+        MOpdsPage {}
     }
     Component {
         id: readingPage

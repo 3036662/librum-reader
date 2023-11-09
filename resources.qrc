@@ -75,6 +75,7 @@
         <file>resources/images/light_mode/sidebar/puzzle_icon.svg</file>
         <file>resources/images/light_mode/sidebar/pieChart_icon.svg</file>
         <file>resources/images/light_mode/sidebar/home_icon.svg</file>
+		<file>resources/images/light_mode/sidebar/library_icon.svg</file>
         <file>resources/images/light_mode/sidebar/empty_profile_icon.svg</file>
         <file>resources/images/light_mode/sidebar/download_icon.svg</file>
         <file>resources/images/light_mode/reading_options_popup/sync_icon.svg</file>
@@ -175,6 +176,7 @@
         <file>resources/images/dark_mode/sidebar/home_icon.svg</file>
         <file>resources/images/dark_mode/sidebar/empty_profile_icon.svg</file>
         <file>resources/images/dark_mode/sidebar/download_icon.svg</file>
+		<file>resources/images/dark_mode/sidebar/library_icon.svg</file>
         <file>resources/images/dark_mode/reading_options_popup/sync_icon.svg</file>
         <file>resources/images/dark_mode/reading_options_popup/sun_icon.svg</file>
         <file>resources/images/dark_mode/reading_options_popup/share_icon.svg</file>

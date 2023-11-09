@@ -15,6 +15,7 @@ Item {
     property alias homeItem: homeItem
     property alias statisticsItem: statisticsItem
     property alias addOnsItem: addOnsItem
+    property alias opdsItem: opdsItem
     property alias settingsItem: settingsItem
     property MSidebarItem currentItem: internal.defaultItem
     property bool open: false
@@ -174,10 +175,9 @@ Item {
                     imageWidth: 30
                     image: Icons.sidebarOpdsLibs
                     text: "Add-ons"
-
-                    onClicked: loadPage(addOnsPage, root.addOnsItem)
+                    onClicked: loadPage(opdsPage, root.opdsItem)
                 }
-
+                // opds sidebar item
                 MSidebarItem {
                     id: addOnsItem
                     Layout.topMargin: 13
@@ -185,7 +185,6 @@ Item {
                     imageWidth: 30
                     image: Icons.sidebarAddOns
                     text: "Add-ons"
-
                     onClicked: loadPage(addOnsPage, root.addOnsItem)
                 }
 
