@@ -112,6 +112,7 @@ Item {
     property string sidebarPieChart
     property string sidebarSettings
     property string sidebarAddOns
+    property string sidebarOpdsLibs
     property string sidebarSync
     property string sidebarEmptyProfile
     property string sidebarLogout
@@ -485,6 +486,10 @@ Item {
             PropertyChanges {
                 target: iconSheet
                 sidebarAddOns: "/resources/images/light_mode/sidebar/puzzle_icon.svg"
+            }
+            PropertyChanges {
+                target: iconSheet
+                sidebarOpdsLibs: "/resources/images/light_mode/sidebar/library_icon.svg"
             }
             PropertyChanges {
                 target: iconSheet
@@ -908,6 +913,10 @@ Item {
             PropertyChanges {
                 target: iconSheet
                 sidebarAddOns: "/resources/images/dark_mode/sidebar/puzzle_icon.svg"
+            }
+            PropertyChanges {
+                target: iconSheet
+                sidebarOpdsLibs: "/resources/images/dark_mode/sidebar/library_icon.svg"
             }
             PropertyChanges {
                 target: iconSheet

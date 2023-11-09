@@ -168,6 +168,17 @@ Item {
                 }
 
                 MSidebarItem {
+                    id: opdsItem
+                    Layout.topMargin: 13
+                    Layout.leftMargin: 10
+                    imageWidth: 30
+                    image: Icons.sidebarOpdsLibs
+                    text: "Add-ons"
+
+                    onClicked: loadPage(addOnsPage, root.addOnsItem)
+                }
+
+                MSidebarItem {
                     id: addOnsItem
                     Layout.topMargin: 13
                     Layout.leftMargin: 10

@@ -3,12 +3,12 @@
 
 <svg
    fill="#000000"
-   width="800px"
-   height="800px"
-   viewBox="0 0 24 24"
+   width="32"
+   height="32"
+   viewBox="-2 0 22 22"
    version="1.1"
    id="svg1"
-   sodipodi:docname="library_icon_dark.svg"
+   sodipodi:docname="library_icon.svg"
    inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -25,9 +25,9 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.9575"
-     inkscape:cx="400"
-     inkscape:cy="400"
+     inkscape:zoom="3.83"
+     inkscape:cx="66.579635"
+     inkscape:cy="-15.926893"
      inkscape:window-width="1920"
      inkscape:window-height="962"
      inkscape:window-x="0"
@@ -35,7 +35,7 @@
      inkscape:window-maximized="1"
      inkscape:current-layer="svg1" />
   <path
-     d="M6,23H18a3,3,0,0,0,3-3V4a3,3,0,0,0-3-3H6A3,3,0,0,0,3,4V20A3,3,0,0,0,6,23ZM19,9.5v5h-.132L17.9,12.553a1,1,0,0,0-1.79.894l.527,1.053H15V12a1,1,0,0,0-2,0v2.5H12V13a1,1,0,0,0-2,0v1.5H5v-5ZM18,21H14V19a1,1,0,0,0-2,0v2H11V19a1,1,0,0,0-2,0v2H8V20a1,1,0,0,0-2,0v1a1,1,0,0,1-1-1V16.5H19V20A1,1,0,0,1,18,21ZM6,3H18a1,1,0,0,1,1,1V7.5H14.868L13.9,5.553a1,1,0,1,0-1.79.894L12.632,7.5H11V5A1,1,0,0,0,9,5V7.5H8V6A1,1,0,0,0,6,6V7.5H5V4A1,1,0,0,1,6,3Z"
+     d="m 3,22 h 12 a 3,3 0 0 0 3,-3 V 3 A 3,3 0 0 0 15,0 H 3 A 3,3 0 0 0 0,3 v 16 a 3,3 0 0 0 3,3 z M 16,8.5 v 5 H 15.868 L 14.9,11.553 a 1.0004169,1.0004169 0 0 0 -1.79,0.894 L 13.637,13.5 H 12 V 11 a 1,1 0 0 0 -2,0 v 2.5 H 9 V 12 a 1,1 0 0 0 -2,0 v 1.5 H 2 v -5 z M 15,20 h -4 v -2 a 1,1 0 0 0 -2,0 v 2 H 8 v -2 a 1,1 0 0 0 -2,0 v 2 H 5 v -1 a 1,1 0 0 0 -2,0 v 1 A 1,1 0 0 1 2,19 V 15.5 H 16 V 19 a 1,1 0 0 1 -1,1 z M 3,2 h 12 a 1,1 0 0 1 1,1 V 6.5 H 11.868 L 10.9,4.553 A 1.0004169,1.0004169 0 1 0 9.11,5.447 L 9.632,6.5 H 8 V 4 A 1,1 0 0 0 6,4 V 6.5 H 5 V 5 A 1,1 0 0 0 3,5 V 6.5 H 2 V 3 A 1,1 0 0 1 3,2 Z"
      id="path1"
      style="fill:#989898;fill-opacity:1" />
 </svg>
