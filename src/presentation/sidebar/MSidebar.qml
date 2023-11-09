@@ -175,6 +175,7 @@ Item {
                     imageWidth: 30
                     image: Icons.sidebarOpdsLibs
                     text: "Add-ons"
+
                     onClicked: loadPage(opdsPage, root.opdsItem)
                 }
                 // opds sidebar item
@@ -185,6 +186,7 @@ Item {
                     imageWidth: 30
                     image: Icons.sidebarAddOns
                     text: "Add-ons"
+
                     onClicked: loadPage(addOnsPage, root.addOnsItem)
                 }
 
