@@ -133,6 +133,9 @@ Item {
     property string trashRed
     property string cloudOff
 
+    // Opds
+    property string opdsFolder
+
     state: "Light"
     states: [
         State {
@@ -561,6 +564,13 @@ Item {
                 target: iconSheet
                 cloudOff: "/resources/images/light_mode/utility/cloud_off_icon.svg"
             }
+
+            //Opds
+            PropertyChanges {
+                target: iconSheet
+                opdsFolder: "/resources/images/light_mode/opds/folder.svg"
+            }
+
         },
         State {
             name: "Dark"
@@ -987,6 +997,12 @@ Item {
             PropertyChanges {
                 target: iconSheet
                 cloudOff: "/resources/images/dark_mode/utility/cloud_off_icon.svg"
+            }
+
+            //Opds
+            PropertyChanges {
+                target: iconSheet
+                opdsFolder: "/resources/images/dark_mode/opds/folder.svg"
             }
         }
     ]

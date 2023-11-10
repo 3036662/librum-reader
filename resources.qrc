@@ -215,5 +215,7 @@
         <file>resources/images/light_mode/illustrations/not_found.svg</file>
         <file>resources/images/light_mode/decoration/warning_circle_icon.svg</file>
         <file>resources/images/dark_mode/decoration/warning_circle_icon.svg</file>
+		<file>resources/images/dark_mode/opds/folder.svg</file>
+		<file>resources/images/light_mode/opds/folder.svg</file>
     </qresource>
 </RCC>

@@ -82,6 +82,7 @@ Item {
     property color colorTextSelection
     property color colorScrollBarHandle
 
+
     state: (SettingsController.appearanceSettings.Theme
             === undefined ? "Dark"
                           : SettingsController.appearanceSettings.Theme)

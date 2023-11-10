@@ -3,36 +3,102 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Librum.style
 import Librum.fonts
+import Librum.icons
+import CustomComponents
 
 Page {
     id: root
     background: Rectangle {
+        anchors.fill: parent
         color: Style.colorPageBackground
     }
 
-    Item {
-        id: topSpacer
-        height: parent.height / 2.3
-    }
+  ColumnLayout {
+      id: layout
+      anchors.fill: parent
+      anchors.rightMargin: internal.windowRightMargin
+      anchors.leftMargin: internal.windowLeftMargin
+      spacing: 0
 
-    Label {
-        id: title
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: topSpacer.bottom
-        text: "Opds Page"
-        color: Style.colorTitle
-        font.pointSize: Fonts.size22
-        font.bold: true
-    }
+      MTitle {
+          id: pageTitle
+          Layout.topMargin: 44
+          titleText: "OPDS  catalogs"
+          descriptionText: "Find books in public OPDS libraries"
+      }
 
-    Label {
-        id: description
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: title.bottom
-        anchors.topMargin: 6
-        text: "Currently in Development"
-        color: Style.colorPageSubtitle
-        font.pointSize: Fonts.size16
-        font.bold: true
-    }
+      Pane {
+              id: opdsGridContainer
+              Layout.fillWidth: true
+              Layout.fillHeight: true
+              Layout.topMargin: 30
+              visible: !root.empty
+              padding: 0
+              background: Rectangle {
+                  color: "transparent"
+              }
+
+              GridView {
+                  id: grid
+                  anchors.fill: parent
+                  cellWidth: internal.folderWidth + internal.horizontalFolderSpacing
+                  cellHeight: internal.folderHeight + internal.verticalFolderSpacing
+                  model:contactModel
+                  delegate: contactDelegate
+
+              }
+      }
+
+      Component {
+              id: contactDelegate
+              Item {
+                  width: grid.cellWidth; height: grid.cellHeight
+                  Column {
+                      anchors.fill: parent
+                      Image {
+                          width: parent.width
+                          height: parent.width
+                          fillMode :Image.Stretch
+                          source: Icons.opdsFolder;
+                          anchors.horizontalCenter: parent.horizontalCenter }
+                      Text {
+                          text: name;
+                          anchors.horizontalCenter: parent.horizontalCenter
+                          color: Style.colorText
+                      }
+                  }
+              }
+        }
+
+  }
+
+  ListModel {
+     id: contactModel
+      ListElement {
+          name: "Jim Williams"
+      }
+      ListElement {
+          name: "John Brown"
+      }
+      ListElement {
+          name: "Bill Smyth"
+      }
+      ListElement {
+          name: "Sam Wise"
+      }
+  }
+
+
+      QtObject {
+          id: internal
+          property int windowLeftMargin: 64
+          property int windowRightMargin: 70
+
+          property int folderWidth: 80
+          property int folderHeight: 160
+          property int horizontalFolderSpacing: 64
+          property int verticalFolderSpacing: 48
+      }
+
+
 }
