@@ -1,6 +1,7 @@
 #pragma once
 #include <QObject>
 #include "application_export.hpp"
+#include "opds_node.hpp"
 
 namespace application
 {
@@ -11,7 +12,7 @@ class APPLICATION_EXPORT IOpdsService: public QObject
 
 public:
     virtual ~IOpdsService() noexcept = default;
-
+    virtual const std::vector<domain::value_objects::OpdsNode>&   getOpdsNodes() =0;
 };
 
 }
