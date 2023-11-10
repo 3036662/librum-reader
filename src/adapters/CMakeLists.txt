@@ -42,8 +42,8 @@ add_library(adapters
                     controllers/dictionary_controller.hpp
                     controllers/ai_explanation_controller.cpp
                     controllers/ai_explanation_controller.hpp
-                    controllers/opds_conrtoller.hpp
-                    controllers/opds_conrtoller.cpp
+                    controllers/opds_controller.hpp
+                    controllers/opds_controller.cpp
 
                     gateways/user_storage_gateway.cpp
                     gateways/user_storage_gateway.hpp
