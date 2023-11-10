@@ -100,7 +100,7 @@ const auto diConfig = []
 
         // Opds
         di::bind<IOpdsController>().to<controllers::OpdsConrtoller>(),
-        di::bind<IOpdsService>().to<services::OpdsService>
+        di::bind<IOpdsService>().to<services::OpdsService>(),
 
         // User
         di::bind<IUserController>().to<controllers::UserController>(),
