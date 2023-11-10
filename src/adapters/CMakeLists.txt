@@ -77,7 +77,9 @@ add_library(adapters
                     data_models/bookmarks_model/bookmarks_model.hpp
                     data_models/bookmarks_model/bookmarks_proxy_model.cpp
                     data_models/bookmarks_model/bookmarks_proxy_model.hpp
-                    
+                    data_models/opds_model/opds_model.hpp
+                    data_models/opds_model/opds_model.cpp
+
                     DTOs/login_dto.hpp
                     DTOs/register_dto.hpp
                     DTOs/book_dto.hpp
@@ -85,6 +87,7 @@ add_library(adapters
                     DTOs/highlight_dto.hpp
                     DTOs/rectf_dto.hpp
                     DTOs/word_definition_dto.hpp
+
 
                     
 )
@@ -104,6 +107,7 @@ target_include_directories(adapters
                     ${CMAKE_CURRENT_SOURCE_DIR}/data_models/user_tags_model
                     ${CMAKE_CURRENT_SOURCE_DIR}/data_models/shortcuts_model
                     ${CMAKE_CURRENT_SOURCE_DIR}/data_models/bookmarks_model
+					 ${CMAKE_CURRENT_SOURCE_DIR}/data_models/opds_model
                     ${CMAKE_CURRENT_SOURCE_DIR}/data_models
                 PRIVATE
                     ${DOMAIN_INCLUDES}

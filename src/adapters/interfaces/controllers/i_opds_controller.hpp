@@ -1,16 +1,15 @@
-#ifndef IOPDSCONTROLLER_H
-    #define IOPDSCONTROLLER_H
-
-    #include <QObject>
+#pragma once
+#include <QObject>
+#include <opds_model.hpp>
 
 class IOpdsController : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(adapters::data_models::OpdsModel* opdsModel READ getOpdsModel CONSTANT)
 public:
     virtual ~IOpdsController() noexcept = default;
-
+    virtual adapters::data_models::OpdsModel*  getOpdsModel() =0;
 signals:
 
 };
 
-#endif // IOPDSCONTROLLER_H

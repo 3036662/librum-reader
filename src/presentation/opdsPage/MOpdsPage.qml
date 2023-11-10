@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import Librum.controllers
 import Librum.style
 import Librum.fonts
 import Librum.icons
@@ -70,20 +71,22 @@ Page {
               }
 
               GridView {
-                  id: grid
+                  id: opdsGrid
                   anchors.fill: parent
                   cellWidth: internal.folderWidth + internal.horizontalFolderSpacing
                   cellHeight: internal.folderHeight + internal.verticalFolderSpacing
-                  model:contactModel
                   delegate: contactDelegate
+                  clip: true
 
+                  cacheBuffer: 1000
+                  model: OpdsController.opdsModel
               }
       }
 
       Component {
               id: contactDelegate
               Item {
-                  width: grid.cellWidth; height: grid.cellHeight
+                  width: opdsGrid.cellWidth; height: opdsGrid.cellHeight
                   Column {
                       anchors.fill: parent
                       Image {
@@ -93,7 +96,7 @@ Page {
                           source: Icons.opdsFolder;
                           anchors.horizontalCenter: parent.horizontalCenter }
                       Text {
-                          text: name;
+                          text: model.title;
                           anchors.horizontalCenter: parent.horizontalCenter
                           color: Style.colorText
                       }
