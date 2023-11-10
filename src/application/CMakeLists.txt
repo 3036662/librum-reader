@@ -12,6 +12,7 @@ set(application_SRC
     interfaces/services/i_book_service.hpp
     interfaces/services/i_dictionary_service.hpp
     interfaces/services/i_ai_explanation_service.hpp
+    interfaces/services/i_opds_service.hpp
     interfaces/gateways/i_user_storage_gateway.hpp
     interfaces/gateways/i_library_storage_gateway.hpp
     interfaces/gateways/i_authentication_gateway.hpp

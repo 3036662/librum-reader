@@ -25,6 +25,7 @@
 #include "i_free_books_service.hpp"
 #include "i_library_service.hpp"
 #include "i_user_service.hpp"
+#include "i_opds_service.hpp"
 #include "key_sequence_recorder.hpp"
 #include "library_proxy_model.hpp"
 #include "message_handler.hpp"
@@ -136,6 +137,10 @@ int main(int argc, char* argv[])
     auto freeBooksController = std::make_unique<FreeBooksController>(freeBooksService);
     qmlRegisterSingletonInstance("Librum.controllers", 1, 0, "FreeBooksController",
                                  freeBooksController.get());
+
+    // Opds stack
+    auto* opdsService = config::diConfig().create<application::IOpdsService*>();
+    // TODO CONTROLLER
 
     // Settings Stack
     auto* settingsService = config::diConfig().create<application::ISettingsService*>();
