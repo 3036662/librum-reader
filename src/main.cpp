@@ -140,6 +140,7 @@ int main(int argc, char* argv[])
 
     // Opds stack
     auto* opdsService = config::diConfig().create<application::IOpdsService*>();
+    //auto opdsController =std::make_unique<
     // TODO CONTROLLER
 
     // Settings Stack

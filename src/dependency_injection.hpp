@@ -39,6 +39,9 @@
 #include "user_storage_access.hpp"
 #include "user_storage_gateway.hpp"
 
+#include "opds_controller.hpp"
+#include "opds_service.hpp"
+
 
 namespace di = boost::di;
 
@@ -94,6 +97,10 @@ const auto diConfig = []
             .to<gateways::FreeBooksStorageGateway>(),
         di::bind<IFreeBooksStorageAccess>()
             .to<persistence::FreeBooksStorageAccess>(),
+
+        // Opds
+        di::bind<IOpdsController>().to<controllers::OpdsConrtoller>(),
+        di::bind<IOpdsService>().to<services::OpdsService>
 
         // User
         di::bind<IUserController>().to<controllers::UserController>(),

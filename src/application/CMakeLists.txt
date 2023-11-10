@@ -41,6 +41,8 @@ set(application_SRC
     services/dictionary_service.hpp
     services/ai_explanation_service.cpp
     services/ai_explanation_service.hpp
+    services/opds_service.hpp
+    services/opds_service.cpp
     
     managers/library_storage_manager.cpp
     managers/library_storage_manager.hpp
