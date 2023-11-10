@@ -14,6 +14,7 @@ add_library(adapters
                     interfaces/controllers/i_app_info_controller.hpp
                     interfaces/controllers/i_dictionary_controller.hpp
                     interfaces/controllers/i_ai_explanation_controller.hpp
+                    interfaces/controllers/i_opds_controller.hpp
                     interfaces/persistance/i_user_storage_access.hpp
                     interfaces/persistance/i_library_storage_access.hpp
                     interfaces/persistance/i_authentication_access.hpp
