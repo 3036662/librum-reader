@@ -20,11 +20,42 @@ Page {
       anchors.leftMargin: internal.windowLeftMargin
       spacing: 0
 
-      MTitle {
-          id: pageTitle
-          Layout.topMargin: 44
-          titleText: "OPDS  catalogs"
-          descriptionText: "Find books in public OPDS libraries"
+      RowLayout {
+          id: headerRow
+          Layout.fillWidth: true
+          spacing: 0
+
+
+          MTitle {
+              id: pageTitle
+              Layout.topMargin: 44
+              titleText: "OPDS  catalogs"
+              descriptionText: "Find books in public OPDS libraries"
+          }
+
+          Item {
+              Layout.fillWidth: true
+          }
+
+          MButton {
+              id: addOpdsButton
+              Layout.preferredWidth: 140
+              Layout.preferredHeight: 40
+              Layout.topMargin: 22
+              Layout.alignment: Qt.AlignBottom
+              borderWidth: 0
+              backgroundColor: Style.colorBasePurple
+              text: "Add OPDS"
+              textColor: Style.colorFocusedButtonText
+              fontWeight: Font.Bold
+              fontSize: Fonts.size13
+              imagePath: Icons.addWhite
+
+              onClicked: ;// FIXME importFilesDialog.open()
+          }
+
+
+
       }
 
       Pane {
