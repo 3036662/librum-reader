@@ -138,10 +138,11 @@ int main(int argc, char* argv[])
     qmlRegisterSingletonInstance("Librum.controllers", 1, 0, "FreeBooksController",
                                  freeBooksController.get());
 
-    // Opds stack
+    // OPDS  stack
     auto* opdsService = config::diConfig().create<application::IOpdsService*>();
-    //auto opdsController =std::make_unique<
-    // TODO CONTROLLER
+    auto opdsController =std::make_unique<OpdsConrtoller>(opdsService);
+    qmlRegisterSingletonInstance("Librum.controllers",1,0,"OpdsController",
+                                opdsController.get());
 
     // Settings Stack
     auto* settingsService = config::diConfig().create<application::ISettingsService*>();
