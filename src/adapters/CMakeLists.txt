@@ -42,6 +42,8 @@ add_library(adapters
                     controllers/dictionary_controller.hpp
                     controllers/ai_explanation_controller.cpp
                     controllers/ai_explanation_controller.hpp
+                    controllers/opds_conrtoller.hpp
+                    controllers/opds_conrtoller.cpp
 
                     gateways/user_storage_gateway.cpp
                     gateways/user_storage_gateway.hpp
@@ -83,6 +85,7 @@ add_library(adapters
                     DTOs/highlight_dto.hpp
                     DTOs/rectf_dto.hpp
                     DTOs/word_definition_dto.hpp
+
                     
 )
 
