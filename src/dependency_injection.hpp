@@ -41,6 +41,9 @@
 
 #include "opds_controller.hpp"
 #include "opds_service.hpp"
+#include "opds_gateway.hpp"
+#include "opds_access.hpp"
+
 
 
 namespace di = boost::di;
@@ -101,6 +104,8 @@ const auto diConfig = []
         // Opds
         di::bind<IOpdsController>().to<controllers::OpdsConrtoller>(),
         di::bind<IOpdsService>().to<services::OpdsService>(),
+        di::bind<IOpdsGateway>().to<gateways::OpdsGateway>(),
+        di::bind<IOpdsAccess>().to<persistence::OpdsAccess>(),
 
         // User
         di::bind<IUserController>().to<controllers::UserController>(),
