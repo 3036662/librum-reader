@@ -56,4 +56,11 @@ void OpdsService::loadRootNodesFromFile() {
   }
 }
 
+
+// load  entries and links for url
+void OpdsService::loadRootLib(QString url){
+  qDebug()<<url;
+
+}
+
 }  // namespace application::services
