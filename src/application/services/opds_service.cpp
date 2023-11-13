@@ -10,11 +10,11 @@ OpdsService::getOpdsNodes() {
 
 void OpdsService::loadRootNodesFromFile() {
   m_opdsNodes.clear();
-  QString localAppFolder =
+  const QString localAppFolder =
       QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-  QDir destDir(localAppFolder);
+  const QDir destDir(localAppFolder);
   if (!destDir.exists()) destDir.mkpath(".");
-  QString filepath = destDir.filePath("opds.json");
+  const QString filepath = destDir.filePath("opds.json");
   QFile opdsFile(filepath);
   if (!opdsFile.exists()) {
     qDebug() << "Json file not found";
