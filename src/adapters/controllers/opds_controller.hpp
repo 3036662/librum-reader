@@ -15,6 +15,7 @@ class ADAPTERS_EXPORT OpdsConrtoller : public IOpdsController
 public:
     OpdsConrtoller(application::IOpdsService* opdsService);
     adapters::data_models::OpdsModel*  getOpdsModel() override;
+    void loadRootLib(QString url) override;
 private:
     application::IOpdsService* m_opdsService;
     data_models::OpdsModel m_opdsModel;

@@ -14,4 +14,8 @@ adapters::data_models::OpdsModel*  OpdsConrtoller::getOpdsModel(){
     return &m_opdsModel;
 }
 
+void OpdsConrtoller::loadRootLib(QString url){
+    m_opdsService->loadRootLib(url);
+}
+
 } //namespace  adapters::controllers
