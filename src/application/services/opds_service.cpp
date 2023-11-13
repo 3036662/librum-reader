@@ -2,6 +2,14 @@
 
 namespace application::services {
 
+OpdsService::OpdsService(IOpdsGateway*  opdsGateway)
+    : m_opdsGateway(opdsGateway)
+{
+
+}
+
+
+
 const std::vector<domain::value_objects::OpdsNode>&
 OpdsService::getOpdsNodes() {
   loadRootNodesFromFile();
@@ -58,7 +66,7 @@ void OpdsService::loadRootNodesFromFile() {
 
 
 // load  entries and links for url
-void OpdsService::loadRootLib(QString url){
+void OpdsService::loadRootLib(const QString& url){
   qDebug()<<url;
 
 }
