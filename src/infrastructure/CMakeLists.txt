@@ -18,9 +18,11 @@ add_library(infrastructure
                     persistance/dictionary_access.hpp
                     persistance/ai_explanation_access.cpp
                     persistance/ai_explanation_access.hpp
-                    
+                    persistance/opds_access.hpp
+                    persistance/opds_access.cpp
                     persistance/api_error_helper.hpp
                     data/endpoints.hpp
+
 )
 
 target_include_directories(infrastructure
