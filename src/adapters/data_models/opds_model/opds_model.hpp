@@ -17,7 +17,10 @@ class ADAPTERS_EXPORT OpdsModel : public QAbstractListModel
 public:
     enum Roles
     {
-        TitleRole
+        TitleRole,
+        UrlRole,
+        DescriptionRole,
+        IdRole
     };
 
     OpdsModel() = default;
