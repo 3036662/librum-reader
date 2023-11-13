@@ -12,6 +12,10 @@ class ADAPTERS_EXPORT IOpdsAccess: public QObject
 public:
    virtual ~IOpdsAccess() noexcept = default;
     virtual void loadRootLib(const QString& url) = 0;
+
+signals:
+    void loadOpdsRootFinished(const QByteArray& data);
+
 };
 
 
