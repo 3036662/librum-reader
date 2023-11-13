@@ -14,7 +14,7 @@ adapters::data_models::OpdsModel*  OpdsConrtoller::getOpdsModel(){
     return &m_opdsModel;
 }
 
-void OpdsConrtoller::loadRootLib(QString url){
+void OpdsConrtoller::loadRootLib(const QString& url){
     m_opdsService->loadRootLib(url);
 }
 
