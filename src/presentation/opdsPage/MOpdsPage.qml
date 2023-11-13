@@ -86,6 +86,7 @@ Page {
       Component {
               id: contactDelegate
               Item {
+                  id: delegateItem
                   width: opdsGrid.cellWidth; height: opdsGrid.cellHeight
                   Column {
                       anchors.fill: parent
@@ -99,6 +100,23 @@ Page {
                           text: model.title;
                           anchors.horizontalCenter: parent.horizontalCenter
                           color: Style.colorText
+                      }
+                  }
+                  MouseArea{
+                      id:clickArea
+                      anchors.fill: parent
+                      hoverEnabled: true
+                      onEntered:{
+                           delegateItem.scale =1.1
+                      }
+                      onExited: {
+                           delegateItem.scale =1.0
+                      }
+                      onClicked: {
+                          if (model.id  === ""){
+                            OpdsController.loadRootLib(model.url);
+                           }
+                          // TODO go by id
                       }
                   }
               }
