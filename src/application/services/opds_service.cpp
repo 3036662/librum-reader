@@ -67,7 +67,7 @@ void OpdsService::loadRootNodesFromFile() {
 
 // load  entries and links for url
 void OpdsService::loadRootLib(const QString& url){
-  qDebug()<<url;
+  m_opdsGateway->loadRootlib(url);
 
 }
 
