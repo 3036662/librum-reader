@@ -13,6 +13,7 @@ class APPLICATION_EXPORT IOpdsService: public QObject
 public:
     virtual ~IOpdsService() noexcept = default;
     virtual const std::vector<domain::value_objects::OpdsNode>&   getOpdsNodes() =0;
+    virtual  void loadRootLib(QString url)=0;
 };
 
 }
