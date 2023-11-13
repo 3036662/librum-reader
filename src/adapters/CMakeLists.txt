@@ -21,6 +21,7 @@ add_library(adapters
                     interfaces/persistance/i_app_info_access.hpp
                     interfaces/persistance/i_dictionary_access.hpp
                     interfaces/persistance/i_ai_explanation_access.hpp
+                    interfaces/persistance/i_opds_access.hpp
                     
                     controllers/authentication_controller.cpp
                     controllers/authentication_controller.hpp
@@ -59,6 +60,8 @@ add_library(adapters
                     gateways/dictionary_gateway.cpp
                     gateways/ai_explanation_gateway.cpp
                     gateways/ai_explanation_gateway.hpp
+                    gateways/opds_gateway.hpp
+                    gateways/opds_gateway.cpp
                     
                     data_models/library_model/library_model.cpp
                     data_models/library_model/library_model.hpp
@@ -87,6 +90,8 @@ add_library(adapters
                     DTOs/highlight_dto.hpp
                     DTOs/rectf_dto.hpp
                     DTOs/word_definition_dto.hpp
+
+
 
 
                     

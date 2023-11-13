@@ -19,6 +19,7 @@ set(application_SRC
     interfaces/gateways/i_app_info_gateway.hpp
     interfaces/gateways/i_dictionary_gateway.hpp
     interfaces/gateways/i_ai_explanation_gateway.hpp
+    interfaces/gateways/i_opds_gateway.hpp
     interfaces/utility/i_metadata_extractor.hpp
     interfaces/utility/i_local_library_tracker.hpp
     interfaces/managers/i_library_storage_manager.hpp
