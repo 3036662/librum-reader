@@ -64,6 +64,10 @@ set(application_SRC
     utility/book_merger.cpp
     utility/automatic_login_helper.hpp
     utility/error_code_converter.hpp
+    utility/opdsparser.hpp
+    utility/opdsparser.cpp
+    utility/opds_structs.hpp
+    utility/opds_structs.cpp
     
     core/page_generator.hpp
     core/page_generator.cpp
@@ -80,6 +84,7 @@ set(application_SRC
     core/utils/fz_utils.hpp
     core/utils/text_selector.hpp
     core/utils/text_selector.cpp
+
 )
 
 
@@ -171,6 +176,7 @@ target_link_libraries(application
                     Qt6::Widgets
                     Qt6::Network
                     rapidfuzz::rapidfuzz
+					tinyxml2::tinyxml2
                     domain
                     ${MUPDF_OUTPUT}
 )
