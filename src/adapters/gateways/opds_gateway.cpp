@@ -16,6 +16,18 @@ OpdsGateway::OpdsGateway(IOpdsAccess* opdsAccess)
 }
 
 void OpdsGateway::loadRootlib(QString url){
+    QUrl new_url(url);
+    if (new_url.isValid() ){
+        if (!new_url.isRelative())
+            baseurl=url;
+        else  // new url is relative
+            if (baseurl.isValid() && !baseurl.isEmpty() && !baseurl.isRelative() ){
+                new_url.setScheme(baseurl.scheme());
+                new_url.setHost(baseurl.host());
+                url = new_url.toString();
+            }
+    }
+
     m_OpdsAccess->loadRootLib(url);
 }
 

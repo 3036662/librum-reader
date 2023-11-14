@@ -1,4 +1,5 @@
 #pragma once
+#include <QUrl>
 #include "adapters_export.hpp"
 #include "i_opds_gateway.hpp"
 #include "i_opds_access.hpp"
@@ -20,6 +21,7 @@ public slots:
 
 private:
     IOpdsAccess* m_OpdsAccess;
+    QUrl baseurl;
 };
 
 } // namespace adapters::gateways
