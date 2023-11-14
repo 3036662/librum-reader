@@ -95,49 +95,38 @@ Page {
                           height: parent.width
                           fillMode :Image.Stretch
                           source: Icons.opdsFolder;
-                          anchors.horizontalCenter: parent.horizontalCenter }
+                          anchors.horizontalCenter: parent.horizontalCenter
+                      }
                       Text {
+                          id: delegateItemText
                           text: model.title;
+                          horizontalAlignment: Text.AlignHCenter
+                          wrapMode: Text.Wrap
+                          width: parent.width
                           anchors.horizontalCenter: parent.horizontalCenter
                           color: Style.colorText
                       }
                   }
+
                   MouseArea{
                       id:clickArea
                       anchors.fill: parent
                       hoverEnabled: true
                       onEntered:{
                            delegateItem.scale =1.1
+                           delegateItemText.text=model.descr;
                       }
                       onExited: {
-                           delegateItem.scale =1.0
+                          delegateItem.scale=1.0
+                          delegateItemText.text=model.title;
                       }
                       onClicked: {
-                          if (model.id  === ""){
                             OpdsController.loadRootLib(model.url);
-                           }
-                          // TODO go by id
                       }
                   }
               }
         }
 
-  }
-
-  ListModel {
-     id: contactModel
-      ListElement {
-          name: "Jim Williams"
-      }
-      ListElement {
-          name: "John Brown"
-      }
-      ListElement {
-          name: "Bill Smyth"
-      }
-      ListElement {
-          name: "Sam Wise"
-      }
   }
 
 
@@ -148,7 +137,7 @@ Page {
 
           property int folderWidth: 80
           property int folderHeight: 160
-          property int horizontalFolderSpacing: 64
+          property int horizontalFolderSpacing: 84
           property int verticalFolderSpacing: 48
       }
 
