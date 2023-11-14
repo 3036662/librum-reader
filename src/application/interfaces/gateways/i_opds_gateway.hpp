@@ -1,6 +1,7 @@
 #pragma once
 #include <QObject>
 
+
 #include "application_export.hpp"
 
 
@@ -13,6 +14,9 @@ public:
     virtual ~IOpdsGateway() noexcept =default;
 
     virtual void loadRootlib(QString url) = 0;
+
+public slots:
+    virtual void parseOpdsResonse(const QByteArray& data)=0;
 
 
 

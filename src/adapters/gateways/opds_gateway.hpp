@@ -15,6 +15,8 @@ public:
     OpdsGateway(IOpdsAccess* opdsAccess);
 
     void loadRootlib(QString url) override;
+public slots:
+    void parseOpdsResonse(const QByteArray& data) override;
 
 private:
     IOpdsAccess* m_OpdsAccess;
