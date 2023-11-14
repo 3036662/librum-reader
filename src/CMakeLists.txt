@@ -65,6 +65,7 @@ target_include_directories(librum
         ${ADAPTERS_INCLUDES}
         ${APPLICATION_INCLUDES}
         ${INFRASTRUCTURE_INCLUDES}
+		${Boost_INCLUDE_DIRS}
 )
 
 target_compile_options(librum PRIVATE "$<$<CONFIG:DEBUG>:${LIBRUM_SANITIZERS};-O0;-g>")
