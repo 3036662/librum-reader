@@ -15,8 +15,11 @@ class APPLICATION_EXPORT OpdsService : public IOpdsService {
  public:
     OpdsService(IOpdsGateway*  opdsGateway) ;
 
-  const std::vector<domain::value_objects::OpdsNode>& getOpdsNodes() override;
-  void loadRootLib(const QString& url) override;
+   const std::vector<domain::value_objects::OpdsNode>& getOpdsNodes() override;
+   void loadRootLib(const QString& url) override;
+public slots:
+   void  processNodes
+        (const std::vector<domain::value_objects::OpdsNode>&) override;
 
  private:
   IOpdsGateway* m_opdsGateway;

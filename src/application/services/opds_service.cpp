@@ -5,6 +5,9 @@ namespace application::services {
 OpdsService::OpdsService(IOpdsGateway*  opdsGateway)
     : m_opdsGateway(opdsGateway)
 {
+    connect(
+        m_opdsGateway,&IOpdsGateway::parsingXmlDomCompleted,
+        this, &IOpdsService::processNodes);
 
 }
 
@@ -68,7 +71,14 @@ void OpdsService::loadRootNodesFromFile() {
 // load  entries and links for url
 void OpdsService::loadRootLib(const QString& url){
   m_opdsGateway->loadRootlib(url);
-
 }
+
+void OpdsService::processNodes
+    (const std::vector<domain::value_objects::OpdsNode>& nodes_vec) {
+  emit  nodesVecReplaceStarted();
+  m_opdsNodes = nodes_vec;
+  emit opdsNodesReady();
+}
+
 
 }  // namespace application::services
