@@ -26,10 +26,16 @@ public:
     OpdsModel() = default;
     OpdsModel(const std::vector<domain::value_objects::OpdsNode>* data );
 
-
     int rowCount(const QModelIndex &parent) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
+
+    public slots:
+        void startedDataChange();
+        void completedDataChange();
+
+    signals:
+
 
 private:
     const std::vector<domain::value_objects::OpdsNode>* m_data;

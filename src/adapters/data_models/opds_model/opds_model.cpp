@@ -53,4 +53,13 @@ QHash<int, QByteArray> OpdsModel::roleNames() const {
     return roles;
 }
 
+void OpdsModel::startedDataChange(){
+    beginResetModel();
+}
+
+void OpdsModel::completedDataChange(){
+    endResetModel();
+}
+
+
 } //namespace adapters::data_models
