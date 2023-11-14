@@ -1,6 +1,6 @@
 #pragma once
 #include <QObject>
-
+#include "opds_node.hpp"
 
 #include "application_export.hpp"
 
@@ -18,7 +18,8 @@ public:
 public slots:
     virtual void parseOpdsResonse(const QByteArray& data)=0;
 
-
+signals:
+    void parsingXmlDomCompleted(const std::vector<domain::value_objects::OpdsNode>&  );
 
 };
 
