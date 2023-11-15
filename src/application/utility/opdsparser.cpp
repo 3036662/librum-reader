@@ -96,7 +96,9 @@ std::vector<Entry> OpdsParser::parseEntries(
         entry.links = parseLinks(xmlEntry);
         entry.content = parseContents(xmlEntry);
         entry.authors = parseAuthors(xmlEntry);
-        res.push_back(std::move(entry));
+        //check if entry is empty if not -> push to result
+        if  (!entry.title.empty()  && !entry.id.empty()   &&    (!entry.authors.empty() ||  !entry.content.empty()  ||! entry.links.empty()))
+                res.push_back(std::move(entry));
         if (xmlEntry == xmlEntryLast)
             break;
         else
@@ -149,11 +151,13 @@ std::vector<Author> OpdsParser::parseAuthors (
 
 // return entry url by id
 std::string OpdsParser::getEntryUrlByID(const std::string& id) const {
+    std::string res;
+    if (id.empty())
+        return res;
     std::vector<Entry>::const_iterator found =
         std::find_if(dom.entries.cbegin(), dom.entries.cend(),
                      [&id](const Entry& entry) { return entry.id == id; });
     // return firs url of entry or empty string if nothing found;
-    std::string res;
     if (found != dom.entries.end()) {
         res = found->links[0].href;
         boost::algorithm::trim(res);
