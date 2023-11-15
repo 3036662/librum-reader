@@ -35,7 +35,7 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
     OpdsParser parser(
         std::string (data.constData(),data.length())
         );
-
+    // fill vector ov OpdsNodes
     std::vector<OpdsNode> res;
     for (auto it=parser.dom.entries.cbegin(); it!=parser.dom.entries.end(); ++it){
         res.emplace_back(
