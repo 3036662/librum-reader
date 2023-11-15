@@ -74,7 +74,7 @@ void OpdsService::loadRootNodesFromFile() {
 // load  entries and links for url
 void OpdsService::loadRootLib(const QString& url){
    // go to root -> load from json file
-  if (url.empty())
+  if (url.isEmpty())
     return;
   if (url== "url_root"){
     emit  nodesVecReplaceStarted();
