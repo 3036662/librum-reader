@@ -8,6 +8,7 @@ struct OpdsNode {
   QString url;
   QString descr;
   QString id;
+  QString imageUrl;
 };
 
 }  // namespace domain::value_objects
