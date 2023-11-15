@@ -74,8 +74,12 @@ void OpdsService::loadRootNodesFromFile() {
 // load  entries and links for url
 void OpdsService::loadRootLib(const QString& url){
    // go to root -> load from json file
+  if (url.empty())
+    return;
   if (url== "url_root"){
     emit  nodesVecReplaceStarted();
+    historyStack.clear();
+    historyStack.push_back(rootNode);
     m_opdsNodes.clear();
     loadRootNodesFromFile();
     emit opdsNodesReady();
