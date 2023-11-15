@@ -9,6 +9,7 @@ OpdsParser::OpdsParser(const std::string& body) : doc(tinyxml2::XMLDocument()) {
     parse(body);
 }
 
+// parse plain xml  to build OpdsParser.dom (Feed object)
 void OpdsParser::parse(std::string body) {
     // erase all before and after response
     doc.Clear();
@@ -149,14 +150,19 @@ std::vector<Author> OpdsParser::parseAuthors (
     return res;
 }
 
-// return entry url by id
+// return iterator to entry by id
+std::vector<Entry>::const_iterator OpdsParser::getIteratortoEntryById(const std::string& id) const{
+    return id.empty() ?  dom.entries.cend() : std::find_if(dom.entries.cbegin(), dom.entries.cend(),
+                 [&id](const Entry& entry) { return entry.id == id; });
+}
+
+
+// return  entry browsable url by id
 std::string OpdsParser::getEntryUrlByID(const std::string& id) const {
     std::string res;
     if (id.empty())
         return res;
-    std::vector<Entry>::const_iterator found =
-        std::find_if(dom.entries.cbegin(), dom.entries.cend(),
-                     [&id](const Entry& entry) { return entry.id == id; });
+    std::vector<Entry>::const_iterator found = getIteratortoEntryById(id);
     // return browsable url of entry or empty string if nothing found;
     if (found != dom.entries.end()) {
         auto  found_url= std::find_if (found->links.cbegin(), found->links.cend(),  [](const Link& link){
@@ -166,6 +172,31 @@ std::string OpdsParser::getEntryUrlByID(const std::string& id) const {
         if (found_url != found->links.cend())
             res = found_url->href;
         boost::algorithm::trim(res);
+    }
+    return res;
+}
+
+//get enty image link if set
+std::string OpdsParser::getImageUrlByID(const std::string& id) const{
+    std::string res;
+    auto entry_it = getIteratortoEntryById(id);
+    if (entry_it != dom.entries.cend()){
+        // try to find thumbnail
+        auto  image_it=  std::find_if(entry_it->links.cbegin(),
+                                     entry_it->links.cend(),[](const Link& link){
+                                         return boost::algorithm::contains(link.type,"thumbnail") && boost::algorithm::contains(link.type,"image");
+                                     });
+        // if not found try to find simple image
+        if (image_it == entry_it->links.cend()){
+            image_it=  std::find_if(entry_it->links.cbegin(),
+                                    entry_it->links.cend(),[](const Link& link){
+                                        return boost::algorithm::contains(link.type,"image") && boost::algorithm::contains(link.type,"image");
+                                    });
+        }
+        // if found
+        if (image_it != entry_it->links.cend()){
+            res=image_it->href;
+        }
     }
     return res;
 }
