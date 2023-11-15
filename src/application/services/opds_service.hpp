@@ -31,7 +31,7 @@ public slots:
 
   std::vector<domain::value_objects::OpdsNode> m_opdsNodes;
   std::vector<OpdsNode> historyStack;
-  const OpdsNode rootNode{"/","url_root","Root","url_root"};
+  const OpdsNode rootNode{"/","url_root","Root","url_root",""};
 
 };
 
