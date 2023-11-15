@@ -37,6 +37,10 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
     case IdRole:
          return opdsNode.id;
          break;
+    case ImageRole:
+         // TODO return image;
+         return "";
+         break;
     default:
         return QVariant();
         break;
@@ -49,6 +53,7 @@ QHash<int, QByteArray> OpdsModel::roleNames() const {
                  {UrlRole,"url"},
                 {DescriptionRole,"descr"},
                 {IdRole,"id"},
+                {ImageRole,"image"}
     };
     return roles;
 }

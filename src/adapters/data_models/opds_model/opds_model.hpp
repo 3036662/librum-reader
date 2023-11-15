@@ -20,7 +20,8 @@ public:
         TitleRole,
         UrlRole,
         DescriptionRole,
-        IdRole
+        IdRole,
+        ImageRole
     };
 
     OpdsModel() = default;
