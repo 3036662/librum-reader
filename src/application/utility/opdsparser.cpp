@@ -159,7 +159,12 @@ std::string OpdsParser::getEntryUrlByID(const std::string& id) const {
                      [&id](const Entry& entry) { return entry.id == id; });
     // return firs url of entry or empty string if nothing found;
     if (found != dom.entries.end()) {
-        res = found->links[0].href;
+        // find url with type
+        auto  found_url= std::find_if (found->links.cbegin(), found->links.cend(),  [](const Link& link){
+            return boost::algorithm::contains(link.type,"atom+xml");
+            });
+        if (found_url != found->links.cend())
+            res = found_url->href;
         boost::algorithm::trim(res);
     }
     return res;
