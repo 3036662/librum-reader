@@ -15,7 +15,7 @@ void OpdsParser::parse(std::string body) {
     body.erase(0, body.find("<feed"));
     body.erase(boost::algorithm::find_last(body, "</feed>").end(), body.end());
     // workaround for coollib weird behaviour
-    boost::algorithm::erase_all_regex(body, boost::regex("\\r\\n.{0,5}\\r\\n"));
+    //   boost::algorithm::erase_all_regex(body, boost::regex("\\r\\n.{0,5}\\r\\n"));
 
     if (body.empty()) {
         std::cerr << "xml body is empty" << std::endl;
@@ -157,11 +157,11 @@ std::string OpdsParser::getEntryUrlByID(const std::string& id) const {
     std::vector<Entry>::const_iterator found =
         std::find_if(dom.entries.cbegin(), dom.entries.cend(),
                      [&id](const Entry& entry) { return entry.id == id; });
-    // return firs url of entry or empty string if nothing found;
+    // return browsable url of entry or empty string if nothing found;
     if (found != dom.entries.end()) {
-        // find url with type
         auto  found_url= std::find_if (found->links.cbegin(), found->links.cend(),  [](const Link& link){
-            return boost::algorithm::contains(link.type,"atom+xml");
+            // link type must be atom+xml and rel != relative
+            return boost::algorithm::contains(link.type,"atom+xml") && !boost::contains(link.rel,"related");
             });
         if (found_url != found->links.cend())
             res = found_url->href;
@@ -170,7 +170,7 @@ std::string OpdsParser::getEntryUrlByID(const std::string& id) const {
     return res;
 }
 
-// check if url is brosable (atom+xml)
+// check if url is browsable (atom+xml)
 std::string OpdsParser::checkUrl(const std::string& url) const {
     // look in current feed
     std::vector<Link>::const_iterator found = std::find_if(
