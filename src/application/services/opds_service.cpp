@@ -1,6 +1,9 @@
 #include "opds_service.hpp"
+#include <algorithm>
 
 namespace application::services {
+
+
 
 OpdsService::OpdsService(IOpdsGateway*  opdsGateway)
     : m_opdsGateway(opdsGateway)
@@ -13,8 +16,8 @@ OpdsService::OpdsService(IOpdsGateway*  opdsGateway)
 
 
 
-const std::vector<domain::value_objects::OpdsNode>&
-OpdsService::getOpdsNodes() {
+const std::vector<OpdsNode>&   OpdsService::getOpdsNodes() {
+  historyStack.push_back(rootNode);
   loadRootNodesFromFile();
   return m_opdsNodes;
 }
@@ -70,14 +73,47 @@ void OpdsService::loadRootNodesFromFile() {
 
 // load  entries and links for url
 void OpdsService::loadRootLib(const QString& url){
+   // go to root -> load from json file
+  if (url== "url_root"){
+    emit  nodesVecReplaceStarted();
+    m_opdsNodes.clear();
+    loadRootNodesFromFile();
+    emit opdsNodesReady();
+    return;
+  }
+  // go back remove current node from history
+  if (historyStack.size()>=2 &&   historyStack[historyStack.size()-2].url==url ){
+        historyStack.pop_back();
+  }
+  //  push current to history
+  else {
+    OpdsNode  curr_target=findNodeByUrl(url);
+    curr_target.title="..";
+    historyStack.push_back(curr_target);
+  }
   m_opdsGateway->loadRootlib(url);
 }
 
+//some nodes are recieved from the Gateway
 void OpdsService::processNodes
-    (const std::vector<domain::value_objects::OpdsNode>& nodes_vec) {
+    (const std::vector<OpdsNode>& nodes_vec) {
   emit  nodesVecReplaceStarted();
-  m_opdsNodes = nodes_vec;
+  m_opdsNodes.clear();
+  if (historyStack.size()>=2){
+    m_opdsNodes.push_back(rootNode);
+    OpdsNode backNode=historyStack[historyStack.size()-2];
+    if (rootNode.url != backNode.url )
+        m_opdsNodes.push_back(backNode);
+  }
+  std::copy(nodes_vec.cbegin(),nodes_vec.cend(),std::back_inserter(m_opdsNodes));
   emit opdsNodesReady();
+}
+
+OpdsNode OpdsService::findNodeByUrl(const QString& url) const{
+  auto it=std::find_if(m_opdsNodes.cbegin(),m_opdsNodes.cend(), [&url](const OpdsNode& node){
+                    return node.url == url;
+               });
+  return it  == m_opdsNodes.end() ? OpdsNode() : *it;
 }
 
 
