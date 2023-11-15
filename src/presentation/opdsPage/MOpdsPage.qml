@@ -91,6 +91,7 @@ Page {
                   Column {
                       anchors.fill: parent
                       Image {
+                          antialiasing :true;
                           width: parent.width
                           height: parent.width
                           fillMode :Image.Stretch
@@ -100,9 +101,11 @@ Page {
                       Text {
                           id: delegateItemText
                           text: model.title;
+                          maximumLineCount:3
                           horizontalAlignment: Text.AlignHCenter
                           wrapMode: Text.Wrap
                           width: parent.width
+                          padding: 5
                           anchors.horizontalCenter: parent.horizontalCenter
                           color: Style.colorText
                       }
@@ -113,8 +116,10 @@ Page {
                       anchors.fill: parent
                       hoverEnabled: true
                       onEntered:{
-                           delegateItem.scale =1.1
-                           delegateItemText.text=model.descr;
+                           delegateItem.scale = 1.1
+                          if (model.descr.length >= model.title.length){
+                            delegateItemText.text=model.descr;
+                          }
                       }
                       onExited: {
                           delegateItem.scale=1.0
@@ -138,7 +143,7 @@ Page {
           property int folderWidth: 80
           property int folderHeight: 160
           property int horizontalFolderSpacing: 84
-          property int verticalFolderSpacing: 48
+          property int verticalFolderSpacing: 68
       }
 
 
