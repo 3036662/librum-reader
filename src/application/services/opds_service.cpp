@@ -121,4 +121,12 @@ OpdsNode OpdsService::findNodeByUrl(const QString& url) const{
 }
 
 
+void OpdsService::getNodeImage(const QString& id){
+
+        // TODO
+        // 1. find node with this id
+        // 2. get  image url
+        // 3. path it to gateway for downloading
+}
+
 }  // namespace application::services

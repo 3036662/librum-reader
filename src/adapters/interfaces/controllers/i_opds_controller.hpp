@@ -10,7 +10,8 @@ class IOpdsController : public QObject
 public:
     virtual ~IOpdsController() noexcept = default;
     virtual adapters::data_models::OpdsModel*  getOpdsModel() =0;
-   Q_INVOKABLE  virtual  void loadRootLib(const QString& url)=0;
+    Q_INVOKABLE  virtual  void loadRootLib(const QString& url)=0;
+    Q_INVOKABLE virtual void getNodeImage(const QString& id)=0;
 signals:
 
 };

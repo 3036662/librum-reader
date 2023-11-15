@@ -29,5 +29,9 @@ void OpdsConrtoller::loadRootLib(const QString& url){
     m_opdsService->loadRootLib(url);
 }
 
+void OpdsConrtoller::getNodeImage(const QString& id) {
+    m_opdsService->getNodeImage(id);
+}
+
 
 } //namespace  adapters::controllers

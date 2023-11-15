@@ -153,7 +153,16 @@ Page {
                       }
                   }
               }
-        }
+
+              // load images
+             Component.onCompleted:{
+                       OpdsController.getNodeImage(model.id);
+             }
+             Component.onDestruction: {
+
+             }
+
+      }
 
   }
 

@@ -15,6 +15,7 @@ public:
     OpdsConrtoller(application::IOpdsService* opdsService);
     adapters::data_models::OpdsModel*  getOpdsModel() override;
     void loadRootLib(const QString& url) override;
+    void getNodeImage(const QString& id)  override;
 private:
     application::IOpdsService* m_opdsService; // pointer to service
     data_models::OpdsModel m_opdsModel; // object Model

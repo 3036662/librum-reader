@@ -20,6 +20,7 @@ class APPLICATION_EXPORT OpdsService : public IOpdsService {
 
    const std::vector<OpdsNode>& getOpdsNodes() override;
    void loadRootLib(const QString& url) override;
+   void getNodeImage(const QString& id) override;
 public slots:
    void  processNodes
         (const std::vector<domain::value_objects::OpdsNode>&) override;
