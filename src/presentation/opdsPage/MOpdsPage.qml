@@ -97,6 +97,16 @@ Page {
                           fillMode :Image.Stretch
                           source: Icons.opdsFolder;
                           anchors.horizontalCenter: parent.horizontalCenter
+                          Image{
+                                id:nodeThumbnail
+                                asynchronous:true
+                                cache : true
+                                anchors.centerIn: parent
+                                width: parent*0.9
+                                fillMode: Image.PreserveAspectFit
+                                source: model.image
+                                visible: true
+                          }
                           AnimatedImage{
                                 id:loadingAnimation
                                 anchors.centerIn: parent
@@ -135,9 +145,11 @@ Page {
                           delegateItemText.text=model.title;
                       }
                       onClicked: {
+                            if (model.url !== ""){
                             loadingAnimation.playing = true;
                             loadingAnimation.visible = true;
                             OpdsController.loadRootLib(model.url);
+                             }
                       }
                   }
               }
