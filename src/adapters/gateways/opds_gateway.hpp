@@ -19,7 +19,11 @@ public:
 public slots:
     void parseOpdsResonse(const QByteArray& data) override;
 
+
 private:
+    void convertRelativeUrlToAbsolute(QString& url);
+    QString  convertRelativeUrlToAbsolute(const std::string& url);
+
     IOpdsAccess* m_OpdsAccess;
     QUrl baseurl;
 };
