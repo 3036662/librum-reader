@@ -39,7 +39,7 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
          break;
     case ImageRole:
          // TODO return image;
-         return "";
+         return opdsNode.imageUrl;
          break;
     default:
         return QVariant();

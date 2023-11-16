@@ -99,14 +99,16 @@ Page {
                           anchors.horizontalCenter: parent.horizontalCenter
                           Image{
                                 id:nodeThumbnail
-                                asynchronous:true
+                                //asynchronous:true
                                 cache : true
                                 anchors.centerIn: parent
-                                width: parent*0.9
+                                width: parent.width*0.9
                                 fillMode: Image.PreserveAspectFit
+                               // source:  "https://doc.qt.io/style/qt-logo-documentation.svg"
                                 source: model.image
-                                visible: true
+                                visible: model.image &&  model.image!==""
                           }
+
                           AnimatedImage{
                                 id:loadingAnimation
                                 anchors.centerIn: parent
@@ -116,6 +118,7 @@ Page {
                                 fillMode:Image.PreserveAspectFit
                                 source: Icons.loadingAnimation
                           }
+
                       }
                       Text {
                           id: delegateItemText
@@ -154,13 +157,13 @@ Page {
                   }
               }
 
-              // load images
-             Component.onCompleted:{
-                       OpdsController.getNodeImage(model.id);
-             }
-             Component.onDestruction: {
+//              // load images
+//             Component.onCompleted:{
+//                       OpdsController.getNodeImage(model.id);
+//             }
+//             Component.onDestruction: {
 
-             }
+//             }
 
       }
 
