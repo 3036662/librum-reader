@@ -37,6 +37,7 @@
 #include "tag_dto.hpp"
 #include "user_controller.hpp"
 #include "word_definition_dto.hpp"
+#include "opds_image_provider.hpp"
 
 
 using namespace adapters::controllers;
@@ -219,6 +220,8 @@ int main(int argc, char* argv[])
     QQmlApplicationEngine engine;
     engine.addImportPath("qrc:/modules");
     engine.addImportPath(QCoreApplication::applicationDirPath() + "/src/presentation/qt_tree_view/qml/");
+    engine.addImageProvider(QLatin1String("opds_image_provider"),
+                                                       new application::utility::opds::OpdsImageProvider(opdsService));
 
     QQuickStyle::setStyle("Basic");
 
