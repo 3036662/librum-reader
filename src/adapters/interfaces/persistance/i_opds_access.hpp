@@ -16,7 +16,7 @@ public:
 
 signals:
     void loadOpdsRootFinished(const QByteArray& data);
-    void gettingOpdsImageFinished(const QString& id, const QByteArray& data);
+    void gettingOpdsImageFinished(const QString& id, const QString& utl,const QByteArray& data);
 };
 
 

@@ -24,7 +24,7 @@ public slots:
 private:
     void convertRelativeUrlToAbsolute(QString& url);
     QString  convertRelativeUrlToAbsolute(const std::string& url);
-    void processOpdsImage(const QString& id,const QByteArray& data);
+    void processOpdsImage(const QString& id,const QString& url,const QByteArray& data);
 
     IOpdsAccess* m_OpdsAccess;
     QUrl baseurl;

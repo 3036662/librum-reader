@@ -1,5 +1,8 @@
 #include "opds_gateway.hpp"
 #include "opdsparser.hpp"
+#include <webp/decode.h>
+#include <QBuffer>
+#include <iterator>
 
 
 namespace adapters::gateways{
@@ -70,12 +73,31 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
 
 void OpdsGateway::getOpdsImage(const QString& id,const QString& url){
    // if (boost::ends_with(url,".jpg") || boost::ends_with(url,".jpeg") ){
-        m_OpdsAccess->getOpdsImage(id,url);
+    m_OpdsAccess->getOpdsImage(id,url);
     //}
 }
 
-void OpdsGateway::processOpdsImage(const QString& id,const QByteArray& data){
-     emit gettingOpdsImagedFinished(id,data);
+void OpdsGateway::processOpdsImage(const QString& id,const QString & url, const QByteArray& data){
+      if (boost::ends_with(url,"webp")){
+            int width, height;
+            uint8_t* rgbData = WebPDecodeRGBA( reinterpret_cast<const uint8_t*>( data.constData()), data.size(), &width, &height);
+            if (rgbData == nullptr) return;
+            QImage image(rgbData, width, height, QImage::Format_RGBA8888);
+            WebPFree(rgbData);
+            if (!image.isNull()){
+                QByteArray ba;
+                ba.reserve(image.sizeInBytes());
+                QBuffer buffer(&ba,nullptr);
+               bool open_res= buffer.open(QIODevice::WriteOnly);
+               bool save_res = image.save(&buffer,"PNG");
+
+                buffer.close();
+                emit gettingOpdsImagedFinished(id,ba);
+            }
+    }
+    else{
+            emit gettingOpdsImagedFinished(id,data);
+    }
 }
 
 
