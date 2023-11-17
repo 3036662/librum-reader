@@ -12,10 +12,12 @@ OpdsConrtoller::OpdsConrtoller(
         &m_opdsModel,&adapters::data_models::OpdsModel::startedDataChange
         );
 
-         connect(
+    connect(
         m_opdsService,&application::IOpdsService::opdsNodesReady,
         &m_opdsModel,&adapters::data_models::OpdsModel::completedDataChange
         );
+    connect(m_opdsService, &application::IOpdsService::dataChanged,
+            &m_opdsModel, &data_models::OpdsModel::refreshNode);
 
 }
 
@@ -30,6 +32,7 @@ void OpdsConrtoller::loadRootLib(const QString& url){
 }
 
 void OpdsConrtoller::getNodeImage(const QString& id) {
+    if (id.isEmpty()) return;
     m_opdsService->getNodeImage(id);
 }
 

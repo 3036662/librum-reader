@@ -10,6 +10,8 @@ class OpdsAccess : public adapters::IOpdsAccess
     Q_OBJECT
 public:
      void loadRootLib(const QString& url);
+     void getOpdsImage(const QString& id,const QString& url);
+
 
 private:
      QNetworkAccessManager m_networkAccessManager;

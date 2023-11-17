@@ -9,6 +9,8 @@ struct OpdsNode {
   QString descr;
   QString id;
   QString imageUrl;
+  QByteArray imageBinaryData;
+  bool imgDataReady;
 };
 
 }  // namespace domain::value_objects

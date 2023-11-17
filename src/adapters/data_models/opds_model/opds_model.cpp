@@ -1,4 +1,5 @@
 #include "opds_model.hpp"
+#include <QBuffer>
 
 using namespace domain::value_objects;
 
@@ -37,10 +38,26 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
     case IdRole:
          return opdsNode.id;
          break;
-    case ImageRole:
-         // TODO return image;
-         return opdsNode.imageUrl;
-         break;
+    case ImageUrlRole:
+        return opdsNode.imageUrl;
+        break;
+//    case ImageRole:
+//    {
+//        auto& image = opdsNode.image;
+//        if(image.isNull())
+//            return "";
+
+//        QByteArray byteArray;
+//        QBuffer buffer(&byteArray);
+//        buffer.open(QIODevice::WriteOnly);
+//        image.save(&buffer, "jpeg");
+//        QString base64 = QString::fromUtf8(byteArray.toBase64());
+//        return QString("data:image/jpeg;base64,") + base64;
+//    }
+//         break;
+    case imgDataReadyRole:
+        return opdsNode.imgDataReady;
+        break;
     default:
         return QVariant();
         break;
@@ -53,7 +70,8 @@ QHash<int, QByteArray> OpdsModel::roleNames() const {
                  {UrlRole,"url"},
                 {DescriptionRole,"descr"},
                 {IdRole,"id"},
-                {ImageRole,"image"}
+                {ImageUrlRole,"imageUrl"},
+                {imgDataReadyRole,"imgDataReady"}
     };
     return roles;
 }
@@ -66,5 +84,8 @@ void OpdsModel::completedDataChange(){
     endResetModel();
 }
 
+void OpdsModel::refreshNode(int row){
+    dataChanged(index(row,0),index(row,0));
+}
 
 } //namespace adapters::data_models

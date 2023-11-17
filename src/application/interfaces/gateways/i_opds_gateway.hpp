@@ -1,5 +1,6 @@
 #pragma once
 #include <QObject>
+#include <QImage>
 #include "opds_node.hpp"
 
 #include "application_export.hpp"
@@ -14,13 +15,14 @@ public:
     virtual ~IOpdsGateway() noexcept =default;
 
     virtual void loadRootlib(QString url) = 0;
+    virtual void getOpdsImage(const QString& id,const QString& url)=0;
 
 public slots:
     virtual void parseOpdsResonse(const QByteArray& data)=0;
 
 signals:
     void parsingXmlDomCompleted(const std::vector<domain::value_objects::OpdsNode>&  );
-
+    void gettingOpdsImagedFinished(const QString& id,const QByteArray& image);
 };
 
 

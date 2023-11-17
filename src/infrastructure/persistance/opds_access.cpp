@@ -12,7 +12,7 @@ void OpdsAccess::loadRootLib(const QString& url){
                     auto success = !api_error_helper::apiRequestFailed(reply, 200);
                if(!success){
                    api_error_helper::logErrorMessage(
-                       reply, "Fetching first free books metadata page");
+                       reply, "Fetching opds feed  page");
                     reply->deleteLater();
                    return;
                }
@@ -31,6 +31,24 @@ QNetworkRequest OpdsAccess::createRequest(const QUrl& url){
          sslConfiguration.setPeerVerifyMode(QSslSocket::QueryPeer);
          result.setSslConfiguration(sslConfiguration);
          return result;
+}
+
+void OpdsAccess::getOpdsImage(const QString& id,const QString& url){
+    auto request = createRequest(url);
+    QNetworkReply* reply = m_networkAccessManager.get(request);
+
+    connect(reply,&QNetworkReply::finished, this, [this,id,reply](){
+         auto success = !api_error_helper::apiRequestFailed(reply, 200);
+        if(!success){
+            api_error_helper::logErrorMessage(reply,"Getting opds image");
+            reply->deleteLater();
+            return;
+        }
+        emit gettingOpdsImageFinished(id,reply->readAll());
+        reply->deleteLater();
+    });
+
+
 }
 
 

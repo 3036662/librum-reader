@@ -13,6 +13,9 @@ OpdsGateway::OpdsGateway(IOpdsAccess* opdsAccess)
         &IOpdsAccess::loadOpdsRootFinished,this,
             &OpdsGateway::parseOpdsResonse);
 
+    connect(m_OpdsAccess,
+            &IOpdsAccess::gettingOpdsImageFinished,this,
+            &OpdsGateway::processOpdsImage);
 }
 
 //convert relative url to absolute
@@ -50,15 +53,30 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
     // fill vector with OpdsNodes
     std::vector<OpdsNode> res;
     for (auto it=parser.dom.entries.cbegin(); it!=parser.dom.entries.end(); ++it){
+        if (it->title.empty()) continue; // skip entries with empty title
         res.emplace_back(
-            it->title.c_str(),
-            convertRelativeUrlToAbsolute(parser.getEntryUrlByID(it->id)),
-            it->content.empty()  ?  "" : it->content[0].text.c_str(),
-            it->id.c_str(),
-            parser.getImageUrlByID(it->id).empty() ? "" :  convertRelativeUrlToAbsolute(parser.getImageUrlByID(it->id))
+            it->title.c_str(), // title
+            convertRelativeUrlToAbsolute(parser.getEntryUrlByID(it->id)), // url
+            it->content.empty()  ? it->title.c_str() : it->content[0].text.c_str(), // content
+            it->id.c_str(), // id
+            parser.getImageUrlByID(it->id).empty() ? "" : convertRelativeUrlToAbsolute(parser.getImageUrlByID(it->id)), // imageUrl
+             QByteArray(), // empty data
+               false // imgDataReady
             );
     }
     emit parsingXmlDomCompleted(res);
 }
+
+
+void OpdsGateway::getOpdsImage(const QString& id,const QString& url){
+   // if (boost::ends_with(url,".jpg") || boost::ends_with(url,".jpeg") ){
+        m_OpdsAccess->getOpdsImage(id,url);
+    //}
+}
+
+void OpdsGateway::processOpdsImage(const QString& id,const QByteArray& data){
+     emit gettingOpdsImagedFinished(id,data);
+}
+
 
 } // namespace adapters::gateways

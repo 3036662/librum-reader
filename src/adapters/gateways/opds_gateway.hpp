@@ -18,11 +18,13 @@ public:
     void loadRootlib(QString url) override;
 public slots:
     void parseOpdsResonse(const QByteArray& data) override;
+    void getOpdsImage(const QString& id,const QString& url) override;
 
 
 private:
     void convertRelativeUrlToAbsolute(QString& url);
     QString  convertRelativeUrlToAbsolute(const std::string& url);
+    void processOpdsImage(const QString& id,const QByteArray& data);
 
     IOpdsAccess* m_OpdsAccess;
     QUrl baseurl;

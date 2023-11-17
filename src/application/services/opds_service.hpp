@@ -6,6 +6,7 @@
 #include <QJsonObject>
 #include <QVector>
 #include <QStandardPaths>
+#include <QImage>
 
 #include "i_opds_service.hpp"
 #include "i_opds_gateway.hpp"
@@ -23,16 +24,18 @@ class APPLICATION_EXPORT OpdsService : public IOpdsService {
    void getNodeImage(const QString& id) override;
 public slots:
    void  processNodes
-        (const std::vector<domain::value_objects::OpdsNode>&) override;
+        (const std::vector<OpdsNode>&) override;
+    void setOpdsNodeCover(const QString& id, const QByteArray& data);
 
  private:
   IOpdsGateway* m_opdsGateway;
   void loadRootNodesFromFile();
-  OpdsNode findNodeByUrl(const QString& url) const;
+  const OpdsNode findNodeByUrl(const QString& url) const ;
+  const QByteArray*  getImageDataByImgUrl(const QString& imgUrl) const override;
 
-  std::vector<domain::value_objects::OpdsNode> m_opdsNodes;
+  std::vector<OpdsNode> m_opdsNodes;
   std::vector<OpdsNode> historyStack;
-  const OpdsNode rootNode{"/","url_root","Root","url_root",""};
+  const OpdsNode rootNode{"/","url_root","Root","url_root","",QByteArray(),false};
 
 };
 

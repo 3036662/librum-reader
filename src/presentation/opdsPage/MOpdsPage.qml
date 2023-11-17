@@ -105,8 +105,10 @@ Page {
                                 width: parent.width*0.9
                                 fillMode: Image.PreserveAspectFit
                                // source:  "https://doc.qt.io/style/qt-logo-documentation.svg"
-                                source: model.image
-                                visible: model.image &&  model.image!==""
+                                source:model.imgDataReady === false ?  "" : "image://opds_image_provider/"+model.imageUrl ;
+                                visible: model.imgDataReady;
+                                sourceSize.height: 160
+                                sourceSize.width: 80
                           }
 
                           AnimatedImage{
@@ -154,17 +156,16 @@ Page {
                             OpdsController.loadRootLib(model.url);
                              }
                       }
+                  } // MouseArea
+                  // load images
+                 Component.onCompleted:{
+                            OpdsController.getNodeImage(model.id);
                   }
-              }
+                  Component.onDestruction: {
+                         // TODO delete covers
+                  }
 
-//              // load images
-//             Component.onCompleted:{
-//                       OpdsController.getNodeImage(model.id);
-//             }
-//             Component.onDestruction: {
-
-//             }
-
+              } // item
       }
 
   }

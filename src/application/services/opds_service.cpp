@@ -12,6 +12,10 @@ OpdsService::OpdsService(IOpdsGateway*  opdsGateway)
         m_opdsGateway,&IOpdsGateway::parsingXmlDomCompleted,
         this, &IOpdsService::processNodes);
 
+    connect(
+        m_opdsGateway,&IOpdsGateway::gettingOpdsImagedFinished,
+        this, &OpdsService::setOpdsNodeCover);
+
 }
 
 
@@ -98,7 +102,7 @@ void OpdsService::loadRootLib(const QString& url){
   m_opdsGateway->loadRootlib(url);
 }
 
-//some nodes are recieved from the Gateway
+//process nodes  recieved from the Gateway
 void OpdsService::processNodes
     (const std::vector<OpdsNode>& nodes_vec) {
   emit  nodesVecReplaceStarted();
@@ -113,7 +117,7 @@ void OpdsService::processNodes
   emit opdsNodesReady();
 }
 
-OpdsNode OpdsService::findNodeByUrl(const QString& url) const{
+const OpdsNode OpdsService::findNodeByUrl(const QString& url) const{
   auto it=std::find_if(m_opdsNodes.cbegin(),m_opdsNodes.cend(), [&url](const OpdsNode& node){
                     return node.url == url;
                });
@@ -122,11 +126,35 @@ OpdsNode OpdsService::findNodeByUrl(const QString& url) const{
 
 
 void OpdsService::getNodeImage(const QString& id){
+    auto itNode= std::find_if(m_opdsNodes.cbegin(),m_opdsNodes.cend(), [&id](const OpdsNode& node){
+        return node.id == id;
+    });
+    // if found and has imageUrl
+    if (itNode != m_opdsNodes.end() && !(itNode->imageUrl).isEmpty() ){
+        m_opdsGateway->getOpdsImage(id,itNode->imageUrl);
+    }
+}
 
-        // TODO
-        // 1. find node with this id
-        // 2. get  image url
-        // 3. path it to gateway for downloading
+
+
+void  OpdsService::setOpdsNodeCover(const QString& id, const QByteArray&data){
+    auto itNode= std::find_if(m_opdsNodes.begin(),m_opdsNodes.end(), [&id](const OpdsNode& node){
+        return node.id == id;
+    });
+
+    // if node was node found
+    if (itNode == m_opdsNodes.end()) return;
+    // if found - set image
+    itNode->imageBinaryData = data;
+    itNode->imgDataReady = true;
+    emit dataChanged(std::distance(m_opdsNodes.begin(),  itNode));
+}
+
+const QByteArray*   OpdsService::getImageDataByImgUrl(const QString& imgUrl) const {
+    auto itNode= std::find_if(m_opdsNodes.cbegin(),m_opdsNodes.cend(), [&imgUrl](const OpdsNode& node){
+        return node.imageUrl == imgUrl;
+    });
+    return itNode != m_opdsNodes.cend() && itNode->imgDataReady  ?  &itNode->imageBinaryData : nullptr;
 }
 
 }  // namespace application::services

@@ -21,7 +21,8 @@ public:
         UrlRole,
         DescriptionRole,
         IdRole,
-        ImageRole
+        ImageUrlRole,
+        imgDataReadyRole
     };
 
     OpdsModel() = default;
@@ -34,6 +35,7 @@ public:
     public slots:
         void startedDataChange();
         void completedDataChange();
+        void refreshNode(int row);
 
     signals:
 

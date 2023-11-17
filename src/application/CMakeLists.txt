@@ -68,6 +68,8 @@ set(application_SRC
     utility/opdsparser.cpp
     utility/opds_structs.hpp
     utility/opds_structs.cpp
+     utility/opds_image_provider.hpp
+     utility/opds_image_provider.cpp
     
     core/page_generator.hpp
     core/page_generator.cpp
