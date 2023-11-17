@@ -28,6 +28,10 @@ find_package(Qt6 6.4 REQUIRED COMPONENTS Core Quick Widgets Network Gui QuickCon
 find_package(tinyxml2 REQUIRED)
 #boost algorithm
 find_package(Boost REQUIRED)
+# webp image library
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(WEBP REQUIRED IMPORTED_TARGET libwebp)
+
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)

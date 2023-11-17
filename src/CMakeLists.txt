@@ -58,6 +58,7 @@ target_link_libraries(librum
         Qt6::Quick
         Qt6::Widgets
         Qt6::QuickControls2
+		PkgConfig::WEBP
 )
 
 target_include_directories(librum
