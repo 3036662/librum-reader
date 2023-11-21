@@ -23,11 +23,13 @@ OpdsGateway::OpdsGateway(IOpdsAccess* opdsAccess)
 
 //convert relative url to absolute
 void OpdsGateway::convertRelativeUrlToAbsolute(QString& url){
-    QUrl new_url(url);
+    QUrl new_url(url.trimmed());
     if (!new_url.isRelative()) return;
+    if (!new_url.path().startsWith("/")) new_url.setPath("/"+new_url.path());
     if (baseurl.isValid() && !baseurl.isEmpty() && !baseurl.isRelative() ){
         new_url.setScheme(baseurl.scheme());
         new_url.setHost(baseurl.host());
+
         url = new_url.toString();
     }
 }
@@ -57,13 +59,20 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
     std::vector<OpdsNode> res;
     for (auto it=parser.dom.entries.cbegin(); it!=parser.dom.entries.end(); ++it){
         if (it->title.empty()) continue; // skip entries with empty title
+        // accumulate authors
+        QString authors;
+        for (auto it_author=it->authors.cbegin();it_author != it->authors.cend();++it_author){
+            authors+=it_author->name;
+            authors+=" ";
+        }
         res.emplace_back(
             it->title.c_str(), // title
+            authors, // author
             convertRelativeUrlToAbsolute(parser.getEntryUrlByID(it->id)), // url
             it->content.empty()  ? it->title.c_str() : it->content[0].text.c_str(), // content
             it->id.c_str(), // id
             parser.getImageUrlByID(it->id).empty() ? "" : convertRelativeUrlToAbsolute(parser.getImageUrlByID(it->id)), // imageUrl
-             QByteArray(), // empty data
+             QImage(), // empty data
                false // imgDataReady
             );
     }
@@ -85,20 +94,27 @@ void OpdsGateway::processOpdsImage(const QString& id,const QString & url, const 
             QImage image(rgbData, width, height, QImage::Format_RGBA8888);
             WebPFree(rgbData);
             if (!image.isNull()){
-                QByteArray ba;
-                ba.reserve(image.sizeInBytes());
-                QBuffer buffer(&ba,nullptr);
-               bool open_res= buffer.open(QIODevice::WriteOnly);
-               bool save_res = image.save(&buffer,"PNG");
-
-                buffer.close();
-                emit gettingOpdsImagedFinished(id,ba);
+                scaleImage(image);
+                emit gettingOpdsImagedFinished(id,image);
             }
     }
     else{
-            emit gettingOpdsImagedFinished(id,data);
+          QImage image;
+          image.loadFromData(data);
+          if (!image.isNull()){
+          scaleImage(image);
+           emit gettingOpdsImagedFinished(id,image);
+          }
     }
 }
+
+void OpdsGateway::scaleImage(QImage& img){
+    if (img.isNull()) return;
+    if (img.height() > maxImgHeight || img.width() > maxImgWidth){
+        img=img.scaled(QSize(maxImgWidth,maxImgHeight),Qt::KeepAspectRatio);
+    }
+}
+
 
 
 } // namespace adapters::gateways

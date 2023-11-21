@@ -25,9 +25,13 @@ private:
     void convertRelativeUrlToAbsolute(QString& url);
     QString  convertRelativeUrlToAbsolute(const std::string& url);
     void processOpdsImage(const QString& id,const QString& url,const QByteArray& data);
+    void scaleImage(QImage& img);
 
     IOpdsAccess* m_OpdsAccess;
     QUrl baseurl;
+
+    const int maxImgHeight=240;
+    const int maxImgWidth=190;
 };
 
 } // namespace adapters::gateways

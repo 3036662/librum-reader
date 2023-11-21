@@ -22,7 +22,7 @@ public slots:
 
 signals:
     void parsingXmlDomCompleted(const std::vector<domain::value_objects::OpdsNode>&  );
-    void gettingOpdsImagedFinished(const QString& id,const QByteArray& image);
+    void gettingOpdsImagedFinished(const QString& id,const QImage& image);
 };
 
 
