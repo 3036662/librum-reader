@@ -69,6 +69,7 @@ void OpdsService::loadRootNodesFromFile() {
     QJsonObject lib(it->toObject());
     if (lib.isEmpty()) continue;
     m_opdsNodes.emplace_back(lib.value("title").toString(),
+                             "", // author
                              lib.value("url").toString(),
                              lib.value("descr").toString());
   }
@@ -135,26 +136,37 @@ void OpdsService::getNodeImage(const QString& id){
     }
 }
 
+//void OpdsService::deleteNodeImage(const QString &id){
+//    auto itNode= std::find_if(m_opdsNodes.begin(),m_opdsNodes.end(), [&id](const OpdsNode& node){
+//        return node.id == id;
+//    });
+//    // if found
+//    if (itNode != m_opdsNodes.end()){
+//        itNode->imageObj=QImage();
+//    };
+//}
 
 
-void  OpdsService::setOpdsNodeCover(const QString& id, const QByteArray&data){
+
+void  OpdsService::setOpdsNodeCover(const QString& id, const QImage &data){
     auto itNode= std::find_if(m_opdsNodes.begin(),m_opdsNodes.end(), [&id](const OpdsNode& node){
         return node.id == id;
     });
 
-    // if node was node found
+    // if node was not found
     if (itNode == m_opdsNodes.end()) return;
     // if found - set image
-    itNode->imageBinaryData = data;
+    itNode->imageObj = data;
     itNode->imgDataReady = true;
     emit dataChanged(std::distance(m_opdsNodes.begin(),  itNode));
 }
 
-const QByteArray*   OpdsService::getImageDataByImgUrl(const QString& imgUrl) const {
+const QImage*   OpdsService::getImageDataByImgUrl(const QString& imgUrl) const {
     auto itNode= std::find_if(m_opdsNodes.cbegin(),m_opdsNodes.cend(), [&imgUrl](const OpdsNode& node){
         return node.imageUrl == imgUrl;
     });
-    return itNode != m_opdsNodes.cend() && itNode->imgDataReady  ?  &itNode->imageBinaryData : nullptr;
+    return itNode != m_opdsNodes.cend() && itNode->imgDataReady  ?  &itNode->imageObj : nullptr;
 }
+
 
 }  // namespace application::services
