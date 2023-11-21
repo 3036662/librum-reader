@@ -36,5 +36,9 @@ void OpdsConrtoller::getNodeImage(const QString& id) {
     m_opdsService->getNodeImage(id);
 }
 
+//void OpdsConrtoller::deleteNodeImage(const QString &id){
+//    if (id.isEmpty()) return;
+//    m_opdsService->deleteNodeImage(id);
+//}
 
 } //namespace  adapters::controllers
