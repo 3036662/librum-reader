@@ -8,25 +8,19 @@ OpdsImageProvider::OpdsImageProvider(IOpdsService* opdsService):
 {
 }
 
-QImage OpdsImageProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize){
-        // TODO
-        // find node in nodes with requested id
-        // prepate qImage
-        // return qImage
+QImage OpdsImageProvider::requestImage(const QString &url, QSize *size, const QSize &requestedSize){
 
-        if (boost::ends_with(id,"webp")){
-            qWarning()<<"webp";
-        }
-        QImage result;
-       const  QByteArray* ptrData = ptrService->getImageDataByImgUrl(id);
-        if (!ptrData) return QImage();
-        result.loadFromData( *ptrData);
-        if (!result.isNull() && requestedSize.height() > 80 &&   requestedSize.width() > 50 && requestedSize.height() < result.height() ){
-            result=result.scaled(requestedSize, Qt::KeepAspectRatio);
+        const  QImage* ptrImg = ptrService->getImageDataByImgUrl(url);
+        if (!ptrImg) return QImage();
+        QImage result(*ptrImg);  //copy original image
+        //check if scaling is needed
+        if (!result.isNull() && requestedSize.height() > 80 &&   requestedSize.width() > 50
+            && ( requestedSize.height() < result.height()   || requestedSize.width() < result.width() ) ){
+           result=result.scaled(requestedSize, Qt::KeepAspectRatio);
         }
         if (!result.isNull()){
-        size->setHeight(result.height());
-        size->setWidth(result.width());
+            size->setHeight(result.height());
+            size->setWidth(result.width());
         }
         return result;
 }
