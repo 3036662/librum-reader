@@ -5,7 +5,9 @@ namespace infrastructure::persistence{
 
 void OpdsAccess::loadRootLib(const QString& url){
    QNetworkRequest request = createRequest(url);
+    m_networkAccessManager.setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
    QNetworkReply* reply = m_networkAccessManager.get(request);
+
 
     connect (reply, &QNetworkReply::finished,this,
            [this,reply](){
