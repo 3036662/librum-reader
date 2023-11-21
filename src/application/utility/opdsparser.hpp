@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string>
 
-
+// OPDS https://specs.opds.io/opds-1.2
 
 namespace application::utility::opds
 {
