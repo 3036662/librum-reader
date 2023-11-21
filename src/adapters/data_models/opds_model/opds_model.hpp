@@ -18,6 +18,7 @@ public:
     enum Roles
     {
         TitleRole,
+        AuthorRole,
         UrlRole,
         DescriptionRole,
         IdRole,

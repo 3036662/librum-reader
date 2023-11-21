@@ -29,6 +29,9 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
     case TitleRole:
         return opdsNode.title;
         break;
+    case AuthorRole:
+        return opdsNode.author;
+        break;
     case UrlRole:
         return opdsNode.url;
         break;
@@ -41,20 +44,6 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
     case ImageUrlRole:
         return opdsNode.imageUrl;
         break;
-//    case ImageRole:
-//    {
-//        auto& image = opdsNode.image;
-//        if(image.isNull())
-//            return "";
-
-//        QByteArray byteArray;
-//        QBuffer buffer(&byteArray);
-//        buffer.open(QIODevice::WriteOnly);
-//        image.save(&buffer, "jpeg");
-//        QString base64 = QString::fromUtf8(byteArray.toBase64());
-//        return QString("data:image/jpeg;base64,") + base64;
-//    }
-//         break;
     case imgDataReadyRole:
         return opdsNode.imgDataReady;
         break;
@@ -67,6 +56,7 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> OpdsModel::roleNames() const {
     static QHash<int,QByteArray> roles{
                 {TitleRole,"title"},
+                {AuthorRole,"author"},
                  {UrlRole,"url"},
                 {DescriptionRole,"descr"},
                 {IdRole,"id"},
