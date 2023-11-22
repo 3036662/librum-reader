@@ -14,6 +14,16 @@ Page {
         color: Style.colorPageBackground
     }
 
+    Connections{
+        target: OpdsController
+
+        function onBadNetworkResponse(code){
+            errorMessageLabel.text = "Bad network response: "+code
+            errorMessageLabel.visible = true
+            timer.start();
+        }
+    }
+
     ColumnLayout {
         id: layout
         anchors.fill: parent
@@ -54,6 +64,25 @@ Page {
                 onClicked: ; // FIXME importFilesDialog.open()
             }
         }  // toolbar
+
+
+        Label {
+            id: errorMessageLabel
+            Layout.alignment: Qt.AlignHCenter
+            Layout.leftMargin: -sidebar.width
+            Layout.topMargin: Math.round(root.height / 5)
+            color: Style.colorTitle
+            font.pointSize: Fonts.size22
+            font.weight: Font.Medium
+            visible: false
+        }
+        Timer {
+            id: timer
+            interval: 1000
+            repeat: false
+            running: false
+            onTriggered: errorMessageLabel.visible = false
+        }
 		
         Pane {
             id: opdsGridContainer
@@ -109,8 +138,48 @@ Page {
                    // Component.onDestruction:  no need to explicitly delete
                 } // MOpdsNode
             } // GridView
+
+            ScrollBar {
+                id: verticalScrollbar
+                width: pressed ? 14 : 12
+                hoverEnabled: true
+                active: true
+                policy: ScrollBar.AlwaysOff
+                visible: opdsGrid.contentHeight > opdsGrid.height
+                orientation: Qt.Vertical
+                size: opdsGrid.height / opdsGrid.contentHeight
+                minimumSize: 0.04
+                position: (opdsGrid.contentY - opdsGrid.originY) / opdsGrid.contentHeight
+                onPositionChanged: if (pressed)
+                                       opdsGrid.contentY = position
+                                               * opdsGrid.contentHeight + opdsGrid.originY
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.rightMargin: -20
+                anchors.bottomMargin: 16
+                anchors.bottom: parent.bottom
+                horizontalPadding: 4
+
+                contentItem: Rectangle {
+                    color: Style.colorScrollBarHandle
+                    opacity: verticalScrollbar.pressed ? 0.8 : 1
+                    radius: 4
+                }
+
+                background: Rectangle {
+                    implicitWidth: 26
+                    implicitHeight: 200
+                    color: "transparent"
+                }
+            }
+
+
+
         } // Pane
     } // ColumnLayout
+
+
+
 
     QtObject {
         id: internal
