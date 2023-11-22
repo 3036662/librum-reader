@@ -15,6 +15,7 @@ Page {
         color: Style.colorPageBackground
     }
 
+
     Connections {
         target: FreeBooksController
 

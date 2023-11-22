@@ -20,7 +20,6 @@ public slots:
     void parseOpdsResonse(const QByteArray& data) override;
     void getOpdsImage(const QString& id,const QString& url) override;
 
-
 private:
     void convertRelativeUrlToAbsolute(QString& url);
     QString  convertRelativeUrlToAbsolute(const std::string& url);

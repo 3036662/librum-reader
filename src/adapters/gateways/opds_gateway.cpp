@@ -19,6 +19,10 @@ OpdsGateway::OpdsGateway(IOpdsAccess* opdsAccess)
     connect(m_OpdsAccess,
             &IOpdsAccess::gettingOpdsImageFinished,this,
             &OpdsGateway::processOpdsImage);
+
+    connect(m_OpdsAccess,
+            &IOpdsAccess::badNetworkResponse,this,
+            &IOpdsGateway::badNetworkResponse);
 }
 
 //convert relative url to absolute
@@ -87,7 +91,7 @@ void OpdsGateway::getOpdsImage(const QString& id,const QString& url){
 }
 
 void OpdsGateway::processOpdsImage(const QString& id,const QString & url, const QByteArray& data){
-      if (boost::ends_with(url,"webp")){
+    if (boost::ends_with(url,"webp")){
             int width, height;
             uint8_t* rgbData = WebPDecodeRGBA( reinterpret_cast<const uint8_t*>( data.constData()), data.size(), &width, &height);
             if (rgbData == nullptr) return;

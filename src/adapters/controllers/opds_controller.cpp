@@ -19,6 +19,9 @@ OpdsConrtoller::OpdsConrtoller(
     connect(m_opdsService, &application::IOpdsService::dataChanged,
             &m_opdsModel, &data_models::OpdsModel::refreshNode);
 
+    connect(m_opdsService,&application::IOpdsService::badNetworkResponse,
+            this,&IOpdsController::handleBadNetworkResponse);
+
 }
 
 adapters::data_models::OpdsModel*  OpdsConrtoller::getOpdsModel(){
@@ -40,5 +43,12 @@ void OpdsConrtoller::getNodeImage(const QString& id) {
 //    if (id.isEmpty()) return;
 //    m_opdsService->deleteNodeImage(id);
 //}
+
+void OpdsConrtoller::handleBadNetworkResponse(int code){
+    m_opdsModel.startedDataChange();
+    m_opdsModel.completedDataChange();
+    emit badNetworkResponse(code);
+}
+
 
 } //namespace  adapters::controllers

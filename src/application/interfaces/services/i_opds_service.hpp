@@ -24,6 +24,7 @@ signals:
     void nodesVecReplaceStarted();
     void opdsNodesReady();
     void dataChanged(int i);
+    void  badNetworkResponse(int code);
 };
 
 }

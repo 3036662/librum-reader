@@ -16,10 +16,12 @@ public:
     adapters::data_models::OpdsModel*  getOpdsModel() override;
     void loadRootLib(const QString& url) override;
     void getNodeImage(const QString& id)  override;
+    void handleBadNetworkResponse(int) override;
     //void deleteNodeImage(const QString &id) override;
 private:
     application::IOpdsService* m_opdsService; // pointer to service
     data_models::OpdsModel m_opdsModel; // object Model
+
 };
 
 }  //namespace adapters::controllers

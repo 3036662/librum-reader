@@ -16,6 +16,9 @@ OpdsService::OpdsService(IOpdsGateway*  opdsGateway)
         m_opdsGateway,&IOpdsGateway::gettingOpdsImagedFinished,
         this, &OpdsService::setOpdsNodeCover);
 
+    connect(m_opdsGateway,&IOpdsGateway::badNetworkResponse,
+         this,&IOpdsService::badNetworkResponse);
+
 }
 
 
@@ -132,19 +135,26 @@ void OpdsService::getNodeImage(const QString& id){
     });
     // if found and has imageUrl
     if (itNode != m_opdsNodes.end() && !(itNode->imageUrl).isEmpty() ){
+        // TODO Handle data uri
+        // for data uri
+        if (itNode->imageUrl.startsWith("data:")){
+       //     QByteArray ba;
+         //   ba.append(string);
+        }
         m_opdsGateway->getOpdsImage(id,itNode->imageUrl);
     }
 }
 
-//void OpdsService::deleteNodeImage(const QString &id){
-//    auto itNode= std::find_if(m_opdsNodes.begin(),m_opdsNodes.end(), [&id](const OpdsNode& node){
-//        return node.id == id;
-//    });
-//    // if found
-//    if (itNode != m_opdsNodes.end()){
-//        itNode->imageObj=QImage();
-//    };
-//}
+/*
+void OpdsService::deleteNodeImage(const QString &id){
+    auto itNode= std::find_if(m_opdsNodes.begin(),m_opdsNodes.end(), [&id](const OpdsNode& node){
+        return node.id == id;
+    });
+    // if found
+    if (itNode != m_opdsNodes.end()){
+        itNode->imageObj=QImage();
+    };
+}*/
 
 
 

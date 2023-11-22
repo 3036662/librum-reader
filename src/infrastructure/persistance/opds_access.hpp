@@ -15,7 +15,6 @@ public:
 
 private:
      QNetworkAccessManager m_networkAccessManager;
-
      QNetworkRequest createRequest(const QUrl& url);
 };
 

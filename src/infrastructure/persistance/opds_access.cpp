@@ -15,6 +15,7 @@ void OpdsAccess::loadRootLib(const QString& url){
                if(!success){
                    api_error_helper::logErrorMessage(
                        reply, "Fetching opds feed  page");
+                   emit badNetworkResponse(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
                     reply->deleteLater();
                    return;
                }
