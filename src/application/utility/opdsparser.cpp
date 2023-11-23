@@ -1,5 +1,5 @@
 #include "opdsparser.hpp"
-
+#include <cstring>
 
 namespace application::utility::opds
 {
@@ -114,7 +114,7 @@ std::vector<Content> OpdsParser::parseContents(
     const tinyxml2::XMLElement* xmlContent = el->FirstChildElement("content");
     const tinyxml2::XMLElement* xmlContentLast = el->LastChildElement("content");
     while (xmlContent) {
-        if (xmlContent->Attribute("type") == "text"){ // content must use type="text" by standart
+        if (xmlContent->Attribute("type") && strcmp(xmlContent->Attribute("type"),"text")==0 ){ // content must use type="text" by standart
             res.emplace_back(
                 "text", xmlContent->GetText() != nullptr ? xmlContent->GetText() : "");
         }
@@ -183,17 +183,19 @@ std::string OpdsParser::getImageUrlByID(const std::string& id) const{
     std::string res;
     auto entry_it = getIteratortoEntryById(id);
     if (entry_it != dom.entries.cend()){
-        // try to find thumbnail
-        auto  image_it=  std::find_if(entry_it->links.cbegin(),
-                                     entry_it->links.cend(),[](const Link& link){
-                                         return boost::algorithm::contains(link.rel,"thumbnail") && boost::algorithm::contains(link.type,"image");
-                                     });
+
         // if not found try to find simple image
-        if (image_it == entry_it->links.cend()){
-            image_it=  std::find_if(entry_it->links.cbegin(),
+
+        auto image_it=  std::find_if(entry_it->links.cbegin(),
                                     entry_it->links.cend(),[](const Link& link){
                                         return boost::algorithm::contains(link.rel,"image") && boost::algorithm::contains(link.type,"image");
                                     });
+         // try to find thumbnail
+        if (image_it == entry_it->links.cend()){
+            image_it=  std::find_if(entry_it->links.cbegin(),
+                                         entry_it->links.cend(),[](const Link& link){
+                                             return boost::algorithm::contains(link.rel,"thumbnail") && boost::algorithm::contains(link.type,"image");
+                                         });
         }
         // try to find only with  rel if nothing found
         if (image_it == entry_it->links.cend()){
