@@ -74,8 +74,10 @@ void OpdsService::loadRootNodesFromFile() {
     if (lib.isEmpty()) continue;
     m_opdsNodes.emplace_back(lib.value("title").toString(),
                              "", // author
-                             lib.value("url").toString(),
-                             lib.value("descr").toString());
+                             lib.value("url").toString(), // url
+                             lib.value("descr").toString(), // descr
+                             "", ""
+                             );
   }
 }
 

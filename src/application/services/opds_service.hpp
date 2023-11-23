@@ -37,7 +37,7 @@ public slots:
 
   std::vector<OpdsNode> m_opdsNodes;
   std::vector<OpdsNode> historyStack;
-  const OpdsNode rootNode{"/","","url_root","Root","url_root","",QImage(),false};
+  const OpdsNode rootNode{"/","","url_root","Root","url_root",""};
 
 };
 
