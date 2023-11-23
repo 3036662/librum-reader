@@ -39,6 +39,7 @@ void OpdsGateway::convertRelativeUrlToAbsolute(QString& url){
 }
 // overload for std::string url
 QString  OpdsGateway::convertRelativeUrlToAbsolute(const std::string& url){
+    if (url.empty()) return QString();
     QString res(url.c_str());
     convertRelativeUrlToAbsolute(res);
     return res;
@@ -72,7 +73,7 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
         res.emplace_back(
             it->title.c_str(), // title
             authors, // author
-            convertRelativeUrlToAbsolute(parser.getEntryUrlByID(it->id)), // url
+            convertRelativeUrlToAbsolute(parser.getEntryUrlByID(it->id) ), // url
             it->content.empty()  ? it->title.c_str() : it->content[0].text.c_str(), // content
             it->id.c_str(), // id
             parser.getImageUrlByID(it->id).empty() ? "" : convertRelativeUrlToAbsolute(parser.getImageUrlByID(it->id)), // imageUrl
@@ -80,6 +81,23 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
                false // imgDataReady
             );
     }
+
+    // search  result arrays for dublicates
+    for (auto it = res.begin(); it != res.end(); ++it){
+        auto it2 = std::find_if(it,res.end(), [&it](const OpdsNode& node1){
+            if (   it->title == node1.title && it->author == it->author && it->imageUrl == node1.imageUrl && it->id!=node1.id){
+                     //TODO merge urls to node
+                    return true;
+            }
+            else return false;
+        });
+        // delete duplicate after meging
+        if (it2 != res.end() &&  it2 != it){
+            res.erase(it2);
+        }
+
+    }
+
     emit parsingXmlDomCompleted(res);
 }
 
