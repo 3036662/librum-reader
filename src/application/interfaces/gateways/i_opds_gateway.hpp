@@ -16,6 +16,8 @@ public:
 
     virtual void loadRootlib(QString url) = 0;
     virtual void getOpdsImage(const QString& id,const QString& url)=0;
+    virtual void scaleImage(QImage& img)=0;
+
 
 public slots:
     virtual void parseOpdsResonse(const QByteArray& data)=0;
