@@ -47,6 +47,36 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
     case imgDataReadyRole:
         return opdsNode.imgDataReady;
         break;
+    case downloadUrlRole:{
+        QString url;
+        //look for epub
+        for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
+            if (it->first.contains("epub")){
+                url=it->second;
+            }
+        }
+        // look for pdf
+        if (url.isEmpty()){
+            for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
+                if (it->first.contains("pdf")){
+                    url=it->second;
+                }
+            }
+        }
+        // look for fb2
+        if (url.isEmpty()){
+            for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
+                if (it->first.contains("fb2")){
+                    url=it->second;
+                }
+            }
+        }
+        if (url.isEmpty()){
+            url=opdsNode.downloadUrls.first().second;
+        }
+        return url;
+        }
+        break;
     default:
         return QVariant();
         break;
@@ -61,7 +91,8 @@ QHash<int, QByteArray> OpdsModel::roleNames() const {
                 {DescriptionRole,"descr"},
                 {IdRole,"id"},
                 {ImageUrlRole,"imageUrl"},
-                {imgDataReadyRole,"imgDataReady"}
+                {imgDataReadyRole,"imgDataReady"},
+                {downloadUrlRole,"downloadUrl"}
     };
     return roles;
 }

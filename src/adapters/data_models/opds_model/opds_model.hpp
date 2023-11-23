@@ -23,7 +23,8 @@ public:
         DescriptionRole,
         IdRole,
         ImageUrlRole,
-        imgDataReadyRole
+        imgDataReadyRole,
+        downloadUrlRole,
     };
 
     OpdsModel() = default;
