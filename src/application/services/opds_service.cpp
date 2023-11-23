@@ -1,5 +1,6 @@
 #include "opds_service.hpp"
 #include <algorithm>
+#include <functional>
 
 namespace application::services {
 
@@ -130,7 +131,7 @@ const OpdsNode OpdsService::findNodeByUrl(const QString& url) const{
 
 
 void OpdsService::getNodeImage(const QString& id){
-    auto itNode= std::find_if(m_opdsNodes.cbegin(),m_opdsNodes.cend(), [&id](const OpdsNode& node){
+    auto itNode= std::find_if(m_opdsNodes.begin(),m_opdsNodes.end(), [&id](const OpdsNode& node){
         return node.id == id;
     });
     // if found and has imageUrl
@@ -138,8 +139,23 @@ void OpdsService::getNodeImage(const QString& id){
         // TODO Handle data uri
         // for data uri
         if (itNode->imageUrl.startsWith("data:")){
-       //     QByteArray ba;
-         //   ba.append(string);
+            QByteArray data=itNode->imageUrl.toUtf8();
+            qsizetype start_index=itNode->imageUrl.indexOf(',');
+            if (start_index>0){
+                    data.remove(0,start_index+1);
+                    data=data.fromBase64(data);
+                    if (!data.isEmpty()){
+                        QImage image;
+                        image.loadFromData(data);
+                        if (!image.isNull()){
+                            m_opdsGateway->scaleImage(image);
+                            itNode->imageObj=std::move(image);
+                            itNode->imageUrl=std::to_string(std::hash<QString>{}( itNode->imageUrl)).c_str();
+                            itNode->imgDataReady=true;
+                            emit dataChanged(std::distance(m_opdsNodes.begin(),  itNode));
+                        }
+                    }
+            }
         }
         m_opdsGateway->getOpdsImage(id,itNode->imageUrl);
     }
@@ -166,7 +182,7 @@ void  OpdsService::setOpdsNodeCover(const QString& id, const QImage &data){
     // if node was not found
     if (itNode == m_opdsNodes.end()) return;
     // if found - set image
-    itNode->imageObj = data;
+    itNode->imageObj = std::move(data);
     itNode->imgDataReady = true;
     emit dataChanged(std::distance(m_opdsNodes.begin(),  itNode));
 }
