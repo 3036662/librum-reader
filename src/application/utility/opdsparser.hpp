@@ -9,8 +9,11 @@
 #include <iomanip>
 #include <iostream>
 #include <string>
+#include <QMultiHash>
+
 
 // OPDS https://specs.opds.io/opds-1.2
+// parser dont use Qt datatypes
 
 namespace application::utility::opds
 {
@@ -28,6 +31,7 @@ public:
     std::vector<Entry>::const_iterator getIteratortoEntryById(const std::string& id) const;
     std::string getEntryUrlByID(const std::string& id) const;
     std::string getImageUrlByID(const std::string& id) const;
+    std::vector<std::pair<std::string,std::string>> getDownloadUrlsByID(const std::string& id);
     std::string checkUrl(const std::string& url) const;
     void clearDom();
     tinyxml2::XMLDocument doc;

@@ -239,5 +239,20 @@ std::string OpdsParser::checkUrl(const std::string& url) const {
 
 void OpdsParser::clearDom() { dom = Feed(); }
 
+// rerturn vector of pairs "format" -> "url"
+std::vector<std::pair<std::string,std::string>> OpdsParser::getDownloadUrlsByID(const std::string& id){
+    std::vector<std::pair<std::string,std::string>> res;
+    auto entry_it = getIteratortoEntryById(id);
+    if (entry_it == dom.entries.cend()) return res;
+
+    for (auto it_link=entry_it->links.cbegin(); it_link != entry_it->links.cend(); ++ it_link){
+        if (boost::contains(it_link->rel,"acquisition") &&
+            boost::contains(it_link->type,"application") &&
+            !it_link->href.empty() ){
+            res.emplace_back(it_link->type, it_link->href);
+        }
+    }
+    return res;
+}
 
 } // namespace application::utility::opds
