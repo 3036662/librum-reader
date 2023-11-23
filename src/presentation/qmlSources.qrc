@@ -52,7 +52,8 @@
         <file>registerPage/MRegisterPage.qml</file>
         <file>statisticsPage/MStatisticsPage.qml</file>
         <file>opdsPage/MOpdsPage.qml</file>
-		<file>opdsPage/MOpdsNode.qml</file>
+        <file>opdsPage/MOpdsNode.qml</file>
+        <file>opdsPage/MDownloadOpdsBook.qml</file>		
         <file>settings/MAboutPage.qml</file>
         <file>settings/MAppearancePage.qml</file>
         <file>settings/MSettings.qml</file>

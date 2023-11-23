@@ -112,22 +112,22 @@ Page {
 
                         onEntered: {
                             parent.scale = 1.1
-//                            if (model.descr.length >= model.title.length) {
-//                                bookName.text = model.descr
-//                            }
                         }
                         onExited: {
                             parent.scale = 1.0
-//                            if (model.title && model.title.length > 0){ bookName.text = model.title;}
                         }
 
                         onClicked: {
-                            if (model.url !== "") {
+                            if (model.downloadUrl !==""){
+                                    //open popup
+                            }
+                            else if (model.url !== "") {
                                 folderImage.visible = false
                                 loadingAnimation.playing = true
                                 loadingAnimation.visible = true
                                 OpdsController.loadRootLib(model.url)
                             }
+
                         }
                     } // MouseArea
 
