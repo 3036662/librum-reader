@@ -60,6 +60,7 @@ void OpdsGateway::loadRootlib(QString url){
 
 void OpdsGateway::parseOpdsResonse(const QByteArray& data){
     OpdsParser parser( std::string (data.constData(),data.length()) );
+
     // fill vector with OpdsNodes
     std::vector<OpdsNode> res;
     for (auto it=parser.dom.entries.cbegin(); it!=parser.dom.entries.end(); ++it){
@@ -70,15 +71,22 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
             authors+=it_author->name;
             authors+=" ";
         }
+        // construt donload links
+        QVector<QPair<QString,QString>> downloadUrls;
+        std::vector<std::pair<std::string,std::string>> link_vec=parser.getDownloadUrlsByID(it->id);
+        for(auto it_dLink=link_vec.cbegin();it_dLink != link_vec.cend(); ++it_dLink){
+            downloadUrls.append(QPair(QString(it_dLink->first.c_str()),QString(it_dLink->second.c_str())) );
+        }
         res.emplace_back(
             it->title.c_str(), // title
-            authors, // author
+            std::move(authors), // author
             convertRelativeUrlToAbsolute(parser.getEntryUrlByID(it->id) ), // url
             it->content.empty()  ? it->title.c_str() : it->content[0].text.c_str(), // content
             it->id.c_str(), // id
             parser.getImageUrlByID(it->id).empty() ? "" : convertRelativeUrlToAbsolute(parser.getImageUrlByID(it->id)), // imageUrl
-             QImage(), // empty data
-               false // imgDataReady
+            QImage(),
+            false, // image ready flag,
+            std::move(downloadUrls) // download urls
             );
     }
 
@@ -95,7 +103,6 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
         if (it2 != res.end() &&  it2 != it){
             res.erase(it2);
         }
-
     }
 
     emit parsingXmlDomCompleted(res);
