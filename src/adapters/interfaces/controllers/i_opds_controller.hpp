@@ -13,9 +13,12 @@ public:
     virtual void handleBadNetworkResponse(int code)=0;
     Q_INVOKABLE  virtual  void loadRootLib(const QString& url)=0;
     Q_INVOKABLE virtual void getNodeImage(const QString& id)=0;
+    Q_INVOKABLE virtual void getBookMedia(const QString& id, const QString& downloadUrl)=0;
+    Q_INVOKABLE virtual void markBookAsDownloaded(const QString& id) =0;
     //Q_INVOKABLE virtual void deleteNodeImage(const QString& id)=0;
 signals:
     void badNetworkResponse(int code);
+    void gettingBookFinished(const QString& path, const QString& id);
 
 };
 
