@@ -50,7 +50,41 @@ void OpdsAccess::getOpdsImage(const QString& id,const QString& url){
         emit gettingOpdsImageFinished(id,url,reply->readAll());
         reply->deleteLater();
     });
+}
 
+void OpdsAccess::getBookMedia(const QString& id, const QUuid& uuid, const QString& url){
+         auto request = createRequest(url);
+         auto reply = m_networkAccessManager.get(request);
+         connect(reply, &QNetworkReply::readyRead, this,
+                 [this, reply, id, uuid]()
+                 {
+                     if(api_error_helper::apiRequestFailed(reply, 200))
+                     {
+                         api_error_helper::logErrorMessage(
+                             reply, "Getting free book's media");
+                        emit badNetworkResponse(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+                         reply->deleteLater();
+                         return;
+                     }
+                     emit gettingBookMediaChunkReady(id, uuid, reply->readAll(),
+                                                     "epub", false);
+                 });
+
+         connect(reply, &QNetworkReply::finished, this,
+                 [this, reply, id, uuid]()
+                 {
+                     emit gettingBookMediaChunkReady(id, uuid, QByteArray(), "epub",
+                                                     true);
+
+                     reply->deleteLater();
+                 });
+
+         connect(reply, &QNetworkReply::downloadProgress, this,
+                 [this, id](qint64 bytesReceived, qint64 bytesTotal)
+                 {
+                     emit gettingBookMediaProgressChanged(id, bytesReceived,
+                                                          bytesTotal);
+                 });
 
 }
 

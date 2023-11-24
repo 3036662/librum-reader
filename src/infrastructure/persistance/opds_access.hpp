@@ -9,8 +9,9 @@ class OpdsAccess : public adapters::IOpdsAccess
 {
     Q_OBJECT
 public:
-     void loadRootLib(const QString& url);
-     void getOpdsImage(const QString& id,const QString& url);
+     void loadRootLib(const QString& url) override;
+     void getOpdsImage(const QString& id,const QString& url) override;
+     void getBookMedia(const QString& id, const QUuid& uuid, const QString& url) override;
 
 
 private:
