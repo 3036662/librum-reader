@@ -180,6 +180,13 @@ ApplicationWindow {
             LibraryController.addBook(path, projectGutenbergId)
         }
     }
+    Connections {
+        target: OpdsController
+
+        function onGettingBookFinished(path, opdsId) {
+            LibraryController.addBook(path, 0,opdsId)
+        }
+    }
 
     Timer {
         id: spamStopper
