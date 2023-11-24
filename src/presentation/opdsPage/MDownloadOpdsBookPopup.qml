@@ -9,7 +9,7 @@ import Librum.fonts
 
 Popup {
     id: root
-    property int bookId
+    property string bookId
     property string title
     property string authors
     property string languages
@@ -165,60 +165,60 @@ Popup {
                                     readOnly: true
                                 }
 
-                                MLabeledInputBox {
-                                    id: languageField
-                                    Layout.fillWidth: true
-                                    boxHeight: 34
-                                    headerText: "Language"
-                                    headerFontWeight: Font.Bold
-                                    headerFontSize: Fonts.size11dot5
-                                    text: root.languages
-                                    headerToBoxSpacing: 3
-                                    inputFontSize: Fonts.size12
-                                    inputFontColor: Style.colorReadOnlyInputText
-                                    textPadding: 12
-                                    borderWidth: 1
-                                    borderRadius: 4
-                                    readOnly: true
-                                }
+//                                MLabeledInputBox {
+//                                    id: languageField
+//                                    Layout.fillWidth: true
+//                                    boxHeight: 34
+//                                    headerText: "Language"
+//                                    headerFontWeight: Font.Bold
+//                                    headerFontSize: Fonts.size11dot5
+//                                    text: root.languages
+//                                    headerToBoxSpacing: 3
+//                                    inputFontSize: Fonts.size12
+//                                    inputFontColor: Style.colorReadOnlyInputText
+//                                    textPadding: 12
+//                                    borderWidth: 1
+//                                    borderRadius: 4
+//                                    readOnly: true
+//                                }
 
-                                MLabeledInputBox {
-                                    id: publicationField
-                                    Layout.fillWidth: true
-                                    boxHeight: 34
-                                    headerText: "Downloads"
-                                    headerFontWeight: Font.Bold
-                                    headerFontSize: Fonts.size11dot5
-                                    text: root.downloadCount
-                                    headerToBoxSpacing: 3
-                                    inputFontSize: Fonts.size12
-                                    inputFontColor: Style.colorReadOnlyInputText
-                                    textPadding: 12
-                                    borderWidth: 1
-                                    borderRadius: 4
-                                    readOnly: true
-                                }
+//                                MLabeledInputBox {
+//                                    id: publicationField
+//                                    Layout.fillWidth: true
+//                                    boxHeight: 34
+//                                    headerText: "Downloads"
+//                                    headerFontWeight: Font.Bold
+//                                    headerFontSize: Fonts.size11dot5
+//                                    text: root.downloadCount
+//                                    headerToBoxSpacing: 3
+//                                    inputFontSize: Fonts.size12
+//                                    inputFontColor: Style.colorReadOnlyInputText
+//                                    textPadding: 12
+//                                    borderWidth: 1
+//                                    borderRadius: 4
+//                                    readOnly: true
+//                                }
 
-                                MLabeledInputBox {
-                                    id: formatField
-                                    Layout.fillWidth: true
-                                    Layout.bottomMargin: 3
-                                    boxHeight: 34
-                                    headerText: "Format"
-                                    headerFontWeight: Font.Bold
-                                    headerFontSize: Fonts.size11dot5
-                                    text: "EPUB"
-                                    headerToBoxSpacing: 3
-                                    inputFontSize: Fonts.size12
-                                    inputFontColor: Style.colorReadOnlyInputText
-                                    textPadding: 12
-                                    borderWidth: 1
-                                    borderRadius: 4
-                                    readOnly: true
-                                }
+//                                MLabeledInputBox {
+//                                    id: formatField
+//                                    Layout.fillWidth: true
+//                                    Layout.bottomMargin: 3
+//                                    boxHeight: 34
+//                                    headerText: "Format"
+//                                    headerFontWeight: Font.Bold
+//                                    headerFontSize: Fonts.size11dot5
+//                                    text: "EPUB"
+//                                    headerToBoxSpacing: 3
+//                                    inputFontSize: Fonts.size12
+//                                    inputFontColor: Style.colorReadOnlyInputText
+//                                    textPadding: 12
+//                                    borderWidth: 1
+//                                    borderRadius: 4
+//                                    readOnly: true
+//                                }
                             }
                         }
-                    }
+                   }
 
                     RowLayout {
                         id: buttonsLayout

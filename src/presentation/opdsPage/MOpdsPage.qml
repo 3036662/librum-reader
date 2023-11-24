@@ -23,6 +23,15 @@ Page {
             timer.start();
         }
     }
+    Connections {
+        target: LibraryController
+
+        function onAddingOpdsBookFinished(id, result) {
+            if (result) {
+                OpdsController.markBookAsDownloaded(id)
+            }
+        }
+    }
 
     ColumnLayout {
         id: layout
@@ -119,7 +128,14 @@ Page {
 
                         onClicked: {
                             if (model.downloadUrl !==""){
-                                    //open popup
+                                downloadOpdsBookPopup.bookId = model.id
+                                downloadOpdsBookPopup.title = model.title
+                                downloadOpdsBookPopup.authors = model.author
+                               // downloadOpdsBookPopup.languages = model.languages
+                                downloadOpdsBookPopup.cover =model.imgDataReady  === false ? "" : "image://opds_image_provider/" + model.imageUrl
+                               // downloadOpdsBookPopup.downloadCount = model.downloadCount
+                                downloadOpdsBookPopup.downloadLink = model.downloadUrl
+                                downloadOpdsBookPopup.open()
                             }
                             else if (model.url !== "") {
                                 folderImage.visible = false
@@ -127,6 +143,7 @@ Page {
                                 loadingAnimation.visible = true
                                 OpdsController.loadRootLib(model.url)
                             }
+
 
                         }
                     } // MouseArea
@@ -177,6 +194,15 @@ Page {
 
         } // Pane
     } // ColumnLayout
+
+    MDownloadOpdsBookPopup {
+        id: downloadOpdsBookPopup
+
+        x: Math.round(
+               root.width / 2 - implicitWidth / 2 - sidebar.width / 2 - root.horizontalPadding)
+        y: Math.round(
+               root.height / 2 - implicitHeight / 2 - root.topPadding - 30)
+    }
 
 
 

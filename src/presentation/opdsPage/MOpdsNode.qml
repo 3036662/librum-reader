@@ -78,13 +78,13 @@ Item {
                     anchors.rightMargin: 1
                     visible: false
                     z: 3
-                    /*progress: model.mediaDownloadProgress
+                    progress: model.mediaDownloadProgress
                     onProgressChanged: {
                         if (progress === 1)
                             visible = false
                         else
                             visible = true
-                    }*/
+                    }
                 }
 
                 Rectangle {
@@ -101,8 +101,8 @@ Item {
                 Image {
                     id: alreadyDownloadedIndicator
                     anchors.centerIn: bookCoverDimmer
-                   // visible: model.downloaded
-                    visible: false
+                   visible: model.downloaded
+                   // visible: false
                     sourceSize.width: 52
                     fillMode: Image.PreserveAspectFit
                     source: Icons.checkWhite
