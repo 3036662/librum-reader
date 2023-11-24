@@ -22,6 +22,22 @@ OpdsConrtoller::OpdsConrtoller(
     connect(m_opdsService,&application::IOpdsService::badNetworkResponse,
             this,&IOpdsController::handleBadNetworkResponse);
 
+    // getting book media
+    connect(m_opdsService,
+            &application::IOpdsService::gettingBookFinished, this,
+            &OpdsConrtoller::gettingBookFinished);
+
+    connect(m_opdsService,
+            &application::IOpdsService::downloadingBookMediaProgressChanged,
+            &m_opdsModel,
+            &data_models::OpdsModel::downloadingBookMediaProgressChanged
+            );
+
+    connect(m_opdsService,
+            &application::IOpdsService::bookIsDownloadedChanged,
+            &m_opdsModel,
+            &data_models::OpdsModel::bookIsDownloadedChanged);
+
 }
 
 adapters::data_models::OpdsModel*  OpdsConrtoller::getOpdsModel(){
@@ -50,5 +66,12 @@ void OpdsConrtoller::handleBadNetworkResponse(int code){
     emit badNetworkResponse(code);
 }
 
+void OpdsConrtoller::getBookMedia(const QString& id, const QString& downloadUrl) {
+    m_opdsService->getBookMedia(id,downloadUrl);
+}
+
+void OpdsConrtoller::markBookAsDownloaded(const QString& id) {
+    m_opdsService->markBookAsDownloaded(id);
+}
 
 } //namespace  adapters::controllers
