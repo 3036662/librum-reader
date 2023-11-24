@@ -100,7 +100,7 @@ void LibraryController::syncWithServer()
     m_bookService->downloadBooks();
 }
 
-int LibraryController::addBook(const QString& path, int projectGutenbergId)
+int LibraryController::addBook(const QString& path, int projectGutenbergId, const QString& opdsId)
 {
     auto localPath = QUrl(path).toLocalFile();
     QFileInfo fileInfo(localPath);
@@ -111,10 +111,14 @@ int LibraryController::addBook(const QString& path, int projectGutenbergId)
     auto result = m_bookService->addBook(localPath, projectGutenbergId);
     QApplication::restoreOverrideCursor();
 
-    emit addingBookFinished(
-        projectGutenbergId,
-        result == BookOperationStatus::Success ? true : false);
-
+    if (opdsId.isEmpty()){
+        emit addingBookFinished(
+            projectGutenbergId,
+            result == BookOperationStatus::Success ? true : false);
+    }
+    else{
+        emit addingOpdsBookFinished(opdsId,result == BookOperationStatus::Success ? true : false);
+    }
     return static_cast<int>(result);
 }
 
