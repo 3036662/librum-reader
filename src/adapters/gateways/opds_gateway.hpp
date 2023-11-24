@@ -20,6 +20,7 @@ public:
 public slots:
     void parseOpdsResonse(const QByteArray& data) override;
     void getOpdsImage(const QString& id,const QString& url) override;
+    void getBookMedia(const QString& id,const QUuid& uuid ,const QString& url) override;
 
 
 private:

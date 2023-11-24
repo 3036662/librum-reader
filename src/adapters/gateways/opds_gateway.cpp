@@ -23,6 +23,14 @@ OpdsGateway::OpdsGateway(IOpdsAccess* opdsAccess)
     connect(m_OpdsAccess,
             &IOpdsAccess::badNetworkResponse,this,
             &IOpdsGateway::badNetworkResponse);
+    //send to service
+    connect(m_OpdsAccess,
+        &IOpdsAccess::gettingBookMediaChunkReady,this,
+            &IOpdsGateway::gettingBookMediaChunkReady);
+
+    connect(m_OpdsAccess,
+            &IOpdsAccess::gettingBookMediaProgressChanged, this,
+            &IOpdsGateway::gettingBookMediaProgressChanged);
 }
 
 //convert relative url to absolute
@@ -142,6 +150,10 @@ void OpdsGateway::scaleImage(QImage& img){
     if (img.height() > maxImgHeight || img.width() > maxImgWidth){
         img=img.scaled(QSize(maxImgWidth,maxImgHeight),Qt::KeepAspectRatio);
     }
+}
+
+void  OpdsGateway::getBookMedia(const QString& id,const QUuid& uuid ,const QString& url){
+        m_OpdsAccess->getBookMedia(id,uuid,url);
 }
 
 
