@@ -83,7 +83,8 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
         QVector<QPair<QString,QString>> downloadUrls;
         std::vector<std::pair<std::string,std::string>> link_vec=parser.getDownloadUrlsByID(it->id);
         for(auto it_dLink=link_vec.cbegin();it_dLink != link_vec.cend(); ++it_dLink){
-            downloadUrls.append(QPair(QString(it_dLink->first.c_str()),QString(it_dLink->second.c_str())) );
+            downloadUrls.append(QPair(QString(it_dLink->first.c_str()),
+                                      convertRelativeUrlToAbsolute(it_dLink->second.c_str())) );
         }
         res.emplace_back(
             it->title.c_str(), // title
