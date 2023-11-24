@@ -194,6 +194,14 @@ int main(int argc, char* argv[])
         freeBooksService, &application::IFreeBooksService::clearUserData);
 
     QObject::connect(authenticationService, &application::IAuthenticationService::loggedIn,
+                     opdsService, &application::IOpdsService::setupUserData);
+
+    QObject::connect(authenticationService, &application::IAuthenticationService::loggedOut,
+        opdsService, &application::IOpdsService::clearUserData);
+
+
+
+    QObject::connect(authenticationService, &application::IAuthenticationService::loggedIn,
                      userService, &application::IUserService::setupUserData);
 
     QObject::connect(authenticationService, &application::IAuthenticationService::loggedOut,
