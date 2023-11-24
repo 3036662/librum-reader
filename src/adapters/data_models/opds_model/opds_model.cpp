@@ -71,12 +71,16 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
                 }
             }
         }
-        if (url.isEmpty()){
+        if (url.isEmpty()  && !opdsNode.downloadUrls.isEmpty() ){
             url=opdsNode.downloadUrls.first().second;
         }
         return url;
         }
         break;
+    case MediaDownloadProgressRole:
+        return opdsNode.mediaDownloadProgress;
+    case DownloadedRole:
+        return opdsNode.downloaded;
     default:
         return QVariant();
         break;
@@ -92,7 +96,9 @@ QHash<int, QByteArray> OpdsModel::roleNames() const {
                 {IdRole,"id"},
                 {ImageUrlRole,"imageUrl"},
                 {imgDataReadyRole,"imgDataReady"},
-                {downloadUrlRole,"downloadUrl"}
+                {downloadUrlRole,"downloadUrl"},
+                { MediaDownloadProgressRole, "mediaDownloadProgress" },
+                { DownloadedRole, "downloaded" },
     };
     return roles;
 }
@@ -107,6 +113,16 @@ void OpdsModel::completedDataChange(){
 
 void OpdsModel::refreshNode(int row){
     dataChanged(index(row,0),index(row,0));
+}
+
+void OpdsModel::downloadingBookMediaProgressChanged(int row){
+    emit dataChanged(index(row, 0), index(row, 0),
+                     { MediaDownloadProgressRole });
+}
+
+void OpdsModel::bookIsDownloadedChanged(int row)
+{
+    emit dataChanged(index(row, 0), index(row, 0), { DownloadedRole });
 }
 
 } //namespace adapters::data_models

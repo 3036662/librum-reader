@@ -25,6 +25,8 @@ public:
         ImageUrlRole,
         imgDataReadyRole,
         downloadUrlRole,
+        MediaDownloadProgressRole,
+        DownloadedRole,
     };
 
     OpdsModel() = default;
@@ -38,6 +40,8 @@ public:
         void startedDataChange();
         void completedDataChange();
         void refreshNode(int row);
+        void downloadingBookMediaProgressChanged(int row);
+        void bookIsDownloadedChanged(int row);
 
     signals:
 
