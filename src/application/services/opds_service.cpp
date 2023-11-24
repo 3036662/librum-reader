@@ -1,6 +1,7 @@
 #include "opds_service.hpp"
 #include <algorithm>
 #include <functional>
+#include "save_book_helper.hpp"
 
 namespace application::services {
 
@@ -19,6 +20,15 @@ OpdsService::OpdsService(IOpdsGateway*  opdsGateway)
 
     connect(m_opdsGateway,&IOpdsGateway::badNetworkResponse,
          this,&IOpdsService::badNetworkResponse);
+
+    //call private method
+    connect(m_opdsGateway,&IOpdsGateway::gettingBookMediaChunkReady,this,
+           &OpdsService::saveDownloadedBookMediaChunkToFile);
+
+    connect(m_opdsGateway,
+            &IOpdsGateway::gettingBookMediaProgressChanged, this,
+            &OpdsService::setMediaDownloadProgressForBook);
+
 
 }
 
@@ -196,5 +206,87 @@ const QImage*   OpdsService::getImageDataByImgUrl(const QString& imgUrl) const {
     return itNode != m_opdsNodes.cend() && itNode->imgDataReady  ?  &itNode->imageObj : nullptr;
 }
 
+
+void OpdsService::getBookMedia(const QString& id, const QString& url) {
+    auto uuid = QUuid::createUuid();
+    m_opdsGateway->getBookMedia(id,uuid,url);
+}
+
+void  OpdsService::saveDownloadedBookMediaChunkToFile(const QString& opdsId, const QUuid& uuid,
+                                        const QByteArray& data,
+                                        const QString& format,
+                                                     bool isLastChunk){
+     auto destDir = getLibraryDir();
+     QString fileName = uuid.toString(QUuid::WithoutBraces) + "." + format;
+     auto destination = destDir.filePath(fileName);
+     application::utility::saveDownloadedBookMediaChunkToFile(
+         data, isLastChunk, fileName, destination);
+     if(isLastChunk)
+     {
+         emit gettingBookFinished(QUrl::fromLocalFile(destination).toString(),
+                                  opdsId);
+     }
+
+}
+
+
+void OpdsService::setupUserData(const QString& token, const QString& email)
+{
+    Q_UNUSED(token);
+    m_userEmail = email;
+}
+
+void OpdsService::clearUserData()
+{
+    m_userEmail.clear();
+}
+
+QDir OpdsService::getLibraryDir() const
+{
+    QDir destDir(
+        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation));
+    if(!destDir.exists())
+        destDir.mkpath(".");
+
+    destDir.mkdir("local_libraries");
+    destDir.cd("local_libraries");
+    auto userLibraryName = getUserLibraryName(m_userEmail);
+    destDir.mkdir(userLibraryName);
+    destDir.cd(userLibraryName);
+
+    return destDir.path();
+}
+
+QString OpdsService::getUserLibraryName(const QString& email) const
+{
+    // Hash the email to get a unique user library name
+    auto hash = qHash(email);
+    return QString::number(hash);
+}
+
+
+void OpdsService::setMediaDownloadProgressForBook(const QString& id, qint64 bytesReceived,
+                                     qint64 bytesTotal){
+    auto it_node = std::find_if(m_opdsNodes.begin(), m_opdsNodes.end(),[&id](const OpdsNode& node) {
+        return node.id==id;
+    });
+   if (it_node != m_opdsNodes.end()){
+               it_node->mediaDownloadProgress=static_cast<double>(bytesReceived) / bytesTotal;
+       emit downloadingBookMediaProgressChanged(std::distance(m_opdsNodes.begin(),it_node));
+    }
+}
+
+void  OpdsService::markBookAsDownloaded(const QString& id)  {
+    if (id.isEmpty()) return;
+    auto it_node = std::find_if(m_opdsNodes.begin(), m_opdsNodes.end(),[&id](const OpdsNode& node) {
+        return node.id==id;
+    });
+    if (it_node != m_opdsNodes.end()){
+        it_node->downloaded =true;
+        emit bookIsDownloadedChanged(std::distance(m_opdsNodes.begin(),it_node));
+    }
+
+
+}
 
 }  // namespace application::services
