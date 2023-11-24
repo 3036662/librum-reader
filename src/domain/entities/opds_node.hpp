@@ -16,7 +16,9 @@ struct OpdsNode {
                         const QString& _imageUrl,
                         const QImage& _imageObj =QImage(),
                         const bool _imgDataReady = false,
-             const QVector<QPair<QString,QString>> _downloadUrls =  QVector<QPair<QString,QString>>()
+                        const QVector<QPair<QString,QString>> _downloadUrls =  QVector<QPair<QString,QString>>(),
+                        double  _mediaDownloadProgress = 0.0,
+                        bool _downloaded = false
              )
         :title(_title),
         author(_author),
@@ -24,7 +26,10 @@ struct OpdsNode {
         id{_id},imageUrl(_imageUrl),
         imageObj(_imageObj),
         imgDataReady(_imgDataReady),
-        downloadUrls(_downloadUrls){}
+        downloadUrls(_downloadUrls),
+        mediaDownloadProgress(_mediaDownloadProgress),
+        downloaded(_downloaded){}
+
 
   QString title;
   QString author;
@@ -35,6 +40,8 @@ struct OpdsNode {
   QImage imageObj;
   bool imgDataReady;
   QVector<QPair<QString,QString>> downloadUrls;
+  double mediaDownloadProgress;
+  bool downloaded;
 };
 
 }  // namespace domain::value_objects
