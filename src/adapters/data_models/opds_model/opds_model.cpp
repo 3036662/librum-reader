@@ -52,14 +52,14 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
         //look for epub
         for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
             if (it->first.contains("epub")){
-                url=it->second;
+                url=it->second+"_epub";
             }
         }
         // look for pdf
         if (url.isEmpty()){
             for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
                 if (it->first.contains("pdf")){
-                    url=it->second;
+                    url=it->second+"_pdf";
                 }
             }
         }
@@ -67,7 +67,7 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
         if (url.isEmpty()){
             for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
                 if (it->first.contains("fb2")){
-                    url=it->second;
+                    url=it->second+"_fb2";
                 }
             }
         }
