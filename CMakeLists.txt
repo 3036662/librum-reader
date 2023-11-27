@@ -31,6 +31,8 @@ find_package(Boost REQUIRED)
 # webp image library
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(WEBP REQUIRED IMPORTED_TARGET libwebp)
+# zlib
+find_package(libzip REQUIRED)
 
 
 set(CMAKE_AUTOUIC ON)

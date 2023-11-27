@@ -179,6 +179,7 @@ target_link_libraries(application
                     Qt6::Network
                     rapidfuzz::rapidfuzz
 					tinyxml2::tinyxml2
+					libzip::zip
                     domain
                     ${MUPDF_OUTPUT}
 )
