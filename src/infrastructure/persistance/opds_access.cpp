@@ -3,11 +3,10 @@
 
 namespace infrastructure::persistence{
 
+
 void OpdsAccess::loadRootLib(const QString& url){
    QNetworkRequest request = createRequest(url);
-    m_networkAccessManager.setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
    QNetworkReply* reply = m_networkAccessManager.get(request);
-
 
     connect (reply, &QNetworkReply::finished,this,
            [this,reply](){
@@ -23,12 +22,16 @@ void OpdsAccess::loadRootLib(const QString& url){
                emit  loadOpdsRootFinished(resp);
                reply->deleteLater();
            });
+
+   connect(reply,&QNetworkReply::redirected,this,[this,reply](const QUrl _url){ this->redirected(reply,_url); });
+
 }
 
 
 QNetworkRequest OpdsAccess::createRequest(const QUrl& url){
         QNetworkRequest result { url };
-         result.setAttribute(QNetworkRequest::RedirectPolicyAttribute, true);
+        m_networkAccessManager.setRedirectPolicy(QNetworkRequest::UserVerifiedRedirectPolicy);
+        //result.setTransferTimeout(3000); // 3 sec timeout
          QSslConfiguration sslConfiguration = result.sslConfiguration();
          sslConfiguration.setProtocol(QSsl::AnyProtocol);
          sslConfiguration.setPeerVerifyMode(QSslSocket::QueryPeer);
@@ -39,6 +42,8 @@ QNetworkRequest OpdsAccess::createRequest(const QUrl& url){
 void OpdsAccess::getOpdsImage(const QString& id,const QString& url){
     auto request = createRequest(url);
     QNetworkReply* reply = m_networkAccessManager.get(request);
+
+    connect(reply,&QNetworkReply::redirected,this,[this,reply](const QUrl _url){ this->redirected(reply,_url); });
 
     connect(reply,&QNetworkReply::finished, this, [this,id,url,reply](){
          auto success = !api_error_helper::apiRequestFailed(reply, 200);
@@ -55,9 +60,14 @@ void OpdsAccess::getOpdsImage(const QString& id,const QString& url){
 void OpdsAccess::getBookMedia(const QString& id, const QUuid& uuid, const QString& url){
          auto request = createRequest(url);
          auto reply = m_networkAccessManager.get(request);
+         connect(reply,&QNetworkReply::redirected,this,[this,reply](const QUrl _url){ this->redirected(reply,_url); });
          connect(reply, &QNetworkReply::readyRead, this,
                  [this, reply, id, uuid]()
                  {
+                        QList<QByteArray> headerList = reply->rawHeaderList();
+                         foreach(QByteArray head, headerList) {
+                            QByteArray  header= reply->rawHeader(head);
+                         }
                      if(api_error_helper::apiRequestFailed(reply, 200))
                      {
                          api_error_helper::logErrorMessage(
@@ -86,6 +96,16 @@ void OpdsAccess::getBookMedia(const QString& id, const QUuid& uuid, const QStrin
                                                           bytesTotal);
                  });
 
+         connect (reply, &QNetworkReply::errorOccurred, this, [this](QNetworkReply::NetworkError code){
+             qDebug() << code;
+         });
+
+}
+
+void OpdsAccess::redirected( QNetworkReply* const reply,const QUrl& url){
+    // alow all redirects
+    qDebug() << url.toString();
+    emit reply->redirectAllowed();
 }
 
 

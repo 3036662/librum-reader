@@ -14,9 +14,12 @@ public:
      void getBookMedia(const QString& id, const QUuid& uuid, const QString& url) override;
 
 
+
 private:
      QNetworkAccessManager m_networkAccessManager;
      QNetworkRequest createRequest(const QUrl& url);
+
+     inline void redirected(QNetworkReply* const reply,const QUrl& url);
 };
 
 
