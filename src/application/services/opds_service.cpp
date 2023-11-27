@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <functional>
 #include "save_book_helper.hpp"
+#include <zip.h>
 
 namespace application::services {
 
@@ -223,6 +224,57 @@ void  OpdsService::saveDownloadedBookMediaChunkToFile(const QString& opdsId, con
          data, isLastChunk, fileName, destination);
      if(isLastChunk)
      {
+         // unzip
+         const QString zip_format(".zip");
+         if (format.endsWith(zip_format)){
+             // get target format
+             QString target_format=format.chopped(zip_format.length());
+             int error=0;
+             //open zip
+             zip_t *  zip_struct_pointer =zip_open(destination.toStdString().c_str(),ZIP_RDONLY,&error);
+             if (!zip_struct_pointer){
+                 zip_error_t  zError;
+                 zip_error_init_with_code(&zError, error);
+                 qDebug() << "Error opening zip " <<zip_error_strerror(&zError);
+                 zip_error_fini(&zError);
+                 return;
+             }
+             // check number of files
+             zip_int64_t  numberOfFiles = zip_get_num_entries(zip_struct_pointer,0);
+             if (numberOfFiles<=0){
+                 qDebug() <<"Empty archive";
+                 zip_close (zip_struct_pointer);
+                 return;
+             }
+            // iterate through files
+             zip_int64_t target_file_index=-1;
+             for (zip_int64_t i=0; i <numberOfFiles; ++i  ){
+                 const char * name= zip_get_name(zip_struct_pointer,i,ZIP_FL_ENC_GUESS);
+                 if (!name){
+                        qDebug() <<"Cant read filename in archive";
+                        zip_close (zip_struct_pointer);
+                        return;
+                 }
+                 if (QString(name).endsWith(target_format)){
+                     target_file_index=i;
+                 }
+             }
+             // if not found
+             if (target_file_index<0){
+                 qDebug<< "Cant find file of target format in archive";
+                  zip_close (zip_struct_pointer);
+                 return;
+             }
+             zip_file_t * zipFile= zip_fopen_index(zip_struct_pointer,target_file_index,ZIP_FL_COMPRESSED);
+             if (!zipFile){
+                   qDebug<< "Cant read file in archive";
+                   zip_close (zip_struct_pointer);
+                   return;
+             }
+            // TODO Unpack file
+             zip_fclose(zipFile);
+             zip_close (zip_struct_pointer);
+         }
          emit gettingBookFinished(QUrl::fromLocalFile(destination).toString(),
                                   opdsId);
      }
