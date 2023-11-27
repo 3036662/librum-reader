@@ -19,7 +19,10 @@ private:
      QNetworkAccessManager m_networkAccessManager;
      QNetworkRequest createRequest(const QUrl& url);
 
+     // allow all redirects even to plain http
      inline void redirected(QNetworkReply* const reply,const QUrl& url);
+      // change format of file depending on headers of response
+     inline QString changeFormat(const QNetworkReply*   const reply,const QString& format) const;
 };
 
 

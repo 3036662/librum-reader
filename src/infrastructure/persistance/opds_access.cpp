@@ -57,35 +57,35 @@ void OpdsAccess::getOpdsImage(const QString& id,const QString& url){
     });
 }
 
-void OpdsAccess::getBookMedia(const QString& id, const QUuid& uuid, const QString& url){
+void OpdsAccess::getBookMedia(const QString& id, const QUuid& uuid, const QString& _url){
+    qsizetype format_pos=_url.lastIndexOf("_");
+    if (format_pos <=0) return;
+    QString format=_url.sliced(format_pos+1);
+    QString url=_url.chopped(_url.length()-format_pos);
          auto request = createRequest(url);
          auto reply = m_networkAccessManager.get(request);
-         connect(reply,&QNetworkReply::redirected,this,[this,reply](const QUrl _url){ this->redirected(reply,_url); });
-         connect(reply, &QNetworkReply::readyRead, this,
-                 [this, reply, id, uuid]()
+         connect(reply,&QNetworkReply::redirected,this,[this,reply](const QUrl _rurl){ this->redirected(reply,_rurl); });
+
+        connect(reply, &QNetworkReply::readyRead, this,
+                 [this, reply, id, uuid,format] ()
                  {
-                        QList<QByteArray> headerList = reply->rawHeaderList();
-                         foreach(QByteArray head, headerList) {
-                            QByteArray  header= reply->rawHeader(head);
+
+                         if(api_error_helper::apiRequestFailed(reply, 200))
+                         {
+                             api_error_helper::logErrorMessage(
+                                 reply, "Getting free book's media");
+                            emit badNetworkResponse(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+                             reply->deleteLater();
+                             return;
                          }
-                     if(api_error_helper::apiRequestFailed(reply, 200))
-                     {
-                         api_error_helper::logErrorMessage(
-                             reply, "Getting free book's media");
-                        emit badNetworkResponse(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
-                         reply->deleteLater();
-                         return;
-                     }
-                     emit gettingBookMediaChunkReady(id, uuid, reply->readAll(),
-                                                     "epub", false);
+                         emit gettingBookMediaChunkReady(id, uuid, reply->readAll(),
+                                                         changeFormat(reply,format), false);
                  });
 
          connect(reply, &QNetworkReply::finished, this,
-                 [this, reply, id, uuid]()
+                 [this, reply, id, uuid,format]()
                  {
-                     emit gettingBookMediaChunkReady(id, uuid, QByteArray(), "epub",
-                                                     true);
-
+                     emit gettingBookMediaChunkReady(id, uuid, QByteArray(),changeFormat(reply,format), true);
                      reply->deleteLater();
                  });
 
@@ -102,11 +102,31 @@ void OpdsAccess::getBookMedia(const QString& id, const QUuid& uuid, const QStrin
 
 }
 
+// alow all redirects
 void OpdsAccess::redirected( QNetworkReply* const reply,const QUrl& url){
-    // alow all redirects
+
     qDebug() << url.toString();
     emit reply->redirectAllowed();
 }
 
+// change format depending on response headers
+QString OpdsAccess::changeFormat(const QNetworkReply*   const reply,const QString& format) const{
+    QString  content_type=QString( reply->rawHeader("content-type"));
+    QString new_format;
+    if (content_type.isEmpty()){
+        qDebug() << "bad content type";
+       return QString();
+    }
+    if (content_type.contains("octet-stream")){
+        return format;
+    }
+    else if (content_type.contains("text/html")){
+        return "html";
+    }
+    else if (content_type.contains("zip")){
+        return format+".zip";
+    }
+    return QString();
+}
 
 } // namespace infrastructure::persistence
