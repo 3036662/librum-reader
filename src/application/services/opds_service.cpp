@@ -2,182 +2,205 @@
 #include <algorithm>
 #include <functional>
 #include "save_book_helper.hpp"
-#include <zip.h>
+#include "zip_unpacker.hpp"
 
-namespace application::services {
+namespace application::services
+{
 
 
-
-OpdsService::OpdsService(IOpdsGateway*  opdsGateway)
+OpdsService::OpdsService(IOpdsGateway* opdsGateway)
     : m_opdsGateway(opdsGateway)
 {
-    connect(
-        m_opdsGateway,&IOpdsGateway::parsingXmlDomCompleted,
-        this, &IOpdsService::processNodes);
+    connect(m_opdsGateway, &IOpdsGateway::parsingXmlDomCompleted, this,
+            &IOpdsService::processNodes);
 
-    connect(
-        m_opdsGateway,&IOpdsGateway::gettingOpdsImagedFinished,
-        this, &OpdsService::setOpdsNodeCover);
+    connect(m_opdsGateway, &IOpdsGateway::gettingOpdsImagedFinished, this,
+            &OpdsService::setOpdsNodeCover);
 
-    connect(m_opdsGateway,&IOpdsGateway::badNetworkResponse,
-         this,&IOpdsService::badNetworkResponse);
+    connect(m_opdsGateway, &IOpdsGateway::badNetworkResponse, this,
+            &IOpdsService::badNetworkResponse);
 
-    //call private method
-    connect(m_opdsGateway,&IOpdsGateway::gettingBookMediaChunkReady,this,
-           &OpdsService::saveDownloadedBookMediaChunkToFile);
+    // call private method
+    connect(m_opdsGateway, &IOpdsGateway::gettingBookMediaChunkReady, this,
+            &OpdsService::saveDownloadedBookMediaChunkToFile);
 
-    connect(m_opdsGateway,
-            &IOpdsGateway::gettingBookMediaProgressChanged, this,
+    connect(m_opdsGateway, &IOpdsGateway::gettingBookMediaProgressChanged, this,
             &OpdsService::setMediaDownloadProgressForBook);
-
-
 }
 
-
-
-const std::vector<OpdsNode>&   OpdsService::getOpdsNodes() {
-  historyStack.push_back(rootNode);
-  loadRootNodesFromFile();
-  return m_opdsNodes;
+const std::vector<OpdsNode>& OpdsService::getOpdsNodes()
+{
+    historyStack.push_back(rootNode);
+    loadRootNodesFromFile();
+    return m_opdsNodes;
 }
 
-void OpdsService::loadRootNodesFromFile() {
-  m_opdsNodes.clear();
-  const QString localAppFolder =
-      QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-  const QDir destDir(localAppFolder);
-  if (!destDir.exists()) destDir.mkpath(".");
-  const QString filepath = destDir.filePath("opds.json");
-  QFile opdsFile(filepath);
-  if (!opdsFile.exists()) {
-    qDebug() << "Json file not found";
+void OpdsService::loadRootNodesFromFile()
+{
     m_opdsNodes.clear();
-    return;
-  }
-  QJsonParseError jsonParseError;
-  QJsonDocument jsonDoc;
-  // open file
-  if (opdsFile.open(QIODevice::ReadOnly)) {
-    QByteArray bytesFromFile = opdsFile.readAll();
-    if (bytesFromFile.isEmpty()) {
-      qDebug() << "Opds libs json file is empty";
-      return;
+    const QString localAppFolder =
+        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    const QDir destDir(localAppFolder);
+    if(!destDir.exists())
+        destDir.mkpath(".");
+    const QString filepath = destDir.filePath("opds.json");
+    QFile opdsFile(filepath);
+    if(!opdsFile.exists())
+    {
+        qDebug() << "Json file not found";
+        m_opdsNodes.clear();
+        return;
     }
-    jsonDoc = QJsonDocument::fromJson(bytesFromFile, &jsonParseError);
-    if (jsonDoc.isNull()) {
-      qDebug() << "Can't parse opds libs json file. "
-               << jsonParseError.errorString();
-      return;
+    QJsonParseError jsonParseError;
+    QJsonDocument jsonDoc;
+    // open file
+    if(opdsFile.open(QIODevice::ReadOnly))
+    {
+        QByteArray bytesFromFile = opdsFile.readAll();
+        if(bytesFromFile.isEmpty())
+        {
+            qDebug() << "Opds libs json file is empty";
+            return;
+        }
+        jsonDoc = QJsonDocument::fromJson(bytesFromFile, &jsonParseError);
+        if(jsonDoc.isNull())
+        {
+            qDebug() << "Can't parse opds libs json file. "
+                     << jsonParseError.errorString();
+            return;
+        }
     }
-  } else {
-    qDebug() << "Can't open opds libs json file.";
-    return;
-  }
-  opdsFile.close();
-  const QJsonArray libsJsonArray = jsonDoc.array();
-  if (libsJsonArray.isEmpty()) {
-    qDebug() << "libs array is empty";
-    return;
-  }
-  // create nodes
-  for (auto it = libsJsonArray.cbegin(); it != libsJsonArray.cend(); ++it) {
-    QJsonObject lib(it->toObject());
-    if (lib.isEmpty()) continue;
-    m_opdsNodes.emplace_back(lib.value("title").toString(),
-                             "", // author
-                             lib.value("url").toString(), // url
-                             lib.value("descr").toString(), // descr
-                             "", ""
-                             );
-  }
+    else
+    {
+        qDebug() << "Can't open opds libs json file.";
+        return;
+    }
+    opdsFile.close();
+    const QJsonArray libsJsonArray = jsonDoc.array();
+    if(libsJsonArray.isEmpty())
+    {
+        qDebug() << "libs array is empty";
+        return;
+    }
+    // create nodes
+    for(auto it = libsJsonArray.cbegin(); it != libsJsonArray.cend(); ++it)
+    {
+        QJsonObject lib(it->toObject());
+        if(lib.isEmpty())
+            continue;
+        m_opdsNodes.emplace_back(lib.value("title").toString(),
+                                 "",  // author
+                                 lib.value("url").toString(),  // url
+                                 lib.value("descr").toString(),  // descr
+                                 "", "");
+    }
 }
-
 
 // load  entries and links for url
-void OpdsService::loadRootLib(const QString& url){
-   // go to root -> load from json file
-  if (url.isEmpty())
-    return;
-  if (url== "url_root"){
-    emit  nodesVecReplaceStarted();
-    historyStack.clear();
-    historyStack.push_back(rootNode);
-    m_opdsNodes.clear();
-    loadRootNodesFromFile();
-    emit opdsNodesReady();
-    return;
-  }
-  // go back remove current node from history
-  if (historyStack.size()>=2 &&   historyStack[historyStack.size()-2].url==url ){
+void OpdsService::loadRootLib(const QString& url)
+{
+    // go to root -> load from json file
+    if(url.isEmpty())
+        return;
+    if(url == "url_root")
+    {
+        emit nodesVecReplaceStarted();
+        historyStack.clear();
+        historyStack.push_back(rootNode);
+        m_opdsNodes.clear();
+        loadRootNodesFromFile();
+        emit opdsNodesReady();
+        return;
+    }
+    // go back remove current node from history
+    if(historyStack.size() >= 2 &&
+       historyStack[historyStack.size() - 2].url == url)
+    {
         historyStack.pop_back();
-  }
-  //  push current to history
-  else {
-    OpdsNode  curr_target=findNodeByUrl(url);
-    curr_target.title="..";
-    historyStack.push_back(curr_target);
-  }
-  m_opdsGateway->loadRootlib(url);
+    }
+    //  push current to history
+    else
+    {
+        OpdsNode curr_target = findNodeByUrl(url);
+        curr_target.title = "..";
+        historyStack.push_back(curr_target);
+    }
+    m_opdsGateway->loadRootlib(url);
 }
 
-//process nodes  recieved from the Gateway
-void OpdsService::processNodes
-    (const std::vector<OpdsNode>& nodes_vec) {
-  emit  nodesVecReplaceStarted();
-  m_opdsNodes.clear();
-  if (historyStack.size()>=2){
-    m_opdsNodes.push_back(rootNode);
-    OpdsNode backNode=historyStack[historyStack.size()-2];
-    if (rootNode.url != backNode.url )
-        m_opdsNodes.push_back(backNode);
-  }
-  std::copy(nodes_vec.cbegin(),nodes_vec.cend(),std::back_inserter(m_opdsNodes));
-  emit opdsNodesReady();
+// process nodes  recieved from the Gateway
+void OpdsService::processNodes(const std::vector<OpdsNode>& nodes_vec)
+{
+    emit nodesVecReplaceStarted();
+    m_opdsNodes.clear();
+    if(historyStack.size() >= 2)
+    {
+        m_opdsNodes.push_back(rootNode);
+        OpdsNode backNode = historyStack[historyStack.size() - 2];
+        if(rootNode.url != backNode.url)
+            m_opdsNodes.push_back(backNode);
+    }
+    std::copy(nodes_vec.cbegin(), nodes_vec.cend(),
+              std::back_inserter(m_opdsNodes));
+    emit opdsNodesReady();
 }
 
-const OpdsNode OpdsService::findNodeByUrl(const QString& url) const{
-  auto it=std::find_if(m_opdsNodes.cbegin(),m_opdsNodes.cend(), [&url](const OpdsNode& node){
-                    return node.url == url;
-               });
-  return it  == m_opdsNodes.end() ? OpdsNode() : *it;
+const OpdsNode OpdsService::findNodeByUrl(const QString& url) const
+{
+    auto it = std::find_if(m_opdsNodes.cbegin(), m_opdsNodes.cend(),
+                           [&url](const OpdsNode& node)
+                           {
+                               return node.url == url;
+                           });
+    return it == m_opdsNodes.end() ? OpdsNode() : *it;
 }
 
-
-void OpdsService::getNodeImage(const QString& id){
-    auto itNode= std::find_if(m_opdsNodes.begin(),m_opdsNodes.end(), [&id](const OpdsNode& node){
-        return node.id == id;
-    });
+void OpdsService::getNodeImage(const QString& id)
+{
+    auto itNode = std::find_if(m_opdsNodes.begin(), m_opdsNodes.end(),
+                               [&id](const OpdsNode& node)
+                               {
+                                   return node.id == id;
+                               });
     // if found and has imageUrl
-    if (itNode != m_opdsNodes.end() && !(itNode->imageUrl).isEmpty() ){
+    if(itNode != m_opdsNodes.end() && !(itNode->imageUrl).isEmpty())
+    {
         // TODO Handle data uri
         // for data uri
-        if (itNode->imageUrl.startsWith("data:")){
-            QByteArray data=itNode->imageUrl.toUtf8();
-            qsizetype start_index=itNode->imageUrl.indexOf(',');
-            if (start_index>0){
-                    data.remove(0,start_index+1);
-                    data=data.fromBase64(data);
-                    if (!data.isEmpty()){
-                        QImage image;
-                        image.loadFromData(data);
-                        if (!image.isNull()){
-                            m_opdsGateway->scaleImage(image);
-                            itNode->imageObj=std::move(image);
-                            itNode->imageUrl=std::to_string(std::hash<QString>{}( itNode->imageUrl)).c_str();
-                            itNode->imgDataReady=true;
-                            emit dataChanged(std::distance(m_opdsNodes.begin(),  itNode));
-                        }
+        if(itNode->imageUrl.startsWith("data:"))
+        {
+            QByteArray data = itNode->imageUrl.toUtf8();
+            qsizetype start_index = itNode->imageUrl.indexOf(',');
+            if(start_index > 0)
+            {
+                data.remove(0, start_index + 1);
+                data = data.fromBase64(data);
+                if(!data.isEmpty())
+                {
+                    QImage image;
+                    image.loadFromData(data);
+                    if(!image.isNull())
+                    {
+                        m_opdsGateway->scaleImage(image);
+                        itNode->imageObj = std::move(image);
+                        itNode->imageUrl = std::to_string(std::hash<QString> {}(
+                                                              itNode->imageUrl))
+                                               .c_str();
+                        itNode->imgDataReady = true;
+                        emit dataChanged(
+                            std::distance(m_opdsNodes.begin(), itNode));
                     }
+                }
             }
         }
-        m_opdsGateway->getOpdsImage(id,itNode->imageUrl);
+        m_opdsGateway->getOpdsImage(id, itNode->imageUrl);
     }
 }
 
 /*
 void OpdsService::deleteNodeImage(const QString &id){
-    auto itNode= std::find_if(m_opdsNodes.begin(),m_opdsNodes.end(), [&id](const OpdsNode& node){
-        return node.id == id;
+    auto itNode= std::find_if(m_opdsNodes.begin(),m_opdsNodes.end(), [&id](const
+OpdsNode& node){ return node.id == id;
     });
     // if found
     if (itNode != m_opdsNodes.end()){
@@ -186,101 +209,70 @@ void OpdsService::deleteNodeImage(const QString &id){
 }*/
 
 
-
-void  OpdsService::setOpdsNodeCover(const QString& id, const QImage &data){
-    auto itNode= std::find_if(m_opdsNodes.begin(),m_opdsNodes.end(), [&id](const OpdsNode& node){
-        return node.id == id;
-    });
+void OpdsService::setOpdsNodeCover(const QString& id, const QImage& data)
+{
+    auto itNode = std::find_if(m_opdsNodes.begin(), m_opdsNodes.end(),
+                               [&id](const OpdsNode& node)
+                               {
+                                   return node.id == id;
+                               });
 
     // if node was not found
-    if (itNode == m_opdsNodes.end()) return;
+    if(itNode == m_opdsNodes.end())
+        return;
     // if found - set image
     itNode->imageObj = std::move(data);
     itNode->imgDataReady = true;
-    emit dataChanged(std::distance(m_opdsNodes.begin(),  itNode));
+    emit dataChanged(std::distance(m_opdsNodes.begin(), itNode));
 }
 
-const QImage*   OpdsService::getImageDataByImgUrl(const QString& imgUrl) const {
-    auto itNode= std::find_if(m_opdsNodes.cbegin(),m_opdsNodes.cend(), [&imgUrl](const OpdsNode& node){
-        return node.imageUrl == imgUrl;
-    });
-    return itNode != m_opdsNodes.cend() && itNode->imgDataReady  ?  &itNode->imageObj : nullptr;
+const QImage* OpdsService::getImageDataByImgUrl(const QString& imgUrl) const
+{
+    auto itNode = std::find_if(m_opdsNodes.cbegin(), m_opdsNodes.cend(),
+                               [&imgUrl](const OpdsNode& node)
+                               {
+                                   return node.imageUrl == imgUrl;
+                               });
+    return itNode != m_opdsNodes.cend() && itNode->imgDataReady
+               ? &itNode->imageObj
+               : nullptr;
 }
 
-
-void OpdsService::getBookMedia(const QString& id, const QString& url) {
+void OpdsService::getBookMedia(const QString& id, const QString& url)
+{
     auto uuid = QUuid::createUuid();
-    m_opdsGateway->getBookMedia(id,uuid,url);
+    m_opdsGateway->getBookMedia(id, uuid, url);
 }
 
-void  OpdsService::saveDownloadedBookMediaChunkToFile(const QString& opdsId, const QUuid& uuid,
-                                        const QByteArray& data,
-                                        const QString& format,
-                                                     bool isLastChunk){
-     auto destDir = getLibraryDir();
-     QString fileName = uuid.toString(QUuid::WithoutBraces) + "." + format;
-     auto destination = destDir.filePath(fileName);
-     application::utility::saveDownloadedBookMediaChunkToFile(
-         data, isLastChunk, fileName, destination);
-     if(isLastChunk)
-     {
-         // unzip
-         const QString zip_format(".zip");
-         if (format.endsWith(zip_format)){
-             // get target format
-             QString target_format=format.chopped(zip_format.length());
-             int error=0;
-             //open zip
-             zip_t *  zip_struct_pointer =zip_open(destination.toStdString().c_str(),ZIP_RDONLY,&error);
-             if (!zip_struct_pointer){
-                 zip_error_t  zError;
-                 zip_error_init_with_code(&zError, error);
-                 qDebug() << "Error opening zip " <<zip_error_strerror(&zError);
-                 zip_error_fini(&zError);
-                 return;
-             }
-             // check number of files
-             zip_int64_t  numberOfFiles = zip_get_num_entries(zip_struct_pointer,0);
-             if (numberOfFiles<=0){
-                 qDebug() <<"Empty archive";
-                 zip_close (zip_struct_pointer);
-                 return;
-             }
-            // iterate through files
-             zip_int64_t target_file_index=-1;
-             for (zip_int64_t i=0; i <numberOfFiles; ++i  ){
-                 const char * name= zip_get_name(zip_struct_pointer,i,ZIP_FL_ENC_GUESS);
-                 if (!name){
-                        qDebug() <<"Cant read filename in archive";
-                        zip_close (zip_struct_pointer);
-                        return;
-                 }
-                 if (QString(name).endsWith(target_format)){
-                     target_file_index=i;
-                 }
-             }
-             // if not found
-             if (target_file_index<0){
-                 qDebug<< "Cant find file of target format in archive";
-                  zip_close (zip_struct_pointer);
-                 return;
-             }
-             zip_file_t * zipFile= zip_fopen_index(zip_struct_pointer,target_file_index,ZIP_FL_COMPRESSED);
-             if (!zipFile){
-                   qDebug<< "Cant read file in archive";
-                   zip_close (zip_struct_pointer);
-                   return;
-             }
-            // TODO Unpack file
-             zip_fclose(zipFile);
-             zip_close (zip_struct_pointer);
-         }
-         emit gettingBookFinished(QUrl::fromLocalFile(destination).toString(),
-                                  opdsId);
-     }
+void OpdsService::saveDownloadedBookMediaChunkToFile(const QString& opdsId,
+                                                     const QUuid& uuid,
+                                                     const QByteArray& data,
+                                                     const QString& format,
+                                                     bool isLastChunk)
+{
+    auto destDir = getLibraryDir();
+    QString fileName = uuid.toString(QUuid::WithoutBraces) + "." +
+                       format;  //.epub.zip  or .epub
+    auto destination = destDir.filePath(fileName);
+    application::utility::saveDownloadedBookMediaChunkToFile(
+        data, isLastChunk, fileName, destination);
+    // finished downloading
 
-}
+    if(isLastChunk)
+    {
+        // unzipped if zipped
+        QString unzipped_dest = application::utility::opds::unzipFile(
+            destination, format, destDir, uuid.toString(QUuid::WithoutBraces));
+        if(!unzipped_dest.isEmpty())
+        {
+            destination = unzipped_dest;
+        }
 
+        emit gettingBookFinished(QUrl::fromLocalFile(destination).toString(),
+                                 opdsId);
+
+    }  //    if(isLastChunk)
+}  // OpdsService::saveDownloadedBookMediaChunkToFile
 
 void OpdsService::setupUserData(const QString& token, const QString& email)
 {
@@ -316,29 +308,39 @@ QString OpdsService::getUserLibraryName(const QString& email) const
     return QString::number(hash);
 }
 
-
-void OpdsService::setMediaDownloadProgressForBook(const QString& id, qint64 bytesReceived,
-                                     qint64 bytesTotal){
-    auto it_node = std::find_if(m_opdsNodes.begin(), m_opdsNodes.end(),[&id](const OpdsNode& node) {
-        return node.id==id;
-    });
-   if (it_node != m_opdsNodes.end()){
-               it_node->mediaDownloadProgress=static_cast<double>(bytesReceived) / bytesTotal;
-       emit downloadingBookMediaProgressChanged(std::distance(m_opdsNodes.begin(),it_node));
+void OpdsService::setMediaDownloadProgressForBook(const QString& id,
+                                                  qint64 bytesReceived,
+                                                  qint64 bytesTotal)
+{
+    auto it_node = std::find_if(m_opdsNodes.begin(), m_opdsNodes.end(),
+                                [&id](const OpdsNode& node)
+                                {
+                                    return node.id == id;
+                                });
+    if(it_node != m_opdsNodes.end())
+    {
+        it_node->mediaDownloadProgress =
+            static_cast<double>(bytesReceived) / bytesTotal;
+        emit downloadingBookMediaProgressChanged(
+            std::distance(m_opdsNodes.begin(), it_node));
     }
 }
 
-void  OpdsService::markBookAsDownloaded(const QString& id)  {
-    if (id.isEmpty()) return;
-    auto it_node = std::find_if(m_opdsNodes.begin(), m_opdsNodes.end(),[&id](const OpdsNode& node) {
-        return node.id==id;
-    });
-    if (it_node != m_opdsNodes.end()){
-        it_node->downloaded =true;
-        emit bookIsDownloadedChanged(std::distance(m_opdsNodes.begin(),it_node));
+void OpdsService::markBookAsDownloaded(const QString& id)
+{
+    if(id.isEmpty())
+        return;
+    auto it_node = std::find_if(m_opdsNodes.begin(), m_opdsNodes.end(),
+                                [&id](const OpdsNode& node)
+                                {
+                                    return node.id == id;
+                                });
+    if(it_node != m_opdsNodes.end())
+    {
+        it_node->downloaded = true;
+        emit bookIsDownloadedChanged(
+            std::distance(m_opdsNodes.begin(), it_node));
     }
-
-
 }
 
 }  // namespace application::services
