@@ -70,6 +70,8 @@ set(application_SRC
     utility/opds_structs.cpp
      utility/opds_image_provider.hpp
      utility/opds_image_provider.cpp
+     utility/zip_unpacker.hpp
+     utility/zip_unpacker.cpp
     
     core/page_generator.hpp
     core/page_generator.cpp
