@@ -170,6 +170,7 @@ BookOperationStatus LibraryService::deleteBook(const QUuid& uuid)
         .uuid = book->getUuid(),
         .downloaded = book->isDownloaded(),
         .format = book->getFormat(),
+        .filepath = book->getFilePath()
     };
 
     auto bookPosition = getBookPosition(uuid);
@@ -724,6 +725,7 @@ void LibraryService::deleteBookLocally(const domain::entities::Book& book)
         .uuid = book.getUuid(),
         .downloaded = book.isDownloaded(),
         .format = book.getFormat(),
+        .filepath = book.getFilePath()
     };
 
     auto bookPosition = getBookPosition(book.getUuid());
