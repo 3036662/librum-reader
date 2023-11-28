@@ -141,6 +141,8 @@ void LibraryStorageManager::deleteBookFile(const QUuid& uuid,
     bookFileToDelete.remove();
 }
 
+
+
 void LibraryStorageManager::addBook(const Book& bookToAdd)
 {
     // Prevent adding remote books to the local library unless "downloaded" is
@@ -177,14 +179,17 @@ void LibraryStorageManager::deleteAllBooks()
 void LibraryStorageManager::deleteBookLocally(BookForDeletion bookToDelete)
 {
     m_downloadedBooksTracker->untrackBook(bookToDelete.uuid);
-    deleteBookFile(bookToDelete.uuid, bookToDelete.format);
+    if (!QFile(bookToDelete.filepath).remove())
+        deleteBookFile(bookToDelete.uuid, bookToDelete.format);
     deleteBookCoverLocally(bookToDelete.uuid);
 }
 
 void LibraryStorageManager::uninstallBook(const Book& book)
 {
     m_downloadedBooksTracker->untrackBook(book.getUuid());
-    deleteBookFile(book.getUuid(), book.getFormat());
+    if (!QFile(book.getFilePath()).remove())
+        deleteBookFile(book.getUuid(), book.getFormat());
+
 }
 
 void LibraryStorageManager::downloadBookMedia(const QUuid& uuid)
