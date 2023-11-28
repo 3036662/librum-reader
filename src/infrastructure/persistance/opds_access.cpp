@@ -31,7 +31,7 @@ void OpdsAccess::loadRootLib(const QString& url){
 QNetworkRequest OpdsAccess::createRequest(const QUrl& url){
         QNetworkRequest result { url };
         m_networkAccessManager.setRedirectPolicy(QNetworkRequest::UserVerifiedRedirectPolicy);
-        //result.setTransferTimeout(3000); // 3 sec timeout
+        result.setTransferTimeout(3000); // 3 sec timeout
          QSslConfiguration sslConfiguration = result.sslConfiguration();
          sslConfiguration.setProtocol(QSsl::AnyProtocol);
          sslConfiguration.setPeerVerifyMode(QSslSocket::QueryPeer);
@@ -85,6 +85,14 @@ void OpdsAccess::getBookMedia(const QString& id, const QUuid& uuid, const QStrin
          connect(reply, &QNetworkReply::finished, this,
                  [this, reply, id, uuid,format]()
                  {
+                    if(api_error_helper::apiRequestFailed(reply, 200))
+                    {
+                        api_error_helper::logErrorMessage(
+                            reply, "Getting free book's media");
+                        emit badNetworkResponse(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+                        reply->deleteLater();
+                        return;
+                    }
                      emit gettingBookMediaChunkReady(id, uuid, QByteArray(),changeFormat(reply,format), true);
                      reply->deleteLater();
                  });
@@ -92,11 +100,14 @@ void OpdsAccess::getBookMedia(const QString& id, const QUuid& uuid, const QStrin
          connect(reply, &QNetworkReply::downloadProgress, this,
                  [this, id](qint64 bytesReceived, qint64 bytesTotal)
                  {
-                     emit gettingBookMediaProgressChanged(id, bytesReceived,
-                                                          bytesTotal);
+                     if (bytesTotal >0)
+                         emit gettingBookMediaProgressChanged(id, bytesReceived,
+                                                              bytesTotal);
                  });
 
-         connect (reply, &QNetworkReply::errorOccurred, this, [this](QNetworkReply::NetworkError code){
+         connect (reply, &QNetworkReply::errorOccurred, this, [this,reply](QNetworkReply::NetworkError code){
+             emit badNetworkResponse(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt());
+             reply->deleteLater();
              qDebug() << code;
          });
 
