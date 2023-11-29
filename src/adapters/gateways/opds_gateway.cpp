@@ -105,14 +105,14 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
     // search  result arrays for dublicates
     for (auto it = res.begin(); it != res.end(); ++it){
         auto it2 = std::find_if(it,res.end(), [&it](const OpdsNode& node1){
-            if (   it->title == node1.title && it->author == it->author && it->imageUrl == node1.imageUrl && it->id!=node1.id){
-                     //TODO merge urls to node
+            if (it->title == node1.title && it->author == it->author && it->imageUrl == node1.imageUrl && it->id!=node1.id){
                     return true;
             }
             else return false;
         });
         // delete duplicate after meging
         if (it2 != res.end() &&  it2 != it){
+             it->downloadUrls+=it2->downloadUrls;
             res.erase(it2);
         }
     }
@@ -122,9 +122,7 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
 
 
 void OpdsGateway::getOpdsImage(const QString& id,const QString& url){
-   // if (boost::ends_with(url,".jpg") || boost::ends_with(url,".jpeg") ){
     m_OpdsAccess->getOpdsImage(id,url);
-    //}
 }
 
 void OpdsGateway::processOpdsImage(const QString& id,const QString & url, const QByteArray& data){
