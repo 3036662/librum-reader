@@ -131,6 +131,7 @@ Page {
                                 downloadOpdsBookPopup.bookId = model.id
                                 downloadOpdsBookPopup.title = model.title
                                 downloadOpdsBookPopup.authors = model.author
+                                downloadOpdsBookPopup.description = model.descr
                                // downloadOpdsBookPopup.languages = model.languages
                                 downloadOpdsBookPopup.cover =model.imgDataReady  === false ? "" : "image://opds_image_provider/" + model.imageUrl
                                // downloadOpdsBookPopup.downloadCount = model.downloadCount

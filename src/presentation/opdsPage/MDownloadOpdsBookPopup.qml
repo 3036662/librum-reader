@@ -16,6 +16,7 @@ Popup {
     property var cover
     property int downloadCount
     property string downloadLink
+    property string description
 
     implicitWidth: 751
     implicitHeight: layout.height
@@ -111,7 +112,7 @@ Popup {
 
                         ScrollView {
                             id: bookInformation
-                            Layout.preferredHeight: 263
+                            Layout.preferredHeight: 363
                             Layout.fillWidth: true
                             Layout.topMargin: -4
                             contentWidth: width
@@ -165,60 +166,49 @@ Popup {
                                     readOnly: true
                                 }
 
-//                                MLabeledInputBox {
-//                                    id: languageField
-//                                    Layout.fillWidth: true
-//                                    boxHeight: 34
-//                                    headerText: "Language"
-//                                    headerFontWeight: Font.Bold
-//                                    headerFontSize: Fonts.size11dot5
-//                                    text: root.languages
-//                                    headerToBoxSpacing: 3
-//                                    inputFontSize: Fonts.size12
-//                                    inputFontColor: Style.colorReadOnlyInputText
-//                                    textPadding: 12
-//                                    borderWidth: 1
-//                                    borderRadius: 4
-//                                    readOnly: true
-//                                }
-
-//                                MLabeledInputBox {
-//                                    id: publicationField
-//                                    Layout.fillWidth: true
-//                                    boxHeight: 34
-//                                    headerText: "Downloads"
-//                                    headerFontWeight: Font.Bold
-//                                    headerFontSize: Fonts.size11dot5
-//                                    text: root.downloadCount
-//                                    headerToBoxSpacing: 3
-//                                    inputFontSize: Fonts.size12
-//                                    inputFontColor: Style.colorReadOnlyInputText
-//                                    textPadding: 12
-//                                    borderWidth: 1
-//                                    borderRadius: 4
-//                                    readOnly: true
-//                                }
-
-//                                MLabeledInputBox {
-//                                    id: formatField
-//                                    Layout.fillWidth: true
-//                                    Layout.bottomMargin: 3
-//                                    boxHeight: 34
-//                                    headerText: "Format"
-//                                    headerFontWeight: Font.Bold
-//                                    headerFontSize: Fonts.size11dot5
-//                                    text: "EPUB"
-//                                    headerToBoxSpacing: 3
-//                                    inputFontSize: Fonts.size12
-//                                    inputFontColor: Style.colorReadOnlyInputText
-//                                    textPadding: 12
-//                                    borderWidth: 1
-//                                    borderRadius: 4
-//                                    readOnly: true
-//                                }
+                                Pane {
+                                    id: descriptionField
+                                    Layout.fillWidth: true
+                                    Layout.fillHeight: true
+                                    Layout.preferredHeight: 200
+                                    background: Rectangle {
+                                        id: backgroundRect
+                                        border.width: 1
+                                        border.color: Style.colorContainerBorder
+                                        radius: 5
+                                        color: Style.colorControlBackground
+                                    }
+                                    RowLayout {
+                                        anchors.fill: parent
+                                        Flickable {
+                                            Layout.fillWidth: true
+                                            Layout.fillHeight: true
+                                            clip: true
+                                            TextArea.flickable: TextArea {
+                                                Layout.fillWidth: true
+                                                leftPadding: 15
+                                                rightPadding: 15
+                                                selectByMouse: true
+                                                readOnly: true
+                                                color: Style.colorBaseInputText
+                                                font.pointSize: Fonts.size12
+                                                font.weight: Font.Normal
+                                                text: root.description
+                                                wrapMode: TextEdit.Wrap
+                                                selectionColor: Style.colorTextSelection
+                                                selectedTextColor: Style.colorBaseInputText
+                                                background: Rectangle {
+                                                    anchors.fill: parent
+                                                    radius: 5
+                                                    color: "transparent"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
-                   }
+                    }
 
                     RowLayout {
                         id: buttonsLayout
