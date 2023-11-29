@@ -193,7 +193,12 @@ void OpdsService::getNodeImage(const QString& id)
                 }
             }
         }
-        m_opdsGateway->getOpdsImage(id, itNode->imageUrl);
+        else if (itNode->imgDataReady){
+            emit dataChanged(std::distance(m_opdsNodes.begin(), itNode));
+        }
+        else{
+            m_opdsGateway->getOpdsImage(id, itNode->imageUrl);
+        }
     }
 }
 
