@@ -86,10 +86,13 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
             downloadUrls.append(QPair(QString(it_dLink->first.c_str()),
                                       convertRelativeUrlToAbsolute(it_dLink->second.c_str())) );
         }
+       QString browseUrl= convertRelativeUrlToAbsolute(parser.getEntryUrlByID(it->id) );
+        if (browseUrl.isEmpty() && downloadUrls.empty())
+            continue;
         res.emplace_back(
             it->title.c_str(), // title
             std::move(authors), // author
-            convertRelativeUrlToAbsolute(parser.getEntryUrlByID(it->id) ), // url
+            std::move(browseUrl) , // url
             it->content.empty()  ? it->title.c_str() : it->content[0].text.c_str(), // content
             it->id.c_str(), // id
             parser.getImageUrlByID(it->id).empty() ? "" : convertRelativeUrlToAbsolute(parser.getImageUrlByID(it->id)), // imageUrl
