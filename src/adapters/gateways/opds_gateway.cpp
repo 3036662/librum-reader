@@ -2,6 +2,7 @@
 #include "opdsparser.hpp"
 #include <webp/decode.h>
 #include <QBuffer>
+#include <QTextDocument>
 #include <iterator>
 
 
@@ -41,7 +42,6 @@ void OpdsGateway::convertRelativeUrlToAbsolute(QString& url){
     if (baseurl.isValid() && !baseurl.isEmpty() && !baseurl.isRelative() ){
         new_url.setScheme(baseurl.scheme());
         new_url.setHost(baseurl.host());
-
         url = new_url.toString();
     }
 }
@@ -89,11 +89,23 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
        QString browseUrl= convertRelativeUrlToAbsolute(parser.getEntryUrlByID(it->id) );
         if (browseUrl.isEmpty() && downloadUrls.empty())
             continue;
+        // convert html content to plain text
+        QString content;
+        if (! it->content.empty()){
+            QTextDocument doc;
+            for (auto it_content=it->content.cbegin();it_content!=it->content.cend();++it_content){
+                doc.setHtml(it_content->text.c_str());
+                content+=doc.toPlainText();
+                if (content.size()>200) break;
+            }
+        }
+
         res.emplace_back(
             it->title.c_str(), // title
             std::move(authors), // author
             std::move(browseUrl) , // url
-            it->content.empty()  ? it->title.c_str() : it->content[0].text.c_str(), // content
+           // it->content.empty()  ? it->title.c_str() : it->content[0].text.c_str(), // content
+            content.isEmpty() ? it->title.c_str() : std::move(content),
             it->id.c_str(), // id
             parser.getImageUrlByID(it->id).empty() ? "" : convertRelativeUrlToAbsolute(parser.getImageUrlByID(it->id)), // imageUrl
             QImage(),
@@ -113,19 +125,19 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
 
 
     // search  result arrays for dublicates
-    for (auto it = res.begin(); it != res.end(); ++it){
-        auto it2 = std::find_if(it,res.end(), [&it](const OpdsNode& node1){
-            if (it->title == node1.title && it->author == it->author && it->imageUrl == node1.imageUrl && it->id!=node1.id){
-                    return true;
-            }
-            else return false;
-        });
-        // delete duplicate after meging
-        if (it2 != res.end() &&  it2 != it){
-             it->downloadUrls+=it2->downloadUrls;
-            res.erase(it2);
-        }
-    }
+//    for (auto it = res.begin(); it != res.end(); ++it){
+//        auto it2 = std::find_if(it,res.end(), [&it](const OpdsNode& node1){
+//            if (it->title == node1.title && it->author == it->author && it->imageUrl == node1.imageUrl && it->id!=node1.id){
+//                    return true;
+//            }
+//            else return false;
+//        });
+//        // delete duplicate after meging
+//        if (it2 != res.end() &&  it2 != it){
+//             it->downloadUrls+=it2->downloadUrls;
+//            res.erase(it2);
+//        }
+//    }
 
     emit parsingXmlDomCompleted(res);
 }
