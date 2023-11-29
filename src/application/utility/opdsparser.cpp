@@ -114,9 +114,17 @@ std::vector<Content> OpdsParser::parseContents(
     const tinyxml2::XMLElement* xmlContent = el->FirstChildElement("content");
     const tinyxml2::XMLElement* xmlContentLast = el->LastChildElement("content");
     while (xmlContent) {
-        if (xmlContent->Attribute("type") && strcmp(xmlContent->Attribute("type"),"text")==0 ){ // content must use type="text" by standart
-            res.emplace_back(
-                "text", xmlContent->GetText() != nullptr ? xmlContent->GetText() : "");
+        if (xmlContent->Attribute("type") && (strstr(xmlContent->Attribute("type"),"text")!=nullptr || strstr(xmlContent->Attribute("type"),"html")!=nullptr)){ // content must use type="text" by standart
+            if ( xmlContent->GetText()  != nullptr)
+                res.emplace_back( "text",xmlContent->GetText());
+          else {
+                tinyxml2::XMLPrinter printer;
+                xmlContent->Accept( &printer );
+                std::string str=printer.CStr();
+                if (!str.empty())
+                    res.emplace_back("text",std::move(str));
+            }
+
         }
         if (xmlContent == xmlContentLast)
             break;
