@@ -22,9 +22,7 @@ void OpdsAccess::loadRootLib(const QString& url){
                emit  loadOpdsRootFinished(resp);
                reply->deleteLater();
            });
-
    connect(reply,&QNetworkReply::redirected,this,[this,reply](const QUrl _url){ this->redirected(reply,_url); });
-
 }
 
 
