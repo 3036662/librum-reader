@@ -122,7 +122,12 @@ void OpdsService::loadRootLib(const QString& url)
     else
     {
         OpdsNode curr_target = findNodeByUrl(url);
-        curr_target.title = "..";
+        if (curr_target.id=="id_next"){
+            curr_target.title="Back";
+            curr_target.descr="Back";
+        }
+        else
+            curr_target.title = "..";
         historyStack.push_back(curr_target);
     }
     m_opdsGateway->loadRootlib(url);
