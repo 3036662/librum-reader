@@ -248,8 +248,22 @@ std::vector<std::pair<std::string,std::string>> OpdsParser::getDownloadUrlsByID(
     for (auto it_link=entry_it->links.cbegin(); it_link != entry_it->links.cend(); ++ it_link){
         if (boost::contains(it_link->rel,"acquisition") &&
             boost::contains(it_link->type,"application") &&
-            !it_link->href.empty() ){
-            res.emplace_back(it_link->type, it_link->href);
+            !it_link->href.empty()
+           ){
+            std::string suffix;
+            if (boost::contains(it_link->type,"epub"))
+                suffix="_epub";
+            if (boost::contains(it_link->type,"pdf"))
+                suffix="_pdf";
+            if (boost::contains(it_link->type,"fb2"))
+                suffix="_fb2";
+            if (boost::contains(it_link->type,"djvu"))
+                 suffix="_djvu";
+            if (boost::contains(it_link->type,"html"))
+                suffix="_html";
+            if (suffix.empty())
+                continue;
+            res.emplace_back(it_link->type, it_link->href + suffix);
         }
     }
     return res;
