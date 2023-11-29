@@ -49,44 +49,6 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
         break;
     case downloadUrlRole:{
         QString url;
-        //look for epub
-        for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
-            if (it->first.contains("epub")){
-                url=it->second+"_epub";
-            }
-        }
-        // look for pdf
-        if (url.isEmpty()){
-            for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
-                if (it->first.contains("pdf")){
-                    url=it->second+"_pdf";
-                }
-            }
-        }
-        // look for fb2
-        if (url.isEmpty()){
-            for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
-                if (it->first.contains("fb2")){
-                    url=it->second+"_fb2";
-                }
-            }
-        }
-        // look for djvu
-        if (url.isEmpty()){
-            for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
-                if (it->first.contains("djvu")){
-                    url=it->second+"_djvu";
-                }
-            }
-        }
-        // look for html
-        if (url.isEmpty()){
-            for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
-                if (it->first.contains("html")){
-                    url=it->second+"_html";
-                }
-            }
-        }
         if (url.isEmpty()  && !opdsNode.downloadUrls.isEmpty() ){
             url=opdsNode.downloadUrls.first().second;
         }
