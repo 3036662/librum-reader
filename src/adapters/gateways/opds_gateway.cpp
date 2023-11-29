@@ -79,7 +79,7 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
             authors+=it_author->name;
             authors+=" ";
         }
-        // construt donload links
+        // construt download links
         QVector<QPair<QString,QString>> downloadUrls;
         std::vector<std::pair<std::string,std::string>> link_vec=parser.getDownloadUrlsByID(it->id);
         for(auto it_dLink=link_vec.cbegin();it_dLink != link_vec.cend(); ++it_dLink){
@@ -101,6 +101,16 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data){
             std::move(downloadUrls) // download urls
             );
     }
+
+
+    // create node for pagination (next page)
+    auto nextLinkIterator=std::find_if(parser.dom.links.cbegin(),parser.dom.links.cend(),[](const Link& link){
+        return link.rel == "next" && link.type.find("atom+xml") != std::string::npos  && !link.href.empty() ;
+    });
+    if (nextLinkIterator != parser.dom.links.cend()){
+        res.emplace_back("Next","",nextLinkIterator->href.c_str(),"Next","id_next","");
+    }
+
 
     // search  result arrays for dublicates
     for (auto it = res.begin(); it != res.end(); ++it){
