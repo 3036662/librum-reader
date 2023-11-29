@@ -31,7 +31,7 @@ void OpdsAccess::loadRootLib(const QString& url){
 QNetworkRequest OpdsAccess::createRequest(const QUrl& url){
         QNetworkRequest result { url };
         m_networkAccessManager.setRedirectPolicy(QNetworkRequest::UserVerifiedRedirectPolicy);
-        result.setTransferTimeout(3000); // 3 sec timeout
+        result.setTransferTimeout(5000); // 5 sec timeout
          QSslConfiguration sslConfiguration = result.sslConfiguration();
          sslConfiguration.setProtocol(QSsl::AnyProtocol);
          sslConfiguration.setPeerVerifyMode(QSslSocket::QueryPeer);
@@ -59,7 +59,11 @@ void OpdsAccess::getOpdsImage(const QString& id,const QString& url){
 
 void OpdsAccess::getBookMedia(const QString& id, const QUuid& uuid, const QString& _url){
     qsizetype format_pos=_url.lastIndexOf("_");
-    if (format_pos <=0) return;
+    // if not downloadable urls found or unexpected format
+    if (format_pos <=0){
+        emit badNetworkResponse(0);
+        return;
+    }
     QString format=_url.sliced(format_pos+1);
     QString url=_url.chopped(_url.length()-format_pos);
          auto request = createRequest(url);
@@ -115,7 +119,6 @@ void OpdsAccess::getBookMedia(const QString& id, const QUuid& uuid, const QStrin
 
 // alow all redirects
 void OpdsAccess::redirected( QNetworkReply* const reply,const QUrl& url){
-
     qDebug() << url.toString();
     emit reply->redirectAllowed();
 }
