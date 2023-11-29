@@ -71,6 +71,22 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
                 }
             }
         }
+        // look for djvu
+        if (url.isEmpty()){
+            for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
+                if (it->first.contains("djvu")){
+                    url=it->second+"_djvu";
+                }
+            }
+        }
+        // look for html
+        if (url.isEmpty()){
+            for (auto it = opdsNode.downloadUrls.constBegin(); it !=opdsNode.downloadUrls.constEnd(); ++it){
+                if (it->first.contains("html")){
+                    url=it->second+"_html";
+                }
+            }
+        }
         if (url.isEmpty()  && !opdsNode.downloadUrls.isEmpty() ){
             url=opdsNode.downloadUrls.first().second;
         }
