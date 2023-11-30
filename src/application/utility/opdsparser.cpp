@@ -192,12 +192,17 @@ std::string OpdsParser::getImageUrlByID(const std::string& id) const{
     auto entry_it = getIteratortoEntryById(id);
     if (entry_it != dom.entries.cend()){
 
-        // if not found try to find simple image
-
+        //  try to find  image
         auto image_it=  std::find_if(entry_it->links.cbegin(),
-                                    entry_it->links.cend(),[](const Link& link){
-                                        return boost::algorithm::contains(link.rel,"image") && boost::algorithm::contains(link.type,"image");
-                                    });
+                                     entry_it->links.cend(),[](const Link& link){
+                                         return boost::algorithm::ends_with(link.rel,"image") && boost::algorithm::contains(link.type,"image");
+                                     });
+        if (image_it == entry_it->links.cend()){
+             image_it=  std::find_if(entry_it->links.cbegin(),
+                                        entry_it->links.cend(),[](const Link& link){
+                                            return boost::algorithm::contains(link.rel,"image") && boost::algorithm::contains(link.type,"image");
+                                        });
+        }
          // try to find thumbnail
         if (image_it == entry_it->links.cend()){
             image_it=  std::find_if(entry_it->links.cbegin(),
