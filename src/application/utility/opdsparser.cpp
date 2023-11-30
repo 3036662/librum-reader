@@ -60,11 +60,12 @@ std::vector<Link> OpdsParser::parseLinks(const tinyxml2::XMLElement* const el) c
     const tinyxml2::XMLElement* xmlLink = el->FirstChildElement("link");
     const tinyxml2::XMLElement* xmlLinkLast = el->LastChildElement("link");
     while (xmlLink != nullptr) {
-        res.emplace_back(
-            xmlLink->Attribute("rel") != nullptr ? xmlLink->Attribute("rel") : "",
-            xmlLink->Attribute("href") != nullptr ? xmlLink->Attribute("href") : "",
-            xmlLink->Attribute("type") != nullptr ? xmlLink->Attribute("type")
-                                                  : "");
+        std::string rel = xmlLink->Attribute("rel") != nullptr ? xmlLink->Attribute("rel") : "";
+        std::string href = xmlLink->Attribute("href") != nullptr ? xmlLink->Attribute("href") : "";
+        std::string type = xmlLink->Attribute("type") != nullptr ? xmlLink->Attribute("type")  : "";
+        if (!href.empty()){
+            res.emplace_back(rel,href,type);
+        }
         if (xmlLink == xmlLinkLast)
             break;
         else
@@ -283,27 +284,40 @@ std::vector<std::pair<std::string,std::string>> OpdsParser::getDownloadUrlsByID(
     if (entry_it == dom.entries.cend()) return res;
 
     for (auto it_link=entry_it->links.cbegin(); it_link != entry_it->links.cend(); ++ it_link){
-        if (boost::contains(it_link->rel,"acquisition") &&
-            boost::contains(it_link->type,"application") &&
-            !it_link->href.empty()
-           ){
-            std::string suffix;
-            if (boost::contains(it_link->type,"epub"))
-                suffix="_epub";
-            if (boost::contains(it_link->type,"pdf"))
-                suffix="_pdf";
-            if (boost::contains(it_link->type,"fb2"))
-                suffix="_fb2";
-            if (boost::contains(it_link->type,"djvu"))
-                 suffix="_djvu";
-            if (boost::contains(it_link->type,"html"))
-                suffix="_html";
-            if (suffix.empty())
-                continue;
+        if ( boost::contains(it_link->rel,"acquisition") &&  boost::contains(it_link->type,"application") && !it_link->href.empty()){
+            std::string suffix =getSuffix(*it_link);
             res.emplace_back(it_link->type, it_link->href + suffix);
+            }
+    }
+   // if nothing found try to find related links
+    if (res.empty()){
+        for (auto it_link=entry_it->links.cbegin(); it_link != entry_it->links.cend(); ++ it_link){
+            if ( boost::contains(it_link->rel,"related") &&
+                 boost::contains(it_link->type,"application") &&
+                !it_link->href.empty() ) {
+                std::string suffix =getSuffix(*it_link);
+                res.emplace_back(it_link->type, it_link->href + suffix);
+            }
         }
     }
+
+
     return res;
+}
+
+std::string OpdsParser::getSuffix(const Link& link) const {
+    std::string suffix;
+    if (boost::contains(link.type,"epub"))
+        suffix="_epub";
+    if (boost::contains(link.type,"pdf"))
+        suffix="_pdf";
+    if (boost::contains(link.type,"fb2"))
+        suffix="_fb2";
+    if (boost::contains(link.type,"djvu"))
+        suffix="_djvu";
+    if (boost::contains(link.type,"html"))
+        suffix="_html";
+    return suffix;
 }
 
 } // namespace application::utility::opds

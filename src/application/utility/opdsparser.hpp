@@ -36,6 +36,10 @@ public:
     void clearDom();
     tinyxml2::XMLDocument doc;
     Feed dom;
+
+private:
+    std::string getSuffix(const Link&) const;
+
 };
 
 } // namespace application::utility::opds
