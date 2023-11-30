@@ -14,13 +14,13 @@ Page {
         color: Style.colorPageBackground
     }
 
-    Connections{
+    Connections {
         target: OpdsController
 
-        function onBadNetworkResponse(code){
-            errorMessageLabel.text = "Bad network response: "+code
+        function onBadNetworkResponse(code) {
+            errorMessageLabel.text = "Bad network response: " + code
             errorMessageLabel.visible = true
-            timer.start();
+            timer.start()
         }
     }
     Connections {
@@ -40,7 +40,8 @@ Page {
         anchors.leftMargin: internal.windowLeftMargin
         spacing: 0
 
-        RowLayout { // toolbar
+        RowLayout {
+            // toolbar
             id: headerRow
             Layout.fillWidth: true
             spacing: 0
@@ -70,10 +71,9 @@ Page {
                 fontSize: Fonts.size13
                 imagePath: Icons.addWhite
 
-                onClicked: ; // FIXME importFilesDialog.open()
+                onClicked: addOpdsLibPopup.open()
             }
-        }  // toolbar
-
+        } // toolbar
 
         Label {
             id: errorMessageLabel
@@ -92,7 +92,7 @@ Page {
             running: false
             onTriggered: errorMessageLabel.visible = false
         }
-		
+
         Pane {
             id: opdsGridContainer
             Layout.fillWidth: true
@@ -113,7 +113,7 @@ Page {
                 clip: true
                 cacheBuffer: 1000
                 model: OpdsController.opdsModel
-                delegate: MOpdsNode{
+                delegate: MOpdsNode {
                     MouseArea {
                         id: clickArea
                         anchors.fill: parent
@@ -127,25 +127,24 @@ Page {
                         }
 
                         onClicked: {
-                            if (model.downloadUrl !==""){
+                            if (model.downloadUrl !== "") {
                                 downloadOpdsBookPopup.bookId = model.id
                                 downloadOpdsBookPopup.title = model.title
                                 downloadOpdsBookPopup.authors = model.author
                                 downloadOpdsBookPopup.description = model.descr
-                               // downloadOpdsBookPopup.languages = model.languages
-                                downloadOpdsBookPopup.cover =model.imgDataReady  === false ? "" : "image://opds_image_provider/" + model.imageUrl
-                               // downloadOpdsBookPopup.downloadCount = model.downloadCount
+                                // downloadOpdsBookPopup.languages = model.languages
+                                downloadOpdsBookPopup.cover = model.imgDataReady
+                                        === false ? "" : "image://opds_image_provider/"
+                                                    + model.imageUrl
+                                // downloadOpdsBookPopup.downloadCount = model.downloadCount
                                 downloadOpdsBookPopup.downloadLink = model.downloadUrl
                                 downloadOpdsBookPopup.open()
-                            }
-                            else if (model.url !== "") {
+                            } else if (model.url !== "") {
                                 folderImage.visible = false
                                 loadingAnimation.playing = true
                                 loadingAnimation.visible = true
                                 OpdsController.loadRootLib(model.url)
                             }
-
-
                         }
                     } // MouseArea
 
@@ -153,7 +152,7 @@ Page {
                     Component.onCompleted: {
                         OpdsController.getNodeImage(model.id)
                     }
-                   // Component.onDestruction:  no need to explicitly delete
+                    // Component.onDestruction:  no need to explicitly delete
                 } // MOpdsNode
             } // GridView
 
@@ -190,9 +189,6 @@ Page {
                     color: "transparent"
                 }
             }
-
-
-
         } // Pane
     } // ColumnLayout
 
@@ -205,8 +201,13 @@ Page {
                root.height / 2 - implicitHeight / 2 - root.topPadding - 30)
     }
 
-
-
+    MOpdsLibAddPopup {
+        id: addOpdsLibPopup
+        x: Math.round(
+               root.width / 2 - implicitWidth / 2 - sidebar.width / 2 - root.horizontalPadding)
+        y: Math.round(
+               root.height / 2 - implicitHeight / 2 - root.topPadding - 30)
+    }
 
     QtObject {
         id: internal
@@ -218,6 +219,4 @@ Page {
         property int horizontalFolderSpacing: 64
         property int verticalFolderSpacing: 48
     }
-
-
 }

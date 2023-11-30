@@ -103,5 +103,6 @@
         <file>readingPage/MDictionaryPopup.qml</file>
         <file>readingPage/MBookmarkItem.qml</file>
         <file>readingPage/MExplanationPopup.qml</file>
+        <file>opdsPage/MOpdsLibAddPopup.qml</file>
     </qresource>
 </RCC>
