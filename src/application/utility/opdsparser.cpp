@@ -111,26 +111,50 @@ std::vector<Entry> OpdsParser::parseEntries(
 std::vector<Content> OpdsParser::parseContents(
     const tinyxml2::XMLElement* const el) const{
     std::vector<Content> res;
-    const tinyxml2::XMLElement* xmlContent = el->FirstChildElement("content");
+    const  tinyxml2::XMLElement* xmlContent = el->FirstChildElement("content");
     const tinyxml2::XMLElement* xmlContentLast = el->LastChildElement("content");
     while (xmlContent) {
         if (xmlContent->Attribute("type") && (strstr(xmlContent->Attribute("type"),"text")!=nullptr || strstr(xmlContent->Attribute("type"),"html")!=nullptr)){ // content must use type="text" by standart
             if ( xmlContent->GetText()  != nullptr)
                 res.emplace_back( "text",xmlContent->GetText());
           else {
-                tinyxml2::XMLPrinter printer;
+                tinyxml2::XMLPrinter printer(0,false,10);
                 xmlContent->Accept( &printer );
                 std::string str=printer.CStr();
                 if (!str.empty())
                     res.emplace_back("text",std::move(str));
             }
-
         }
         if (xmlContent == xmlContentLast)
             break;
         else
             xmlContent = xmlContent->NextSiblingElement();
     }
+    if (res.empty()){
+    // <summary> tag  is same as <content>
+        xmlContent = el->FirstChildElement("summary");
+        xmlContentLast = el->LastChildElement("summary");
+        while (xmlContent) {
+            if (xmlContent->Attribute("type") &&
+                   (strstr(xmlContent->Attribute("type"),"text")!=nullptr || strstr(xmlContent->Attribute("type"),"html")!=nullptr) &&    xmlContent->GetText()  != nullptr){
+                    res.emplace_back( "text",xmlContent->GetText());
+            }
+            else {
+                tinyxml2::XMLPrinter printer(0,false,10);
+                    xmlContent->Accept( &printer );
+                    std::string str=printer.CStr();
+                    if (!str.empty())
+                     res.emplace_back("text",std::move(str));
+            }
+            if (xmlContent == xmlContentLast)
+                break;
+            else
+                xmlContent = xmlContent->NextSiblingElement();
+        }
+    }
+
+
+
     return res;
 }
 
