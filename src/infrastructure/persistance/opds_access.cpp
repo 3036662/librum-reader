@@ -135,10 +135,10 @@ QString OpdsAccess::changeFormat(const QNetworkReply*   const reply,const QStrin
     else if (content_type.contains("text/html")){
         return "html";
     }
-    else if (content_type.contains("zip")){
+    else if (content_type.contains("/zip")){
         return format+".zip";
     }
-    return QString();
+    return format;
 }
 
 } // namespace infrastructure::persistence
