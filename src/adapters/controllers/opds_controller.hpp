@@ -19,6 +19,7 @@ public:
     void handleBadNetworkResponse(int) override;
     void getBookMedia(const QString& id, const QString& downloadUrl) override;
     void markBookAsDownloaded(const QString& id) override;
+    void saveOpdsLib(const QString& title, const QString& url, const QString desr) override;
     //void deleteNodeImage(const QString &id) override;
 private:
     application::IOpdsService* m_opdsService; // pointer to service

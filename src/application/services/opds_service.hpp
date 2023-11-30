@@ -25,6 +25,7 @@ public:
     void getNodeImage(const QString& id) override;
     void getBookMedia(const QString& id, const QString& url) override;
     void markBookAsDownloaded(const QString& id) override;
+    bool saveOpdsLib(const QString& title, const QString& url, const QString& descr);
     // void deleteNodeImage(const QString &id) override;
 
 public slots:
@@ -46,6 +47,7 @@ private:
     const OpdsNode findNodeByUrl(const QString& url) const;
     const QImage* getImageDataByImgUrl(const QString& imgUrl) const override;
     QDir getLibraryDir() const;
+    QFile getOpdsJsonFile() const ;
     QString getUserLibraryName(const QString& email) const;
     void setMediaDownloadProgressForBook(const QString& id,
                                          qint64 bytesReceived,

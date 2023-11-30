@@ -1,4 +1,5 @@
 #include "opds_controller.hpp"
+#include <QUrl>
 
 namespace  adapters::controllers {
 
@@ -72,6 +73,19 @@ void OpdsConrtoller::getBookMedia(const QString& id, const QString& downloadUrl)
 
 void OpdsConrtoller::markBookAsDownloaded(const QString& id) {
     m_opdsService->markBookAsDownloaded(id);
+}
+
+void OpdsConrtoller::saveOpdsLib(const QString& title, const QString& url, const QString descr) {
+    QUrl tempUrl(url);
+    if (title.isEmpty() || !tempUrl.isValid() || tempUrl.host().isEmpty() || tempUrl.scheme().isEmpty() ){
+        emit badOpdsLibData("Please enter valid title and url");
+        return;
+    }
+    if (m_opdsService->saveOpdsLib(title,url,descr)){
+        emit savingLibFinished();
+        m_opdsService->loadRootLib("url_root");
+    }
+
 }
 
 } //namespace  adapters::controllers
