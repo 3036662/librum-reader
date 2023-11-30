@@ -19,12 +19,12 @@ void OpdsParser::parse(std::string body) {
     //   boost::algorithm::erase_all_regex(body, boost::regex("\\r\\n.{0,5}\\r\\n"));
 
     if (body.empty()) {
-        std::cerr << "xml body is empty" << std::endl;
+       // std::cerr << "xml body is empty" << std::endl;
         return;
     }
     if (doc.Parse(body.c_str()) != tinyxml2::XML_SUCCESS) {
-        std::cerr << "Error parsing xml data" << std::endl;
-        std::cout << body.c_str();
+        //std::cerr << "Error parsing xml data" << std::endl;
+        //std::cout << body.c_str();
         return;
     }
     tinyxml2::XMLElement* xmlEntry = doc.RootElement();
@@ -48,10 +48,10 @@ void OpdsParser::parse(std::string body) {
         dom.icon = tempCharPtr;
     }
     // process links
-    std::cerr << "Process root links" << std::endl;
+    //std::cerr << "Process root links" << std::endl;
     dom.links = parseLinks(xmlEntry);
     // process enries
-    std::cerr << "Process root entries" << std::endl;
+    //std::cerr << "Process root entries" << std::endl;
     dom.entries = parseEntries(xmlEntry);
 }
 
