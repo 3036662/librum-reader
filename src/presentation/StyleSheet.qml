@@ -570,12 +570,13 @@ Item {
     // Change icons
     onStateChanged: Icons.setState(state)
 
-    // Settings which capture the application theme the last time the application ran.
-    // This way the correct theme is also chosen before the user is authenticated.
-	component Settings:QtObject{
-        id: lastRunSettings
-        property string location: "last_run_settings"
-        property string theme: "Dark"
-    }
-    Component.onDestruction: lastRunSettings.theme = styleSheet.state
+         // Settings which capture the application theme the last time the application ran.
+        // This way the correct theme is also chosen before the user is authenticated.
+        Settings {
+            id: lastRunSettings
+            location: "last_run_settings"
+
+            property string theme: "Dark"
+        }
+        Component.onDestruction: lastRunSettings.theme = styleSheet.state
 }
