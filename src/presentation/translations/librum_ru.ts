@@ -1419,6 +1419,41 @@ Delete unused books to free up space or upgrade.</source>
         <source>Library title</source>
         <translation>Название библиотеки</translation>
     </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="122"/>
+        <source>Title</source>
+        <translation>Название</translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="139"/>
+        <source>Url</source>
+        <translation>Url</translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="156"/>
+        <source>Description</source>
+        <translation>Описание</translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="159"/>
+        <source>Library descripction</source>
+        <translation>Описание библиотеки</translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="179"/>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="204"/>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="231"/>
+        <source>Error</source>
+        <translation>Ошибка</translation>
+    </message>
 </context>
 <context>
     <name>MOpdsPage</name>

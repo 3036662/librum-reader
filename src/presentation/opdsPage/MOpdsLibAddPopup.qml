@@ -119,7 +119,7 @@ Popup {
                             id: titleField
                             Layout.fillWidth: true
                             boxHeight: 34
-                            headerText: "Title"
+                            headerText: qsTr("Title")
                             headerFontWeight: Font.Bold
                             headerFontSize: Fonts.size11dot5
                             text: root.titleFieldText
@@ -136,7 +136,7 @@ Popup {
                             id: urlField
                             Layout.fillWidth: true
                             boxHeight: 34
-                            headerText: "Url"
+                            headerText: qsTr("Url")
                             headerFontWeight: Font.Bold
                             headerFontSize: Fonts.size11dot5
                             text: root.urlFieldText
@@ -153,10 +153,10 @@ Popup {
                             id: descrField
                             Layout.fillWidth: true
                             boxHeight: 34
-                            headerText: "Description"
+                            headerText:qsTr("Description")
                             headerFontWeight: Font.Bold
                             headerFontSize: Fonts.size11dot5
-                            text: "Library descripction"
+                            text:qsTr("Library descripction")
                             headerToBoxSpacing: 3
                             inputFontSize: Fonts.size12
                             inputFontColor: Style.colorReadOnlyInputText
@@ -176,7 +176,7 @@ Popup {
                                 Layout.preferredWidth: 140
                                 Layout.preferredHeight: 38
                                 active: true
-                                text: "Save"
+                                text: qsTr("Save")
                                 textColor: active ? Style.colorFocusedButtonText : Style.colorUnfocusedButtonText
                                 fontWeight: Font.Bold
                                 fontSize: Fonts.size12
@@ -201,7 +201,7 @@ Popup {
                                 borderWidth: active ? 0 : 1
                                 backgroundColor: active ? Style.colorBasePurple : "transparent"
                                 opacityOnPressed: 0.7
-                                text: "Cancel"
+                                text: qsTr("Cancel")
                                 textColor: active ? Style.colorFocusedButtonText : Style.colorUnfocusedButtonText
                                 fontWeight: Font.Bold
                                 fontSize: Fonts.size12
@@ -228,7 +228,7 @@ Popup {
         }
 
         function errorSaving(str) {
-            pageTitle.text = "Error"
+            pageTitle.text = qsTr("Error")
             pageTitle.color = "#FF0000"
             urlField.text = str
             titleField.text = str

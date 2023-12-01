@@ -1466,6 +1466,41 @@ Lösche alte Bücher um Speicherplatzu freizugeben oder upgrade deinen Account.<
         <source>Library title</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="122"/>
+        <source>Title</source>
+        <translation type="unfinished">Titel</translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="139"/>
+        <source>Url</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="156"/>
+        <source>Description</source>
+        <translation type="unfinished">Beschreibung</translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="159"/>
+        <source>Library descripction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="179"/>
+        <source>Save</source>
+        <translation type="unfinished">Speichern</translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="204"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Abbrechen</translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsLibAddPopup.qml" line="231"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MOpdsPage</name>
