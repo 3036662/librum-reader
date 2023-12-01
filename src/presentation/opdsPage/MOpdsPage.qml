@@ -18,9 +18,16 @@ Page {
         target: OpdsController
 
         function onBadNetworkResponse(code) {
-            errorMessageLabel.text = qsTr("Bad network response: ") + code
+            if (code===-100){
+                  errorMessageLabel.text = qsTr("Sorry.Unsupported format.");
+            }
+            else{
+                errorMessageLabel.text = qsTr("Bad network response: ") + code
+
+            }
             errorMessageLabel.visible = true
             timer.start()
+
         }
     }
     Connections {
