@@ -1,4 +1,9 @@
-﻿# Librum
+# OPDS
+This branch is made for support OPDS servers in Librum.
+A short demonsration of usage 
+https://youtu.be/qN24wHARfVc
+ 
+# Librum
 
 Librum is an application designed to make reading <b>enjoyable</b> and <b>straightforward</b> for everyone.
 
