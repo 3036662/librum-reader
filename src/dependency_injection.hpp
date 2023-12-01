@@ -32,18 +32,16 @@
 #include "library_storage_manager.hpp"
 #include "local_library_tracker.hpp"
 #include "metadata_extractor.hpp"
+#include "opds_access.hpp"
+#include "opds_controller.hpp"
+#include "opds_gateway.hpp"
+#include "opds_service.hpp"
 #include "settings_controller.hpp"
 #include "settings_service.hpp"
 #include "user_controller.hpp"
 #include "user_service.hpp"
 #include "user_storage_access.hpp"
 #include "user_storage_gateway.hpp"
-
-#include "opds_controller.hpp"
-#include "opds_service.hpp"
-#include "opds_gateway.hpp"
-#include "opds_access.hpp"
-
 
 
 namespace di = boost::di;

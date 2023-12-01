@@ -19,9 +19,9 @@ namespace application::services
 {
 
 LibraryService::LibraryService(IMetadataExtractor* bookMetadataHelper,
-                               ILibraryStorageManager* bookStorageManager) :
-    m_bookMetadataHelper(bookMetadataHelper),
-    m_libraryStorageManager(bookStorageManager)
+                               ILibraryStorageManager* bookStorageManager)
+    : m_bookMetadataHelper(bookMetadataHelper),
+      m_libraryStorageManager(bookStorageManager)
 {
     // Fetch changes timer
     m_fetchChangesTimer.setInterval(m_fetchChangedInterval);
@@ -54,7 +54,7 @@ LibraryService::LibraryService(IMetadataExtractor* bookMetadataHelper,
     connect(&m_applyUpdatesTimer, &QTimer::timeout, this,
             [this]()
             {
-                for(auto& uuid : m_outdatedBooks)
+                for(auto& uuid: m_outdatedBooks)
                 {
                     auto* book = getBook(uuid);
                     if(book == nullptr)
@@ -166,12 +166,10 @@ BookOperationStatus LibraryService::deleteBook(const QUuid& uuid)
     }
 
 
-    utility::BookForDeletion bookToDelete {
-        .uuid = book->getUuid(),
-        .downloaded = book->isDownloaded(),
-        .format = book->getFormat(),
-        .filepath = book->getFilePath()
-    };
+    utility::BookForDeletion bookToDelete { .uuid = book->getUuid(),
+                                            .downloaded = book->isDownloaded(),
+                                            .format = book->getFormat(),
+                                            .filepath = book->getFilePath() };
 
     auto bookPosition = getBookPosition(uuid);
     int index = getBookIndex(uuid);
@@ -610,7 +608,7 @@ void LibraryService::setupUserData(const QString& token, const QString& email)
 void LibraryService::loadLocalBooks()
 {
     auto books = m_libraryStorageManager->loadLocalBooks();
-    for(auto book : books)
+    for(auto book: books)
     {
         uninstallBookIfTheBookFileIsInvalid(book);
         addBookToLibrary(book);
@@ -657,7 +655,7 @@ void LibraryService::updateLibrary(std::vector<Book>& books)
 void LibraryService::mergeRemoteLibraryIntoLocalLibrary(
     std::vector<Book>& remoteBooks)
 {
-    for(auto& remoteBook : remoteBooks)
+    for(auto& remoteBook: remoteBooks)
     {
         auto* localBook = getBook(remoteBook.getUuid());
         if(localBook != nullptr)
@@ -687,7 +685,7 @@ void LibraryService::mergeLocalLibraryIntoRemoteLibrary(
     const std::vector<Book>& remoteBooks)
 {
     int bytesOfDataUploaded = 0;
-    for(const auto& localBook : m_books)
+    for(const auto& localBook: m_books)
     {
         bool localBookExistsOnServer = std::ranges::any_of(
             remoteBooks,
@@ -721,12 +719,10 @@ void LibraryService::mergeLocalLibraryIntoRemoteLibrary(
 
 void LibraryService::deleteBookLocally(const domain::entities::Book& book)
 {
-    utility::BookForDeletion bookToDelete {
-        .uuid = book.getUuid(),
-        .downloaded = book.isDownloaded(),
-        .format = book.getFormat(),
-        .filepath = book.getFilePath()
-    };
+    utility::BookForDeletion bookToDelete { .uuid = book.getUuid(),
+                                            .downloaded = book.isDownloaded(),
+                                            .format = book.getFormat(),
+                                            .filepath = book.getFilePath() };
 
     auto bookPosition = getBookPosition(book.getUuid());
     int index = getBookIndex(book.getUuid());
@@ -742,7 +738,7 @@ std::set<int> LibraryService::getProjectGutenbergIds()
 {
     std::set<int> result;
 
-    for(const auto& book : m_books)
+    for(const auto& book: m_books)
         if(book.isFromProjectGutenberg())
             result.insert(book.getProjectGutenbergId());
 

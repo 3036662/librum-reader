@@ -24,11 +24,12 @@
 #include "free_books_model.hpp"
 #include "i_free_books_service.hpp"
 #include "i_library_service.hpp"
-#include "i_user_service.hpp"
 #include "i_opds_service.hpp"
+#include "i_user_service.hpp"
 #include "key_sequence_recorder.hpp"
 #include "library_proxy_model.hpp"
 #include "message_handler.hpp"
+#include "opds_image_provider.hpp"
 #include "page_view.hpp"
 #include "setting_groups.hpp"
 #include "setting_keys.hpp"
@@ -37,7 +38,6 @@
 #include "tag_dto.hpp"
 #include "user_controller.hpp"
 #include "word_definition_dto.hpp"
-#include "opds_image_provider.hpp"
 
 
 using namespace adapters::controllers;
@@ -252,7 +252,7 @@ void addTranslations()
 {
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
-    for(const QString& locale : uiLanguages)
+    for(const QString& locale: uiLanguages)
     {
         const QString baseName = "Librum_" + QLocale(locale).name();
         if(translator.load(":/i18n/" + baseName))

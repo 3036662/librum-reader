@@ -85,7 +85,6 @@ void OpdsConrtoller::saveOpdsLib(const QString& title, const QString& url, const
         emit savingLibFinished();
         m_opdsService->loadRootLib("url_root");
     }
-
 }
 
 } //namespace  adapters::controllers

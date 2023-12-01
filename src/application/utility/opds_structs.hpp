@@ -3,11 +3,12 @@
 #include <string>
 #include <vector>
 
-
-namespace application::utility::opds {
+namespace application::utility::opds
+{
 
 // simplest struct <author>
-struct Author {
+struct Author
+{
     Author() = default;
     Author(const std::string& name_, const std::string& uri);
     std::string name;
@@ -15,14 +16,16 @@ struct Author {
 };
 
 // simplest struct <content>
-struct Content {
+struct Content
+{
     Content(const std::string&, const std::string&);
     std::string type;
     std::string text;
 };
 
 // simplest struct <link>
-struct Link {
+struct Link
+{
     Link(const std::string& rel_, const std::string& href_,
          const std::string& type_);
     std::string rel;
@@ -31,7 +34,8 @@ struct Link {
 };
 
 // <entry>
-struct Entry {
+struct Entry
+{
     Entry(const std::string& upd, const std::string& id_,
           const std::string& title_, const std::vector<Link>& links_,
           const std::vector<Content>& content_,
@@ -46,7 +50,8 @@ struct Entry {
 };
 
 // root element <feed>
-struct Feed {
+struct Feed
+{
     Feed(const std::string& updated_, const std::string& id_,
          const std::string& icon_, const std::string& title_);
     Feed() = default;
@@ -58,8 +63,6 @@ struct Feed {
     std::vector<Entry> entries;
 };
 
-
-
 std::ostream& operator<<(std::ostream& os, const opds::Feed& feed);
 std::ostream& operator<<(std::ostream& os, const opds::Link& link);
 std::ostream& operator<<(std::ostream& os, const opds::Entry& entry);
@@ -67,4 +70,4 @@ std::ostream& operator<<(std::ostream& os, const opds::Content& content);
 std::ostream& operator<<(std::ostream& os, const opds::Author& author);
 
 
-} // namespace application::utility::opds
+}  // namespace application::utility::opds

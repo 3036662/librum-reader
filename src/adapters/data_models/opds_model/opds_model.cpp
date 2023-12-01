@@ -6,26 +6,27 @@ using namespace domain::value_objects;
 namespace adapters::data_models
 {
 
-OpdsModel::OpdsModel(const std::vector<domain::value_objects::OpdsNode> *data):
-    m_data(data)
+OpdsModel::OpdsModel(const std::vector<domain::value_objects::OpdsNode>* data)
+    : m_data(data)
 {
 }
 
 int OpdsModel::rowCount(const QModelIndex& parent) const
 {
-    if (parent.isValid())
+    if(parent.isValid())
         return 0;
 
     return m_data->size();
 }
 
-QVariant OpdsModel::data(const QModelIndex &index, int role) const
+QVariant OpdsModel::data(const QModelIndex& index, int role) const
 {
-    if (!index.isValid())
+    if(!index.isValid())
         return QVariant();
     const domain::value_objects::OpdsNode& opdsNode = m_data->at(index.row());
 
-    switch (role) {
+    switch(role)
+    {
     case TitleRole:
         return opdsNode.title;
         break;
@@ -37,24 +38,26 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
         break;
     case DescriptionRole:
         return opdsNode.descr;
-         break;
+        break;
     case IdRole:
-         return opdsNode.id;
-         break;
+        return opdsNode.id;
+        break;
     case ImageUrlRole:
         return opdsNode.imageUrl;
         break;
     case imgDataReadyRole:
         return opdsNode.imgDataReady;
         break;
-    case downloadUrlRole:{
+    case downloadUrlRole:
+    {
         QString url;
-        if (url.isEmpty()  && !opdsNode.downloadUrls.isEmpty() ){
-            url=opdsNode.downloadUrls.first().second;
+        if(url.isEmpty() && !opdsNode.downloadUrls.isEmpty())
+        {
+            url = opdsNode.downloadUrls.first().second;
         }
         return url;
-        }
-        break;
+    }
+    break;
     case MediaDownloadProgressRole:
         return opdsNode.mediaDownloadProgress;
     case DownloadedRole:
@@ -65,35 +68,40 @@ QVariant OpdsModel::data(const QModelIndex &index, int role) const
     }
 }
 
-QHash<int, QByteArray> OpdsModel::roleNames() const {
-    static QHash<int,QByteArray> roles{
-                {TitleRole,"title"},
-                {AuthorRole,"author"},
-                 {UrlRole,"url"},
-                {DescriptionRole,"descr"},
-                {IdRole,"id"},
-                {ImageUrlRole,"imageUrl"},
-                {imgDataReadyRole,"imgDataReady"},
-                {downloadUrlRole,"downloadUrl"},
-                { MediaDownloadProgressRole, "mediaDownloadProgress" },
-                { DownloadedRole, "downloaded" },
+QHash<int, QByteArray> OpdsModel::roleNames() const
+{
+    static QHash<int, QByteArray> roles {
+        { TitleRole, "title" },
+        { AuthorRole, "author" },
+        { UrlRole, "url" },
+        { DescriptionRole, "descr" },
+        { IdRole, "id" },
+        { ImageUrlRole, "imageUrl" },
+        { imgDataReadyRole, "imgDataReady" },
+        { downloadUrlRole, "downloadUrl" },
+        { MediaDownloadProgressRole, "mediaDownloadProgress" },
+        { DownloadedRole, "downloaded" },
     };
     return roles;
 }
 
-void OpdsModel::startedDataChange(){
+void OpdsModel::startedDataChange()
+{
     beginResetModel();
 }
 
-void OpdsModel::completedDataChange(){
+void OpdsModel::completedDataChange()
+{
     endResetModel();
 }
 
-void OpdsModel::refreshNode(int row){
-    dataChanged(index(row,0),index(row,0));
+void OpdsModel::refreshNode(int row)
+{
+    dataChanged(index(row, 0), index(row, 0));
 }
 
-void OpdsModel::downloadingBookMediaProgressChanged(int row){
+void OpdsModel::downloadingBookMediaProgressChanged(int row)
+{
     emit dataChanged(index(row, 0), index(row, 0),
                      { MediaDownloadProgressRole });
 }
@@ -103,4 +111,4 @@ void OpdsModel::bookIsDownloadedChanged(int row)
     emit dataChanged(index(row, 0), index(row, 0), { DownloadedRole });
 }
 
-} //namespace adapters::data_models
+}  // namespace adapters::data_models

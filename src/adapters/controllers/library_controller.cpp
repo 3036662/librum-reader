@@ -16,10 +16,9 @@ namespace adapters::controllers
 using namespace domain::entities;
 using namespace dtos;
 
-LibraryController::LibraryController(
-    application::ILibraryService* bookService) :
-    m_bookService(bookService),
-    m_libraryModel(m_bookService->getBooks())
+LibraryController::LibraryController(application::ILibraryService* bookService)
+    : m_bookService(bookService),
+      m_libraryModel(m_bookService->getBooks())
 {
     // book insertion
     connect(m_bookService, &application::ILibraryService::bookInsertionStarted,
@@ -100,7 +99,8 @@ void LibraryController::syncWithServer()
     m_bookService->downloadBooks();
 }
 
-int LibraryController::addBook(const QString& path, int projectGutenbergId, const QString& opdsId)
+int LibraryController::addBook(const QString& path, int projectGutenbergId,
+                               const QString& opdsId)
 {
     auto localPath = QUrl(path).toLocalFile();
     QFileInfo fileInfo(localPath);
@@ -111,13 +111,16 @@ int LibraryController::addBook(const QString& path, int projectGutenbergId, cons
     auto result = m_bookService->addBook(localPath, projectGutenbergId);
     QApplication::restoreOverrideCursor();
 
-    if (opdsId.isEmpty()){
+    if(opdsId.isEmpty())
+    {
         emit addingBookFinished(
             projectGutenbergId,
             result == BookOperationStatus::Success ? true : false);
     }
-    else{
-        emit addingOpdsBookFinished(opdsId,result == BookOperationStatus::Success ? true : false);
+    else
+    {
+        emit addingOpdsBookFinished(
+            opdsId, result == BookOperationStatus::Success ? true : false);
     }
     return static_cast<int>(result);
 }
@@ -156,7 +159,7 @@ int LibraryController::updateBook(const QString& uuid,
     auto updatedBook = *bookToUpdate;
 
     auto operationsMap = operations.toMap();
-    for(const auto& stringKey : operationsMap.keys())
+    for(const auto& stringKey: operationsMap.keys())
     {
         int key = stringKey.toInt();
 
@@ -245,7 +248,7 @@ void LibraryController::removeAllTagsWithUuid(const QString& tagUuid)
         return;
 
     auto& books = m_bookService->getBooks();
-    for(const auto& book : books)
+    for(const auto& book: books)
     {
         if(listContainsTag(book.getTags(), QUuid(tagUuid)))
         {
@@ -258,7 +261,7 @@ void LibraryController::renameTags(const QString& oldName,
                                    const QString& newName)
 {
     auto& books = m_bookService->getBooks();
-    for(const auto& book : books)
+    for(const auto& book: books)
     {
         auto tagUuid = getTagUuidByName(book, oldName);
         if(!tagUuid.isNull())
@@ -326,7 +329,7 @@ dtos::BookDto LibraryController::getDtoFromBook(
 
 QUuid LibraryController::getTagUuidByName(const Book& book, const QString& name)
 {
-    for(const auto& tag : book.getTags())
+    for(const auto& tag: book.getTags())
     {
         if(tag.getName() == name)
             return tag.getUuid();
@@ -367,7 +370,7 @@ void LibraryController::addBookMetaDataToDto(const Book& book, BookDto& bookDto)
 
 void LibraryController::addBookTagsToDto(const Book& book, BookDto& bookDto)
 {
-    for(const auto& tag : book.getTags())
+    for(const auto& tag: book.getTags())
     {
         dtos::TagDto tagDto;
         tagDto.name = tag.getName();

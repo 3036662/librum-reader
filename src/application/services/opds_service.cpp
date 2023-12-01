@@ -38,7 +38,7 @@ const std::vector<OpdsNode>& OpdsService::getOpdsNodes()
 void OpdsService::loadRootNodesFromFile()
 {
     m_opdsNodes.clear();
-    QFile opdsFile=getOpdsJsonFile();
+    QFile opdsFile = getOpdsJsonFile();
     if(!opdsFile.exists())
     {
         qDebug() << "Json file not found";
@@ -116,9 +116,10 @@ void OpdsService::loadRootLib(const QString& url)
     else
     {
         OpdsNode curr_target = findNodeByUrl(url);
-        if (curr_target.id=="id_next"){
-            curr_target.title="Back";
-            curr_target.descr="Back";
+        if(curr_target.id == "id_next")
+        {
+            curr_target.title = "Back";
+            curr_target.descr = "Back";
         }
         else
             curr_target.title = "..";
@@ -192,10 +193,12 @@ void OpdsService::getNodeImage(const QString& id)
                 }
             }
         }
-        else if (itNode->imgDataReady){
+        else if(itNode->imgDataReady)
+        {
             emit dataChanged(std::distance(m_opdsNodes.begin(), itNode));
         }
-        else{
+        else
+        {
             m_opdsGateway->getOpdsImage(id, itNode->imageUrl);
         }
     }
@@ -347,62 +350,66 @@ void OpdsService::markBookAsDownloaded(const QString& id)
     }
 }
 
-QFile OpdsService::getOpdsJsonFile() const {
-   const QString localAppFolder =
+QFile OpdsService::getOpdsJsonFile() const
+{
+    const QString localAppFolder =
         QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-   const QDir destDir(localAppFolder);
-   if(!destDir.exists())
+    const QDir destDir(localAppFolder);
+    if(!destDir.exists())
         destDir.mkpath(".");
-   const QString filepath = destDir.filePath("opds.json");
-   return QFile(filepath);
+    const QString filepath = destDir.filePath("opds.json");
+    return QFile(filepath);
 }
 
-bool OpdsService::saveOpdsLib(const QString& title, const QString& url, const QString& descr){
-    QFile opdsFile=getOpdsJsonFile();
-    bool createNew{false};
-    if (!opdsFile.exists())
-        createNew=true;
-    if (!opdsFile.open(QIODeviceBase::ReadWrite))
+bool OpdsService::saveOpdsLib(const QString& title, const QString& url,
+                              const QString& descr)
+{
+    QFile opdsFile = getOpdsJsonFile();
+    bool createNew { false };
+    if(!opdsFile.exists())
+        createNew = true;
+    if(!opdsFile.open(QIODeviceBase::ReadWrite))
         return false;
 
     // read all from file
     QJsonParseError jsonParseError;
     QJsonDocument jsonDoc;
-     // parse to json
-    if (!createNew){
+    // parse to json
+    if(!createNew)
+    {
         QByteArray bytesFromFile = opdsFile.readAll();
-        if (!bytesFromFile.isEmpty()){
-               jsonDoc = QJsonDocument::fromJson(bytesFromFile, &jsonParseError);
-               if(jsonDoc.isNull())
-               {
-                 qDebug() << "Can't parse opds libs json file. "
-                                  << jsonParseError.errorString();
-               }
+        if(!bytesFromFile.isEmpty())
+        {
+            jsonDoc = QJsonDocument::fromJson(bytesFromFile, &jsonParseError);
+            if(jsonDoc.isNull())
+            {
+                qDebug() << "Can't parse opds libs json file. "
+                         << jsonParseError.errorString();
+            }
         }
     }
     QJsonArray libsJsonArray;
-    if (jsonDoc.isArray())
-          libsJsonArray    = jsonDoc.array();
+    if(jsonDoc.isArray())
+        libsJsonArray = jsonDoc.array();
 
     //  add data to json
-    QJsonObject lib{
-                      QPair<QString,QString>("title",title),
-                      QPair<QString,QString>("url",url),
-                      QPair<QString,QString>("descr",descr)
-    };
+    QJsonObject lib { QPair<QString, QString>("title", title),
+                      QPair<QString, QString>("url", url),
+                      QPair<QString, QString>("descr", descr) };
     libsJsonArray.append(lib);
     jsonDoc.setArray(libsJsonArray);
-    QByteArray result =   jsonDoc.toJson();
+    QByteArray result = jsonDoc.toJson();
     // save in file
     opdsFile.seek(0);
-    if (opdsFile.write(result) == -1){
+    if(opdsFile.write(result) == -1)
+    {
         qDebug() << "error writing to file";
         opdsFile.close();
         return false;
     }
     opdsFile.resize(opdsFile.pos());
     // close file
-     opdsFile.close();
+    opdsFile.close();
     return true;
 }
 
