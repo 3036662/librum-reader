@@ -378,6 +378,7 @@ std::vector<std::pair<std::string, std::string>>
            !it_link->href.empty())
         {
             std::string suffix = getSuffix(*it_link);
+                if (!suffix.empty())
             res.emplace_back(it_link->type, it_link->href + suffix);
         }
     }
@@ -388,11 +389,12 @@ std::vector<std::pair<std::string, std::string>>
             it_link != entry_it->links.cend(); ++it_link)
         {
             if(boost::contains(it_link->rel, "related") &&
-               boost::contains(it_link->type, "application") &&
+               boost::contains(it_link->type, "application/pdf") &&
                !it_link->href.empty())
             {
                 std::string suffix = getSuffix(*it_link);
-                res.emplace_back(it_link->type, it_link->href + suffix);
+                if (!suffix.empty())
+                    res.emplace_back(it_link->type, it_link->href + suffix);
             }
         }
     }
@@ -410,8 +412,9 @@ std::string OpdsParser::getSuffix(const Link& link) const
         suffix = "_pdf";
     if(boost::contains(link.type, "fb2"))
         suffix = "_fb2";
-    if(boost::contains(link.type, "djvu"))
-        suffix = "_djvu";
+    // not supported
+    // if(boost::contains(link.type, "djvu"))
+    //     suffix = "_djvu";
     if(boost::contains(link.type, "html"))
         suffix = "_html";
     return suffix;
