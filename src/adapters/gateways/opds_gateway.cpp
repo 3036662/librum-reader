@@ -118,22 +118,24 @@ void OpdsGateway::parseOpdsResonse(const QByteArray& data)
             }
         }
 
-        res.emplace_back(
-            it->title.c_str(),  // title
-            std::move(authors),  // author
-            std::move(browseUrl),  // url
-            // it->content.empty()  ? it->title.c_str() :
-            // it->content[0].text.c_str(), // content
-            content.isEmpty() ? it->title.c_str() : std::move(content),
-            it->id.c_str(),  // id
-            parser.getImageUrlByID(it->id).empty()
-                ? ""
-                : convertRelativeUrlToAbsolute(
-                      parser.getImageUrlByID(it->id)),  // imageUrl
-            QImage(),
-            false,  // image ready flag,
-            std::move(downloadUrls)  // download urls
-        );
+        if (!it->title.empty() && (!browseUrl.isEmpty() || !downloadUrls.isEmpty()) ){
+            res.emplace_back(
+                it->title.c_str(),  // title
+                std::move(authors),  // author
+                std::move(browseUrl),  // url
+                // it->content.empty()  ? it->title.c_str() :
+                // it->content[0].text.c_str(), // content
+                content.isEmpty() ? it->title.c_str() : std::move(content),
+                it->id.c_str(),  // id
+                parser.getImageUrlByID(it->id).empty()
+                    ? ""
+                    : convertRelativeUrlToAbsolute(
+                          parser.getImageUrlByID(it->id)),  // imageUrl
+                QImage(),
+                false,  // image ready flag,
+                std::move(downloadUrls)  // download urls
+            );
+        }
     }
 
 
