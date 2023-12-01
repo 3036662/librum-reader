@@ -28,6 +28,8 @@ class PRESENTATION_EXPORT PageView : public QQuickItem
     Q_PROPERTY(int pageNumber READ getPageNumber WRITE setPageNumber CONSTANT)
     Q_PROPERTY(bool colorInverted WRITE setColorInverted)
     Q_PROPERTY(float yOffset READ getYOffset CONSTANT)
+    Q_PROPERTY(
+        bool includeNewLinesInCopiedText WRITE setIncludeNewLinesInCopiedText)
 
 public:
     PageView();
@@ -43,6 +45,8 @@ public:
     int getPageNumber() const;
     void setPageNumber(int newCurrentPage);
     void setColorInverted(bool newColorInverted);
+
+    void setIncludeNewLinesInCopiedText(bool newIncludeNewLinesInCopiedText);
 
     void setBookController(
         adapters::controllers::BookController* newBookController);
@@ -60,6 +64,9 @@ public:
     Q_INVOKABLE void removeHighlight(const QString& uuid);
     Q_INVOKABLE void changeHighlightColor(const QString& uuid,
                                           const QString& color, int alpha);
+
+signals:
+    void mouseHoverMoved();
 
 private slots:
     void updateZoom(float newZoom);
@@ -105,6 +112,7 @@ private:
     QPointF m_selectionEnd;
     QTimer m_tripleClickTimer;
     bool m_doubleClickHold = false;
+    bool m_includeNewLinesInCopiedText = false;
 };
 
 }  // namespace cpp_elements

@@ -1,4 +1,5 @@
 import QtQuick
+import QtCore
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Window
@@ -25,7 +26,12 @@ MFlickWrapper {
         // For some reason this prevents a SEGV. Directly calling the auto login
         // directly causes the application to crash on startup.
         autoLoginTimer.start()
+
+        // Determine the index of the language used in the combobox
+        let index = languageComboBox.getIndexByText(AppInfoController.language)
+        languageComboBox.defaultIndex = index
     }
+
     Timer {
         id: autoLoginTimer
         interval: 0
@@ -64,6 +70,41 @@ MFlickWrapper {
             color: Style.colorAuthenticationPageBackground
         }
 
+        MComboBox {
+            id: languageComboBox
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.leftMargin: 12
+            width: 160
+            height: 12
+            dropDownIconLeft: true
+            boxBackgroundColor: "transparent"
+            checkBoxStyle: false
+            fontSize: Fonts.size12
+            selectedItemFontSize: Fonts.size12
+            maxHeight: 200
+            spacing: 14
+            dropdownIconSize: 10
+            popupSpacing: 14
+            borderWidth: 0
+
+            model: LanguageModel
+
+            onItemChanged: index => AppInfoController.switchToLanguage(
+                               model.get(index).code)
+
+            function getIndexByText(searchText) {
+                for (var i = 0; i < model.count; ++i) {
+                    if (model.get(i).text.toLocaleLowerCase(
+                                ) === searchText.toLocaleLowerCase()) {
+                        return i
+                    }
+                }
+
+                return -1
+            }
+        }
+
         ColumnLayout {
             id: layout
             anchors.centerIn: parent
@@ -93,7 +134,7 @@ MFlickWrapper {
                         id: welcomeText
                         Layout.alignment: Qt.AlignHCenter
                         Layout.topMargin: 24
-                        text: "Welcome back!"
+                        text: qsTr("Welcome back!")
                         color: Style.colorText
                         font.bold: true
                         font.pointSize: Fonts.size26
@@ -103,7 +144,7 @@ MFlickWrapper {
                         id: loginText
                         Layout.topMargin: 4
                         Layout.alignment: Qt.AlignHCenter
-                        text: "Log into your account"
+                        text: qsTr("Log into your account")
                         color: Style.colorSubtitle
                         font.pointSize: Fonts.size13
                     }
@@ -114,7 +155,7 @@ MFlickWrapper {
                         Layout.topMargin: 32
                         placeholderContent: "kaidoe@gmail.com"
                         placeholderColor: Style.colorPlaceholderText
-                        headerText: "Email"
+                        headerText: qsTr("Email")
 
                         onEdited: internal.clearLoginError()
                         Keys.onPressed: event => {
@@ -129,7 +170,7 @@ MFlickWrapper {
                         id: passwordInput
                         Layout.fillWidth: true
                         Layout.topMargin: 22
-                        headerText: "Password"
+                        headerText: qsTr("Password")
                         image: Icons.eyeOn
                         toggledImage: Icons.eyeOff
 
@@ -175,7 +216,7 @@ MFlickWrapper {
 
                         Label {
                             id: rememberMeText
-                            text: "Remember me"
+                            text: qsTr("Remember me")
                             Layout.alignment: Qt.AlignVCenter
                             Layout.leftMargin: 4
                             font.pointSize: Fonts.size11
@@ -195,7 +236,7 @@ MFlickWrapper {
 
                         Label {
                             id: forgotPasswordLabel
-                            text: "Forgot password?"
+                            text: qsTr("Forgot password?")
                             Layout.alignment: Qt.AlignVCenter
                             Layout.leftMargin: 3
                             font.pointSize: Fonts.size10dot5
@@ -222,9 +263,10 @@ MFlickWrapper {
                         opacityOnPressed: 0.85
                         textColor: Style.colorFocusedButtonText
                         fontWeight: Font.Bold
-                        text: "Login"
+                        text: qsTr("Login")
 
                         onClicked: internal.login()
+
                         onFocusChanged: {
                             if (focus)
                                 opacity = opacityOnPressed
@@ -246,7 +288,7 @@ MFlickWrapper {
                 id: registerLinkLabel
                 Layout.alignment: Qt.AlignHCenter
                 Layout.topMargin: 14
-                text: "Don't have an account? Register"
+                text: qsTr("Don't have an account? Register")
                 font.pointSize: Fonts.size10dot5
                 opacity: registerLinkArea.pressed ? 0.8 : 1
                 color: Style.colorBasePurple
@@ -265,10 +307,10 @@ MFlickWrapper {
         x: Math.round(root.width / 2 - implicitWidth / 2)
         y: Math.round(root.height / 2 - implicitHeight / 2) - 75
         visible: false
-        title: "We're Sorry"
-        message: "Logging you in failed, please try again later."
-        leftButtonText: "Ok"
-        rightButtonText: "Report"
+        title: qsTr("We're Sorry")
+        message: qsTr("Logging you in failed, please try again later.")
+        leftButtonText: qsTr("Ok")
+        rightButtonText: qsTr("Report")
         messageBottomSpacing: 8
 
         onDecisionMade: close()

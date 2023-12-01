@@ -68,10 +68,10 @@ set(application_SRC
     utility/opdsparser.cpp
     utility/opds_structs.hpp
     utility/opds_structs.cpp
-     utility/opds_image_provider.hpp
-     utility/opds_image_provider.cpp
-     utility/zip_unpacker.hpp
-     utility/zip_unpacker.cpp
+    utility/opds_image_provider.hpp
+    utility/opds_image_provider.cpp
+    utility/zip_unpacker.hpp
+    utility/zip_unpacker.cpp
     
     core/page_generator.hpp
     core/page_generator.cpp
@@ -88,7 +88,7 @@ set(application_SRC
     core/utils/fz_utils.hpp
     core/utils/text_selector.hpp
     core/utils/text_selector.cpp
-
+    core/utils/search_options.hpp
 )
 
 
@@ -113,8 +113,20 @@ endif()
 message("MuPdf build command: " ${MUPDF_BUILD_COMMAND})
 
 
+
+# On linux, we want to use the system provided libjpeg,
+# since the one that comes with mupdf is not compatible with the one that comes with Qt.
+if(LINUX)
+    set(USE_SYSTEM_LIBJPEG_VALUE yes)
+else()
+    set(USE_SYSTEM_LIBJPEG_VALUE no)
+endif()
+
+
 add_custom_target(mupdf
-   COMMAND ${MUPDF_BUILD_COMMAND}
+   COMMAND ${CMAKE_COMMAND} -E env
+        "USE_SYSTEM_LIBJPEG=${USE_SYSTEM_LIBJPEG_VALUE}"
+        ${MUPDF_BUILD_COMMAND}
    BYPRODUCTS ${MUPDF_OUTPUT}
    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/libs/mupdf
    COMMENT "Building mupdf (This takes a while) ..."
@@ -139,7 +151,6 @@ endif()
 add_library(application
                 SHARED
                     ${application_SRC}
-                    core/utils/search_options.hpp
 )
 
 add_dependencies(application mupdf)
@@ -174,12 +185,13 @@ target_compile_definitions(application
 )
 
 target_link_libraries(application
+                PUBLIC
+                    rapidfuzz::rapidfuzz
                 PRIVATE
                     Qt6::Core
                     Qt6::Quick
                     Qt6::Widgets
                     Qt6::Network
-                    rapidfuzz::rapidfuzz
 					tinyxml2::tinyxml2
 					libzip::zip
                     domain
@@ -216,6 +228,15 @@ if(UNIX)
     install(FILES ${MUPDF_OUTPUT_DIR}/libmupdfcpp.so
                   ${MUPDF_OUTPUT_DIR}/libmupdf.so
             DESTINATION lib)
+
+    # Install links with correct permissions
+    install(FILES ${MUPDF_OUTPUT_DIR}/libmupdfcpp.so.24.0
+                  ${MUPDF_OUTPUT_DIR}/libmupdf.so.24.0
+            PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+                        GROUP_READ GROUP_EXECUTE
+                        WORLD_READ WORLD_EXECUTE
+            DESTINATION lib)
+
 elseif(APPLE)
     install(TARGETS application
             DESTINATION lib

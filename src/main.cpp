@@ -47,7 +47,6 @@ using namespace application::services;
 void registerTypes();
 void setupGlobalSettings();
 void setupFonts();
-void addTranslations();
 
 int main(int argc, char* argv[])
 {
@@ -63,8 +62,6 @@ int main(int argc, char* argv[])
     app.setWindowIcon(icon);
 
     qInstallMessageHandler(logging::messageHandler);
-
-    addTranslations();
     setupGlobalSettings();
     setupFonts();
 
@@ -73,6 +70,7 @@ int main(int argc, char* argv[])
     qmlRegisterSingletonType(QUrl("qrc:/IconSheet.qml"), "Librum.icons", 1, 0, "Icons");
     qmlRegisterSingletonType(QUrl("qrc:/FontSheet.qml"), "Librum.fonts", 1, 0, "Fonts");
     qmlRegisterSingletonType(QUrl("qrc:/Globals.qml"), "Librum.globals", 1, 0, "Globals");
+    qmlRegisterSingletonType(QUrl("qrc:/LanguageModel.qml"), "Librum.models", 1, 0, "LanguageModel");
     qmlRegisterType<adapters::data_models::LibraryProxyModel>("Librum.models", 1, 0, "LibraryProxyModel");
     qmlRegisterType<adapters::data_models::FreeBooksModel>("Librum.models", 1, 0, "FreeBooksModel");
     qmlRegisterType<adapters::data_models::ShortcutsProxyModel>("Librum.models", 1, 0, "ShortcutsProxyModel");
@@ -226,12 +224,35 @@ int main(int argc, char* argv[])
 
     // Startup
     QQmlApplicationEngine engine;
+    QQuickStyle::setStyle("Basic");
     engine.addImportPath("qrc:/modules");
     engine.addImportPath(QCoreApplication::applicationDirPath() + "/src/presentation/qt_tree_view/qml/");
     engine.addImageProvider(QLatin1String("opds_image_provider"),
                                                        new application::utility::opds::OpdsImageProvider(opdsService));
+    appInfoController->setQmlApplicationEngine(&engine);
 
-    QQuickStyle::setStyle("Basic");
+
+    // Setup translations
+    QSettings settings;
+    auto storedLanguage = settings.value("language", QVariant("")).toString();
+    if(storedLanguage.isEmpty())
+    {
+        // If no language was specified in the settings, deduce the system language
+        const QStringList uiLanguages = QLocale::system().uiLanguages();
+        for(const QString& locale : uiLanguages)
+        {
+            const QString name = QLocale(locale).name();
+            if(appInfoController->switchToLanguage(name))
+            {
+                break;
+            }
+        }
+    }
+    else
+    {
+        appInfoController->switchToLanguage(storedLanguage);
+    }
+
 
     const QUrl url("qrc:/main.qml");
     QObject::connect(

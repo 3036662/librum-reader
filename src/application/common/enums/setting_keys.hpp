@@ -20,13 +20,7 @@ enum class SettingKeys
     PageColorMode,
     PageSpacing,
     DisplayBookTitleInTitlebar,
-    LayoutDirection,
-    DisplayMode,
-    PageTransition,
     DefaultZoom,
-    SmoothScrolling,
-    LoopAfterLastPage,
-    CursorMode,
     DefaultHighlightColorName,
     HighlightColorA,
     HighlightColorB,
@@ -35,8 +29,10 @@ enum class SettingKeys
     HighlightColorE,
     HighlightOpacity,
 
-    // General
-    OpenBooksAfterCreation,
+    // Behavior
+    CursorMode,
+    HideCursorAfterDelay,
+    IncludeNewLinesInCopiedText,
 
     // Shortcuts
     MoveUp,

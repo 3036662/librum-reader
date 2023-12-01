@@ -5,6 +5,7 @@ import QtQuick.Dialogs
 import CustomComponents
 import Librum.style
 import Librum.icons
+import Librum.models
 import Librum.fonts
 import Librum.controllers
 
@@ -30,8 +31,8 @@ Page {
             MTitle {
                 id: pageTitle
                 Layout.topMargin: 64
-                titleText: "Appearance"
-                descriptionText: "Make your own experience"
+                titleText: qsTr("Appearance")
+                descriptionText: qsTr("Make your own experience")
                 titleSize: Fonts.size25
                 descriptionSize: Fonts.size13dot25
             }
@@ -42,12 +43,12 @@ Page {
 
             MButton {
                 id: resetButton
-                Layout.preferredWidth: 160
                 Layout.preferredHeight: 38
                 Layout.alignment: Qt.AlignBottom
                 borderWidth: 0
+                horizontalMargins: 12
                 backgroundColor: Style.colorBasePurple
-                text: "Restore Defaults"
+                text: qsTr("Restore Defaults")
                 fontSize: Fonts.size12
                 fontWeight: Font.Bold
                 textColor: Style.colorFocusedButtonText
@@ -70,7 +71,7 @@ Page {
 
             ScrollBar.vertical: ScrollBar {
                 width: 10
-                policy: "AlwaysOn"
+                policy: ScrollBar.AlwaysOn
             }
 
             ColumnLayout {
@@ -101,7 +102,7 @@ Page {
                         Label {
                             id: displayTitle
                             Layout.fillWidth: true
-                            text: "Display"
+                            text: qsTr("Display")
                             font.pointSize: Fonts.size17
                             font.weight: Font.DemiBold
                             color: Style.colorText
@@ -111,7 +112,7 @@ Page {
                             id: themeTitle
                             Layout.fillWidth: true
                             Layout.topMargin: 24
-                            text: "Theme"
+                            text: qsTr("Theme")
                             font.pointSize: Fonts.size13
                             font.weight: Font.DemiBold
                             color: Style.colorText
@@ -123,7 +124,9 @@ Page {
 
                             Layout.topMargin: 4
                             leftText: "Dark"
+                            leftDisplayText: qsTr("Dark")
                             rightText: "Light"
+                            rightDisplayText: qsTr("Light")
                             leftSelected: savedValue === leftText
                             rightSelected: savedValue === rightText
 
@@ -138,7 +141,7 @@ Page {
                             id: pageColorModeTitle
                             Layout.fillWidth: true
                             Layout.topMargin: 18
-                            text: "Page Color Mode"
+                            text: qsTr("Page Color Mode")
                             font.pointSize: Fonts.size13
                             font.weight: Font.DemiBold
                             color: Style.colorText
@@ -150,7 +153,9 @@ Page {
 
                             Layout.topMargin: 4
                             leftText: "Normal"
+                            leftDisplayText: qsTr("Normal")
                             rightText: "Inverted"
+                            rightDisplayText: qsTr("Inverted")
                             leftSelected: savedValue === leftText
                             rightSelected: savedValue === rightText
 
@@ -160,6 +165,61 @@ Page {
                             onToggled: newSelected => internal.saveSetting(
                                            SettingKeys.PageColorMode,
                                            newSelected)
+                        }
+
+                        Label {
+                            id: languageTitle
+                            Layout.fillWidth: true
+                            Layout.topMargin: 18
+                            text: qsTr("Language")
+                            font.pointSize: Fonts.size13
+                            font.weight: Font.DemiBold
+                            color: Style.colorText
+                        }
+
+                        MComboBox {
+                            id: languageComboBox
+                            Layout.topMargin: 4
+                            Layout.preferredHeight: 36
+                            Layout.fillWidth: true
+                            Layout.maximumWidth: 380
+                            selectedItemFontSize: Fonts.size12
+                            selectedItemPadding: 4
+                            defaultIndex: calculateDefaultIndex()
+                            dropdownIconSize: 9
+                            itemHeight: 32
+                            fontSize: Fonts.size12
+                            checkBoxStyle: false
+                            maxHeight: 200
+                            model: LanguageModel
+
+                            onItemChanged: index => {
+                                               AppInfoController.switchToLanguage(
+                                                   model.get(index).code)
+
+                                               languageComboBox.closePopup()
+                                           }
+
+                            Component.onCompleted: {
+                                let defaultIndex = calculateDefaultIndex()
+                                if (listView.currentIndex === defaultIndex)
+                                    return
+
+                                deselectCurrenItem()
+                                selectItem(defaultIndex, true)
+                            }
+
+                            function calculateDefaultIndex() {
+                                let selectedLanguage = AppInfoController.language
+                                for (var i = 0; i < model.count; ++i) {
+                                    if (model.get(i).text.toLowerCase(
+                                                ) === selectedLanguage.toLowerCase(
+                                                ))
+                                        return i
+                                }
+
+                                return -1
+                            }
                         }
                     }
                 }
@@ -185,7 +245,7 @@ Page {
                         Label {
                             id: readingTitle
                             Layout.fillWidth: true
-                            text: "Reading"
+                            text: qsTr("Reading")
                             font.pointSize: Fonts.size17
                             font.weight: Font.DemiBold
                             color: Style.colorText
@@ -195,7 +255,7 @@ Page {
                             id: pageSpacingTitle
                             Layout.fillWidth: true
                             Layout.topMargin: 24
-                            text: "Page spacing"
+                            text: qsTr("Page spacing")
                             font.pointSize: Fonts.size13
                             font.weight: Font.DemiBold
                             color: Style.colorText
@@ -222,7 +282,7 @@ Page {
                             id: docTitleDisplayTitle
                             Layout.fillWidth: true
                             Layout.topMargin: 18
-                            text: "Display book title in titlebar"
+                            text: qsTr("Display book title in titlebar")
                             font.pointSize: Fonts.size13
                             font.weight: Font.DemiBold
                             color: Style.colorText
@@ -244,128 +304,10 @@ Page {
                         }
 
                         Label {
-                            id: layoutDirectionTitle
-                            Layout.fillWidth: true
-                            Layout.topMargin: 18
-                            text: "Layout direction"
-                            font.pointSize: Fonts.size13
-                            font.weight: Font.DemiBold
-                            color: Style.colorText
-                        }
-
-                        MRadioButtonSelector {
-                            id: layoutDirectionSelector
-                            property string savedValue: SettingsController.appearanceSettings.LayoutDirection
-
-                            Layout.fillWidth: true
-                            Layout.topMargin: 6
-                            options: ["Vertical", "Horizontal"]
-                            currentSelected: changeSelected(options.indexOf(
-                                                                savedValue))
-
-                            // Need rebinding on reset
-                            onSavedValueChanged: changeSelected(options.indexOf(
-                                                                    savedValue))
-                            onNewCurrentSelected: internal.saveSetting(
-                                                      SettingKeys.LayoutDirection,
-                                                      currentSelected)
-                        }
-
-                        Label {
-                            id: displayModeTitle
-                            Layout.fillWidth: true
-                            Layout.topMargin: 18
-                            text: "Display mode"
-                            font.pointSize: Fonts.size13
-                            font.weight: Font.DemiBold
-                            color: Style.colorText
-                        }
-
-                        MRadioButtonSelector {
-                            id: displayModeSelector
-                            property string savedValue: SettingsController.appearanceSettings.DisplayMode
-
-                            Layout.fillWidth: true
-                            Layout.topMargin: 6
-                            options: ["Single Page", "Double Page"]
-                            currentSelected: changeSelected(options.indexOf(
-                                                                savedValue))
-
-                            // Need rebinding on reset
-                            onSavedValueChanged: changeSelected(options.indexOf(
-                                                                    savedValue))
-                            onNewCurrentSelected: internal.saveSetting(
-                                                      SettingKeys.DisplayMode,
-                                                      currentSelected)
-                        }
-
-                        Label {
-                            id: pageTransitionTitle
-                            Layout.fillWidth: true
-                            Layout.topMargin: 18
-                            text: "Page transition"
-                            font.pointSize: Fonts.size13
-                            font.weight: Font.DemiBold
-                            color: Style.colorText
-                        }
-
-                        MComboBox {
-                            id: pageTransitionComboBox
-                            property string savedValue: SettingsController.appearanceSettings.PageTransition
-
-                            Layout.topMargin: 4
-                            Layout.preferredHeight: 36
-                            Layout.fillWidth: true
-                            Layout.maximumWidth: 380
-                            selectedItemFontSize: Fonts.size12
-                            selectedItemPadding: 4
-                            defaultIndex: calculateDefaultIndex()
-                            dropdownIconSize: 9
-                            itemHeight: 32
-                            fontSize: Fonts.size12
-                            checkBoxStyle: false
-                            maxHeight: 200
-                            model: ListModel {
-                                ListElement {
-                                    text: "Instant"
-                                }
-                                ListElement {
-                                    text: "Fading"
-                                }
-                                ListElement {
-                                    text: "Swipe"
-                                }
-                                ListElement {
-                                    text: "Swap"
-                                }
-                            }
-
-                            onItemChanged: internal.saveSetting(
-                                               SettingKeys.PageTransition, text)
-                            // Need rebinding on reset
-                            onSavedValueChanged: {
-                                let defaultIndex = calculateDefaultIndex()
-                                if (listView.currentIndex === defaultIndex)
-                                    return
-
-                                deselectCurrenItem()
-                                selectItem(defaultIndex, true)
-                            }
-
-                            function calculateDefaultIndex() {
-                                for (var i = 0; i < model.count; ++i) {
-                                    if (model.get(i).text === savedValue)
-                                        return i
-                                }
-                                return -1
-                            }
-                        }
-
-                        Label {
                             id: defaultZoomTitle
                             Layout.fillWidth: true
                             Layout.topMargin: 18
-                            text: "Default Zoom"
+                            text: qsTr("Default Zoom")
                             font.pointSize: Fonts.size13
                             font.weight: Font.DemiBold
                             color: Style.colorText
@@ -411,7 +353,7 @@ Page {
                         Label {
                             id: highlightsTitle
                             Layout.fillWidth: true
-                            text: "Highlights"
+                            text: qsTr("Highlights")
                             font.pointSize: Fonts.size17
                             font.weight: Font.DemiBold
                             color: Style.colorText
@@ -420,7 +362,7 @@ Page {
                         Label {
                             Layout.fillWidth: true
                             Layout.topMargin: 24
-                            text: "Colors"
+                            text: qsTr("Colors")
                             font.pointSize: Fonts.size13
                             font.weight: Font.DemiBold
                             color: Style.colorText
@@ -539,7 +481,7 @@ Page {
                         Label {
                             Layout.fillWidth: true
                             Layout.topMargin: 24
-                            text: "Opacity"
+                            text: qsTr("Opacity")
                             font.pointSize: Fonts.size13
                             font.weight: Font.DemiBold
                             color: Style.colorText
@@ -584,113 +526,6 @@ Page {
                         }
                     }
                 }
-
-                Pane {
-                    id: behaviorBlock
-                    Layout.fillWidth: true
-                    Layout.topMargin: 24
-                    verticalPadding: 24
-                    horizontalPadding: internal.pagePadding
-                    background: Rectangle {
-                        color: Style.colorContainerBackground
-                        border.color: Style.colorContainerBorder
-                        radius: 4
-                        antialiasing: true
-                    }
-
-                    ColumnLayout {
-                        id: behaviorLayout
-                        anchors.fill: parent
-                        spacing: 0
-
-                        Label {
-                            id: behaviorTitle
-                            Layout.fillWidth: true
-                            text: "Behavior"
-                            font.pointSize: Fonts.size17
-                            font.weight: Font.DemiBold
-                            color: Style.colorText
-                        }
-
-                        Label {
-                            id: smoothScrollingTitle
-                            Layout.fillWidth: true
-                            Layout.topMargin: 24
-                            text: "Smooth scrolling"
-                            font.pointSize: Fonts.size13
-                            font.weight: Font.DemiBold
-                            color: Style.colorText
-                        }
-
-                        MOnOffToggle {
-                            id: smoothScrollingToggle
-                            property bool savedValue: JSON.parse(
-                                                          SettingsController.appearanceSettings.SmoothScrolling)
-
-                            Layout.topMargin: 4
-                            onByDefault: savedValue
-
-                            // Need rebinding on reset
-                            onSavedValueChanged: savedValue ? setOn() : setOff()
-                            onToggled: value => internal.saveSetting(
-                                           SettingKeys.SmoothScrolling,
-                                           value === onText ? true : false)
-                        }
-
-                        Label {
-                            id: loopAfterLastTitle
-                            Layout.fillWidth: true
-                            Layout.topMargin: 18
-                            text: "Loop after last page"
-                            font.pointSize: Fonts.size13
-                            font.weight: Font.DemiBold
-                            color: Style.colorText
-                        }
-
-                        MOnOffToggle {
-                            id: loopAfterLastToggle
-                            property bool savedValue: JSON.parse(
-                                                          SettingsController.appearanceSettings.LoopAfterLastPage)
-
-                            Layout.topMargin: 4
-                            onByDefault: savedValue
-
-                            // Need rebinding on reset
-                            onSavedValueChanged: savedValue ? setOn() : setOff()
-                            onToggled: value => internal.saveSetting(
-                                           SettingKeys.LoopAfterLastPage,
-                                           value === onText ? true : false)
-                        }
-
-                        Label {
-                            id: cursorModeTitle
-                            Layout.fillWidth: true
-                            Layout.topMargin: 18
-                            text: "Cursor mode"
-                            font.pointSize: Fonts.size13
-                            font.weight: Font.DemiBold
-                            color: Style.colorText
-                        }
-
-                        MRadioButtonSelector {
-                            id: cursorModeSelector
-                            property string savedValue: SettingsController.appearanceSettings.CursorMode
-
-                            Layout.fillWidth: true
-                            Layout.topMargin: 6
-                            options: ["Hidden after delay", "Always visible"]
-                            currentSelected: changeSelected(options.indexOf(
-                                                                savedValue))
-
-                            // Need rebinding on reset
-                            onSavedValueChanged: changeSelected(options.indexOf(
-                                                                    savedValue))
-                            onNewCurrentSelected: internal.saveSetting(
-                                                      SettingKeys.CursorMode,
-                                                      currentSelected)
-                        }
-                    }
-                }
             }
         }
     }
@@ -702,11 +537,10 @@ Page {
         y: Math.round(
                root.height / 2 - implicitHeight / 2 - root.topPadding - 50)
         visible: false
-        title: "Reset settings?"
-        message: "Resetting your settings is a permanent action, there\n will be no way to restore them!"
-        leftButtonText: "No, Keep"
-        rightButtonText: "Yes, Reset"
-        buttonsWidth: 180
+        title: qsTr("Reset settings?")
+        message: qsTr("Resetting your settings is a permanent action, there\n will be no way to restore them!")
+        leftButtonText: qsTr("No, Keep")
+        rightButtonText: qsTr("Yes, Reset")
         messageBottomSpacing: 10
 
         onOpenedChanged: if (opened)

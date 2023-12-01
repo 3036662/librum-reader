@@ -121,7 +121,7 @@ Item {
                     Layout.leftMargin: 10
                     imageWidth: 31
                     image: Icons.sidebarDownload
-                    text: "Free books"
+                    text: qsTr("Free books")
 
                     onClicked: loadPage(freeBooksPage, root.freeBooksItem)
                 }
@@ -143,7 +143,7 @@ Item {
                     preserveImageFit: false
                     imageHeight: 28
                     image: Icons.sidebarHome
-                    text: "Home"
+                    text: qsTr("Home")
 
                     onClicked: loadPage(homePage, root.homeItem)
                 }
@@ -154,7 +154,7 @@ Item {
                     Layout.leftMargin: 10
                     imageWidth: 28
                     image: Icons.sidebarPieChart
-                    text: "Statistics"
+                    text: qsTr("Statistics")
 
                     onClicked: loadPage(statisticsPage, root.statisticsItem)
                 }
@@ -185,7 +185,7 @@ Item {
                     Layout.leftMargin: 10
                     imageWidth: 30
                     image: Icons.sidebarAddOns
-                    text: "Add-ons"
+                    text: qsTr("Add-ons")
 
                     onClicked: loadPage(addOnsPage, root.addOnsItem)
                 }
@@ -196,7 +196,7 @@ Item {
                     Layout.leftMargin: 10
                     imageWidth: 36
                     image: Icons.sidebarSettings
-                    text: "Settings"
+                    text: qsTr("Settings")
 
                     onClicked: loadPage(settings, root.settingsItem)
                 }

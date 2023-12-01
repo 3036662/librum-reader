@@ -7,111 +7,113 @@ import Librum.globals
 import Librum.icons
 import Librum.style
 
-MRightClickMenu
-{
+MRightClickMenu {
     id: root
-    signal downloadClicked()
-    signal readBookClicked()
-    signal bookDetailsClicked()
-    signal saveToFilesClicked()
-    signal manageTagsClicked()
-    signal markAsReadClicked()
-    signal removeClicked()
-    
-    implicitHeight: internal.bookDownloaded ? 213 : 181   // 32px per item
-    
+    signal downloadClicked
+    signal readBookClicked
+    signal bookDetailsClicked
+    signal saveToFilesClicked
+    signal manageTagsClicked
+    signal markAsReadClicked
+    signal removeClicked
+
+    implicitHeight: internal.bookDownloaded ? 213 : 181 // 32px per item
+
     onOpened: internal.bookDownloaded = Globals.selectedBook.downloaded
-    
-    
-    objectModel: ObjectModel
-    {
-        MRightClickMenuItem
-        {
+
+    objectModel: ObjectModel {
+        MRightClickMenuItem {
             width: root.width
             height: internal.bookDownloaded ? 0 : implicitHeight
             visible: !internal.bookDownloaded
             imagePath: Icons.bookPopupDownload
             imageSize: 18
-            text: "Download"
-            
+            text: qsTr("Download")
+
             onClicked: root.downloadClicked()
         }
-        
-        MRightClickMenuItem
-        {
+
+        MRightClickMenuItem {
             width: root.width
             height: internal.bookDownloaded ? implicitHeight : 0
             visible: internal.bookDownloaded
             imagePath: Icons.bookPopupRead
             imageSize: 17
-            text: "Read book"
-            
+            text: qsTr("Read book")
+
             onClicked: root.readBookClicked()
         }
-        
-        MRightClickMenuItem
-        {
+
+        MRightClickMenuItem {
             width: root.width
             imagePath: Icons.bookPopupDetails
             imageSize: 14
-            text: "Book details"
-            
+            text: qsTr("Book details")
+
             onClicked: root.bookDetailsClicked()
         }
-        
-        MRightClickMenuItem
-        {
+
+        MRightClickMenuItem {
             width: root.width
             height: internal.bookDownloaded ? implicitHeight : 0
             visible: internal.bookDownloaded
             Layout.bottomMargin: 4
             imagePath: Icons.bookPopupSave
             imageSize: 14
-            text: "Save to files"
-            
+            text: qsTr("Save to files")
+
             onClicked: root.saveToFilesClicked()
         }
-        
-        Item { id: rectMargin1; height: 4; width: root.width }
-        
-        Rectangle { width: root.width; height: 1; color: Style.colorDarkSeparator }
-        
-        Item { id: rectMargin2; height: 4; width: root.width }
-        
-        MRightClickMenuItem
-        {
+
+        Item {
+            id: rectMargin1
+            height: 4
+            width: root.width
+        }
+
+        Rectangle {
+            width: root.width
+            height: 1
+            color: Style.colorDarkSeparator
+        }
+
+        Item {
+            id: rectMargin2
+            height: 4
+            width: root.width
+        }
+
+        MRightClickMenuItem {
             width: root.width
             Layout.topMargin: 4
             imagePath: Icons.bookPopupTags
             imageSize: 16
-            text: "Manage tags"
-            
+            text: qsTr("Manage tags")
+
             onClicked: root.manageTagsClicked()
         }
-        
-        MRightClickMenuItem
-        {
+
+        MRightClickMenuItem {
             width: root.width
             imagePath: Icons.bookPopupMarkAsRead
             imageSize: 17
-            text: "Mark as read"
-            
+            //: If this is too long in any language, use "Read" (past form) instead
+            text: qsTr("Mark as read")
+
             onClicked: root.markAsReadClicked()
         }
-        
-        MRightClickMenuItem
-        {
+
+        MRightClickMenuItem {
             width: root.width
             imagePath: Icons.bookPopupDelete
             imageSize: 16
-            text: "Remove book"
-            
+            text: qsTr("Remove book")
+
             onClicked: root.removeClicked()
         }
     }
-    
-    QtObject
-    {
+
+    QtObject {
         id: internal
         property bool bookDownloaded: true
     }

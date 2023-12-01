@@ -18,9 +18,9 @@ Popup {
     // property int downloadCount
     // property string downloadLink
     //property string description
-    property string popupTitle: "Add OPDS catalog"
+    property string popupTitle: qsTr( "Add OPDS catalog")
     property color titleColor: Style.colorTitle
-    property string titleFieldText: "Library title"
+    property string titleFieldText: qsTr("Library title")
     property string urlFieldText: "https://"
     implicitWidth: 751
     implicitHeight: layout.height

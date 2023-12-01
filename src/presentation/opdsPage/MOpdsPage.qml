@@ -18,7 +18,7 @@ Page {
         target: OpdsController
 
         function onBadNetworkResponse(code) {
-            errorMessageLabel.text = "Bad network response: " + code
+            errorMessageLabel.text = qsTr("Bad network response: ") + code
             errorMessageLabel.visible = true
             timer.start()
         }
@@ -49,8 +49,8 @@ Page {
             MTitle {
                 id: pageTitle
                 Layout.topMargin: 44
-                titleText: "OPDS  catalogs"
-                descriptionText: "Find books in public OPDS libraries"
+                titleText: qsTr("OPDS  catalogs")
+                descriptionText: qsTr("Find books in public OPDS libraries")
             }
 
             Item {
@@ -59,13 +59,13 @@ Page {
 
             MButton {
                 id: addOpdsButton
-                Layout.preferredWidth: 140
+                Layout.preferredWidth: 220
                 Layout.preferredHeight: 40
                 Layout.topMargin: 22
                 Layout.alignment: Qt.AlignBottom
                 borderWidth: 0
                 backgroundColor: Style.colorBasePurple
-                text: "Add OPDS"
+                text: qsTr("Add OPDS")
                 textColor: Style.colorFocusedButtonText
                 fontWeight: Font.Bold
                 fontSize: Fonts.size13

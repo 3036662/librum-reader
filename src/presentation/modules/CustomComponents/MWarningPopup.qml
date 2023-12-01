@@ -8,15 +8,16 @@ import Librum.fonts
 
 Popup {
     id: root
-    property string leftButtonText: "Accept"
-    property string rightButtonText: "Decline"
-    property string title: "Do you Accept?"
-    property string message: "This is a message"
-    property int buttonsWidth: 120
+    property string leftButtonText: qsTr("Accept")
+    property string rightButtonText: qsTr("Decline")
+    property string title: qsTr("Do you Accept?")
+    property string message: qsTr("Message")
     property int messageBottomSpacing: 0
     property bool singleButton: false
     property bool rightButtonRed: false
     property bool richText: false
+    property bool keepButtonsSameWidth: true
+    property int minButtonWidth: 30
     signal leftButtonClicked
     signal rightButtonClicked
     signal decisionMade
@@ -114,9 +115,14 @@ Popup {
 
                         MButton {
                             id: leftButton
-                            Layout.preferredWidth: root.singleButton ? parent.width : root.buttonsWidth
+                            property int actualWidth: root.singleButton ? parent.width : implicitWidth
+
+                            Layout.preferredWidth: root.keepButtonsSameWidth
+                                                   && actualWidth < rightButton.actualWidth ? rightButton.actualWidth : actualWidth
+                            Layout.minimumWidth: root.minButtonWidth
                             Layout.preferredHeight: 40
                             Layout.alignment: Qt.AlignBottom | Qt.AlignRight
+                            horizontalMargins: 16
                             borderWidth: activeFocus ? 0 : 1
                             backgroundColor: activeFocus ? Style.colorBasePurple : "transparent"
                             opacityOnPressed: 0.7
@@ -134,9 +140,14 @@ Popup {
 
                         MButton {
                             id: rightButton
+                            property int actualWidth: implicitWidth
+
                             visible: !root.singleButton
-                            Layout.preferredWidth: root.buttonsWidth
+                            Layout.preferredWidth: root.keepButtonsSameWidth
+                                                   && actualWidth < leftButton.actualWidth ? leftButton.actualWidth : actualWidth
+                            Layout.minimumWidth: root.minButtonWidth
                             Layout.preferredHeight: 40
+                            horizontalMargins: 20
                             Layout.alignment: Qt.AlignBottom | Qt.AlignLeft
                             borderWidth: focus ? 0 : 1
                             backgroundColor: focus ? (root.rightButtonRed ? Style.colorRed : Style.colorBasePurple) : "transparent"

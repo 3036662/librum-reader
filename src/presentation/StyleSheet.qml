@@ -84,8 +84,7 @@ Item {
 
 
     state: (SettingsController.appearanceSettings.Theme
-            === undefined ? "Dark"
-                          : SettingsController.appearanceSettings.Theme)
+            === undefined ? lastRunSettings.theme : SettingsController.appearanceSettings.Theme)
 
     states: [
         State {

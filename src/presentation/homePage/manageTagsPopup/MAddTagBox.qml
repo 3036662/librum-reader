@@ -45,7 +45,7 @@ Item {
                     color: Style.colorText
                     font.pointSize: Fonts.size12
                     font.weight: Font.Normal
-                    placeholderText: "Add a tag..."
+                    placeholderText: qsTr("Add a tag...")
                     placeholderTextColor: Style.colorPlaceholderText
                     background: Rectangle {
                         anchors.fill: parent

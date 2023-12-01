@@ -36,8 +36,8 @@ Page {
 
             MTitle {
                 id: pageTitle
-                titleText: "Shortcuts"
-                descriptionText: "Make your own experience"
+                titleText: qsTr("Shortcuts")
+                descriptionText: qsTr("Make your own experience")
                 titleSize: Fonts.size25
                 descriptionSize: Fonts.size13dot25
             }
@@ -48,13 +48,13 @@ Page {
 
             MButton {
                 id: addShortcutButton
-                Layout.preferredWidth: 164
                 Layout.preferredHeight: 38
                 Layout.topMargin: 22
                 Layout.alignment: Qt.AlignBottom
+                horizontalMargins: 12
                 borderWidth: 0
                 backgroundColor: Style.colorBasePurple
-                text: "Edit shortcut"
+                text: qsTr("Edit shortcut")
                 textColor: Style.colorFocusedButtonText
                 fontWeight: Font.Bold
                 fontSize: Fonts.size13
@@ -102,7 +102,8 @@ Page {
                     Label {
                         id: actionsLabel
                         Layout.leftMargin: 12
-                        text: "ACTION"
+                        //: Keep it capitalized
+                        text: qsTr("ACTION")
                         color: Style.colorLightText
                         font.pointSize: Fonts.size10dot25
                         font.bold: true
@@ -115,7 +116,8 @@ Page {
 
                     Label {
                         id: shortcutsLabel
-                        text: "SHORTCUTS"
+                        //: Keep it capitalized
+                        text: qsTr("SHORTCUTS")
                         color: Style.colorLightText
                         font.pointSize: Fonts.size10dot25
                         font.bold: true
@@ -130,6 +132,8 @@ Page {
                         implicitWidth: 34
                         implicitHeight: 32
                         imageSize: 14
+                        placeholderText: qsTr("Search for shortcuts")
+
                         // Make sure that the searchButton does not overlap other items
                         expansionWidth: (headerLabelSpacer.width
                                          <= 445 ? headerLabelSpacer.width : 445)

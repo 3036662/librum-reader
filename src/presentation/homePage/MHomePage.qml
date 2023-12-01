@@ -70,7 +70,9 @@ Page {
                 Label {
                     id: updateBannerText
                     anchors.centerIn: parent
-                    text: 'A new version is available! <a href="update" style="color: #FFFFFF; text-decoration: underline;">Update Now</a>'
+                    text: qsTr('A new version is available!')
+                          + ' <a href="update" style="color: #FFFFFF; text-decoration: underline;">'
+                          + qsTr('Update Now') + '</a>'
                     onLinkActivated: baseRoot.loadSettingsUpdatesPage()
                     textFormat: Text.RichText
                     color: Style.colorBannerText
@@ -117,8 +119,10 @@ Page {
                 MTitle {
                     id: pageTitle
                     Layout.topMargin: updateBanner.visible ? 24 : 44
-                    titleText: "Home"
-                    descriptionText: "You have " + LibraryController.bookCount + " books"
+                    //: As in 'Home Page', might be closer to 'Start' in other languages
+                    titleText: qsTr("Home")
+                    descriptionText: qsTr("You have %1 books").arg(
+                                         LibraryController.bookCount)
                 }
 
                 Item {
@@ -127,13 +131,13 @@ Page {
 
                 MButton {
                     id: addBooksButton
-                    Layout.preferredWidth: 140
                     Layout.preferredHeight: 40
                     Layout.topMargin: 22
                     Layout.alignment: Qt.AlignBottom
+                    horizontalMargins: 12
                     borderWidth: 0
                     backgroundColor: Style.colorBasePurple
-                    text: "Add books"
+                    text: qsTr("Add books")
                     textColor: Style.colorFocusedButtonText
                     fontWeight: Font.Bold
                     fontSize: Fonts.size13
@@ -352,11 +356,10 @@ Page {
         y: Math.round(
                root.height / 2 - implicitHeight / 2 - root.topPadding - 50)
         visible: false
-        title: "Remove Book?"
-        message: "Deleting a book is a permanent action, no one will be\n able to restore it afterwards!"
-        leftButtonText: "Remove from Device"
-        rightButtonText: "Delete Everywhere"
-        buttonsWidth: 200
+        title: qsTr("Remove Book?")
+        message: qsTr("Deleting a book is a permanent action, no one will be\n able to restore it afterwards!")
+        leftButtonText: qsTr("Remove from Device")
+        rightButtonText: qsTr("Delete Everywhere")
         messageBottomSpacing: 10
         rightButtonRed: true
 
@@ -393,7 +396,7 @@ Page {
 
     FolderDialog {
         id: downloadFileDialog
-        acceptLabel: "Save"
+        acceptLabel: qsTr("Save")
         options: FolderDialog.ShowDirsOnly
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
 
@@ -408,13 +411,12 @@ Page {
         y: Math.round(
                root.height / 2 - implicitHeight / 2 - root.topPadding - 50)
         visible: false
-        title: "Limit Reached"
-        message: "You have reached your upload limit.\nDelete unused books to free up space or upgrade."
-        leftButtonText: "Ok"
-        rightButtonText: "Upgrade"
-        buttonsWidth: 180
+        title: qsTr("Limit Reached")
+        message: qsTr("You have reached your upload limit.\nDelete unused books to free up space or upgrade.")
+        leftButtonText: qsTr("Ok")
+        rightButtonText: qsTr("Upgrade")
         messageBottomSpacing: 16
-
+        minButtonWidth: 180
         onOpenedChanged: if (opened)
                              uploadLimitReachedPopup.giveFocus()
         onDecisionMade: close()
@@ -427,10 +429,9 @@ Page {
         y: Math.round(
                root.height / 2 - implicitHeight / 2 - root.topPadding - 50)
         visible: false
-        title: "Unsupported File"
-        message: "Oops! This file is not supported by Librum."
-        leftButtonText: "Ok"
-        buttonsWidth: 180
+        title: qsTr("Unsupported File")
+        message: qsTr("Oops! This file is not supported by Librum.")
+        leftButtonText: qsTr("Ok")
         messageBottomSpacing: 24
         singleButton: true
 
@@ -441,10 +442,13 @@ Page {
 
     FileDialog {
         id: importFilesDialog
-        acceptLabel: "Import"
+        acceptLabel: qsTr("Import")
         fileMode: FileDialog.FileMode.OpenFiles
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-        nameFilters: ["All files (*)", "PDF files (*.pdf)", "EPUB files (*.epub)", "MOBI files (*.mobi)", "HTML files (*.html *.htm)", "Text files (*.txt)"]
+        nameFilters: [qsTr(
+                "All files") + " (*)", "PDF " + qsTr("files") + " (*.pdf)", "EPUB " + qsTr(
+                "files") + " (*.epub)", "MOBI " + qsTr("files") + " (*.mobi)", "HTML " + qsTr(
+                "files") + " (*.html *.htm)", "Text " + qsTr("files") + " (*.txt)"]
 
         onAccepted: {
             for (var i = 0; i < files.length; ++i) {

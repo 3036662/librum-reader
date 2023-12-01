@@ -67,7 +67,7 @@ Popup {
                 id: popupTitle
                 Layout.topMargin: 20
                 Layout.leftMargin: 52
-                text: "Book details"
+                text: qsTr("Book details")
                 font.weight: Font.Bold
                 font.pointSize: Fonts.size17
                 color: Style.colorTitle
@@ -118,6 +118,7 @@ Popup {
                   */
                 Item {
                     id: bookCoverSide
+                    SplitView.preferredHeight: parent.height
                     SplitView.preferredWidth: 218
                     SplitView.minimumWidth: 80
                     SplitView.maximumWidth: 246
@@ -169,7 +170,7 @@ Popup {
                                 borderWidth: 1
                                 backgroundColor: "transparent"
                                 opacityOnPressed: 0.8
-                                text: "Change"
+                                text: qsTr("Change")
                                 textColor: Style.colorText
                                 fontWeight: Font.DemiBold
                                 fontSize: Fonts.size11dot5
@@ -184,7 +185,7 @@ Popup {
                                 borderWidth: 1
                                 backgroundColor: "transparent"
                                 opacityOnPressed: 0.8
-                                text: "Delete"
+                                text: qsTr("Delete")
                                 textColor: Style.colorText
                                 fontWeight: Font.DemiBold
                                 fontSize: Fonts.size11dot5
@@ -232,12 +233,12 @@ Popup {
                                 id: titleField
                                 Layout.fillWidth: true
                                 boxHeight: 34
-                                headerText: "Title"
+                                headerText: qsTr("Title")
                                 headerFontWeight: Font.Bold
                                 headerFontSize: Fonts.size11dot5
                                 text: Globals.selectedBook
                                       !== null ? Globals.selectedBook.title : ""
-                                placeholderContent: "Unknown"
+                                placeholderContent: qsTr("Unknown")
                                 placeholderColor: Style.colorPlaceholderText
                                 headerToBoxSpacing: 3
                                 inputFontSize: Fonts.size12
@@ -251,12 +252,12 @@ Popup {
                                 id: authorsField
                                 Layout.fillWidth: true
                                 boxHeight: 34
-                                headerText: "Authors"
+                                headerText: qsTr("Authors")
                                 headerFontWeight: Font.Bold
                                 headerFontSize: Fonts.size11dot5
                                 text: Globals.selectedBook
                                       !== null ? Globals.selectedBook.authors : ""
-                                placeholderContent: "Unknown"
+                                placeholderContent: qsTr("Unknown")
                                 placeholderColor: Style.colorPlaceholderText
                                 headerToBoxSpacing: 3
                                 inputFontSize: Fonts.size12
@@ -270,7 +271,7 @@ Popup {
                                 id: pagesField
                                 Layout.fillWidth: true
                                 boxHeight: 34
-                                headerText: "Pages"
+                                headerText: qsTr("Pages")
                                 headerFontWeight: Font.Bold
                                 headerFontSize: Fonts.size11dot5
                                 text: Globals.selectedBook !== null ? Globals.selectedBook.pageCount : internal.placeholderText
@@ -288,7 +289,7 @@ Popup {
                                 Layout.fillWidth: true
                                 Layout.preferredHeight: 53
                                 multiSelect: false
-                                headerText: "Language"
+                                headerText: qsTr("Language")
                                 headerFontSize: Fonts.size11dot5
                                 headerFontColor: Style.colorTitle
                                 dropdownIconSize: 9
@@ -361,12 +362,12 @@ Popup {
                                 id: documentCreatorField
                                 Layout.fillWidth: true
                                 boxHeight: 34
-                                headerText: "Document creator"
+                                headerText: qsTr("Document creator")
                                 headerFontWeight: Font.Bold
                                 headerFontSize: Fonts.size11dot5
                                 text: Globals.selectedBook
                                       !== null ? Globals.selectedBook.creator : ""
-                                placeholderContent: "Unknown"
+                                placeholderContent: qsTr("Unknown")
                                 placeholderColor: Style.colorPlaceholderText
                                 headerToBoxSpacing: 3
                                 inputFontSize: Fonts.size12
@@ -380,12 +381,12 @@ Popup {
                                 id: creationDateField
                                 Layout.fillWidth: true
                                 boxHeight: 34
-                                headerText: "Creation date"
+                                headerText: qsTr("Creation date")
                                 headerFontWeight: Font.Bold
                                 headerFontSize: Fonts.size11dot5
                                 text: Globals.selectedBook
                                       !== null ? Globals.selectedBook.creationDate : ""
-                                placeholderContent: "Unknown"
+                                placeholderContent: qsTr("Unknown")
                                 placeholderColor: Style.colorPlaceholderText
                                 headerToBoxSpacing: 3
                                 inputFontSize: Fonts.size12
@@ -399,7 +400,7 @@ Popup {
                                 id: formatField
                                 Layout.fillWidth: true
                                 boxHeight: 34
-                                headerText: "Format"
+                                headerText: qsTr("Format")
                                 headerFontWeight: Font.Bold
                                 headerFontSize: Fonts.size11dot5
                                 text: Globals.selectedBook !== null
@@ -417,7 +418,7 @@ Popup {
                                 id: sizeField
                                 Layout.fillWidth: true
                                 boxHeight: 34
-                                headerText: "Document size"
+                                headerText: qsTr("Document size")
                                 headerFontWeight: Font.Bold
                                 headerFontSize: Fonts.size11dot5
                                 text: Globals.selectedBook !== null
@@ -436,7 +437,7 @@ Popup {
                                 id: addedField
                                 Layout.fillWidth: true
                                 boxHeight: 34
-                                headerText: "Added"
+                                headerText: qsTr("Added")
                                 headerFontWeight: Font.Bold
                                 headerFontSize: Fonts.size11dot5
                                 text: Globals.selectedBook !== null ? Globals.selectedBook.addedToLibrary : internal.placeholderText
@@ -454,7 +455,7 @@ Popup {
                                 Layout.fillWidth: true
                                 Layout.bottomMargin: 3
                                 boxHeight: 34
-                                headerText: "Last opened"
+                                headerText: qsTr("Last opened")
                                 headerFontWeight: Font.Bold
                                 headerFontSize: Fonts.size11dot5
                                 text: Globals.selectedBook !== null ? Globals.selectedBook.lastOpened : internal.placeholderText
@@ -488,7 +489,7 @@ Popup {
                     Layout.alignment: Qt.AlignLeft
                     borderWidth: active ? 0 : 1
                     backgroundColor: active ? Style.colorBasePurple : "transparent"
-                    text: "Apply"
+                    text: qsTr("Apply")
                     textColor: active ? Style.colorFocusedButtonText : Style.colorUnfocusedButtonText
                     fontWeight: Font.Bold
                     fontSize: Fonts.size12
@@ -513,7 +514,7 @@ Popup {
                     borderWidth: active ? 0 : 1
                     backgroundColor: active ? Style.colorBasePurple : "transparent"
                     opacityOnPressed: 0.7
-                    text: "Cancel"
+                    text: qsTr("Cancel")
                     textColor: active ? Style.colorFocusedButtonText : Style.colorUnfocusedButtonText
                     fontWeight: Font.Bold
                     fontSize: Fonts.size12
@@ -538,7 +539,7 @@ Popup {
                     borderWidth: active ? 0 : 1
                     backgroundColor: active ? Style.colorRed : "transparent"
                     opacityOnPressed: 0.7
-                    text: "Delete"
+                    text: qsTr("Delete")
                     textColor: active ? Style.colorFocusedButtonText : Style.colorUnfocusedButtonText
                     fontWeight: Font.Bold
                     fontSize: Fonts.size12
@@ -555,40 +556,22 @@ Popup {
         }
     }
 
-    MWarningPopup {
-        id: acceptDeletionPopup
-        x: root.width / 2 - implicitWidth / 2
-        y: root.height / 2 - implicitHeight / 2 - 30
-        visible: false
-        title: "Delete Book?"
-        message: "Deleting a book is a permanent action, no one will be\n able to restore it afterwards!"
-        leftButtonText: "No, Keep Book"
-        rightButtonText: "Yes, Delete Book"
-        buttonsWidth: 180
-        messageBottomSpacing: 10
-
-        onOpenedChanged: if (opened)
-                             acceptDeletionPopup.giveFocus()
-        onDecisionMade: close()
-        onRightButtonClicked: {
-            LibraryController.deleteBook(Globals.selectedBook.uuid)
-            root.close()
-        }
-    }
-
     FileDialog {
         id: chooseImageDialog
-        acceptLabel: "Select"
+        acceptLabel: qsTr("Select")
         fileMode: FileDialog.OpenFile
         folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-        nameFilters: ["All files (*.png *.jpg *.jpg *.jpeg)", "png files (*.png)", "jpg files (*.jpg)", "jpeg files (*.jpeg)"]
+        nameFilters: [qsTr(
+                "All files") + "(*.png *.jpg *.jpg *.jpeg)", "png " + qsTr(
+                "files") + " (*.png)", "jpg " + qsTr(
+                "files") + " (*.jpg)", "jpeg " + qsTr("files") + " (*.jpeg)"]
 
         onAccepted: bookCover.source = file
     }
 
     QtObject {
         id: internal
-        property string placeholderText: "Unknown"
+        property string placeholderText: qsTr("Unknown")
 
         function focusApplyButton() {
             cancelButton.active = false
