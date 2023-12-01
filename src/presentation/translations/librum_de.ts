@@ -1505,24 +1505,41 @@ Lösche alte Bücher um Speicherplatzu freizugeben oder upgrade deinen Account.<
 <context>
     <name>MOpdsPage</name>
     <message>
-        <location filename="../opdsPage/MOpdsPage.qml" line="21"/>
+        <location filename="../opdsPage/MOpdsPage.qml" line="22"/>
+        <source>Sorry.Unsupported format.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsPage.qml" line="25"/>
         <source>Bad network response: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../opdsPage/MOpdsPage.qml" line="52"/>
+        <location filename="../opdsPage/MOpdsPage.qml" line="59"/>
         <source>OPDS  catalogs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../opdsPage/MOpdsPage.qml" line="53"/>
+        <location filename="../opdsPage/MOpdsPage.qml" line="60"/>
         <source>Find books in public OPDS libraries</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../opdsPage/MOpdsPage.qml" line="68"/>
+        <location filename="../opdsPage/MOpdsPage.qml" line="75"/>
         <source>Add OPDS</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsupported File</source>
+        <translation type="obsolete">Nicht unterstützt</translation>
+    </message>
+    <message>
+        <source>Oops! This file is not supported by Librum.</source>
+        <translation type="obsolete">Oops! Dieses Format wird von Librum nicht unterstützt.</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation type="obsolete">Ok</translation>
     </message>
 </context>
 <context>

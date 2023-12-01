@@ -1458,24 +1458,41 @@ Delete unused books to free up space or upgrade.</source>
 <context>
     <name>MOpdsPage</name>
     <message>
-        <location filename="../opdsPage/MOpdsPage.qml" line="21"/>
+        <location filename="../opdsPage/MOpdsPage.qml" line="22"/>
+        <source>Sorry.Unsupported format.</source>
+        <translation>Извините, формат не поддерживается.</translation>
+    </message>
+    <message>
+        <location filename="../opdsPage/MOpdsPage.qml" line="25"/>
         <source>Bad network response: </source>
         <translation>Сервер ответил ошибкой: </translation>
     </message>
     <message>
-        <location filename="../opdsPage/MOpdsPage.qml" line="52"/>
+        <location filename="../opdsPage/MOpdsPage.qml" line="59"/>
         <source>OPDS  catalogs</source>
         <translation>OPDS каталоги</translation>
     </message>
     <message>
-        <location filename="../opdsPage/MOpdsPage.qml" line="53"/>
+        <location filename="../opdsPage/MOpdsPage.qml" line="60"/>
         <source>Find books in public OPDS libraries</source>
         <translation>Поиск книг в публичных каталогах OPDS</translation>
     </message>
     <message>
-        <location filename="../opdsPage/MOpdsPage.qml" line="68"/>
+        <location filename="../opdsPage/MOpdsPage.qml" line="75"/>
         <source>Add OPDS</source>
         <translation>Добавить OPDS</translation>
+    </message>
+    <message>
+        <source>Unsupported File</source>
+        <translation type="vanished">Не поддерживается данный формат</translation>
+    </message>
+    <message>
+        <source>Oops! This file is not supported by Librum.</source>
+        <translation type="vanished">Ой! Librum не поддерживает этот файл.</translation>
+    </message>
+    <message>
+        <source>Ok</source>
+        <translation type="vanished">OK</translation>
     </message>
 </context>
 <context>
