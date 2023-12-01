@@ -83,7 +83,7 @@ void OpdsAccess::getBookMedia(const QString& id, const QUuid& uuid,
     // if not downloadable urls found or unexpected format
     if(format_pos <= 0)
     {
-        emit badNetworkResponse(0);
+        emit badNetworkResponse(-100); // unsupported format
         return;
     }
     QString format = _url.sliced(format_pos + 1);
