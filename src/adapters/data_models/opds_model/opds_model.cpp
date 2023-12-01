@@ -1,10 +1,14 @@
 #include "opds_model.hpp"
+#include "opds_structs.hpp"
 #include <QBuffer>
 
 using namespace domain::value_objects;
+using namespace application::utility::opds;
 
 namespace adapters::data_models
 {
+
+
 
 OpdsModel::OpdsModel(const std::vector<domain::value_objects::OpdsNode>* data)
     : m_data(data)
@@ -53,7 +57,29 @@ QVariant OpdsModel::data(const QModelIndex& index, int role) const
         QString url;
         if(url.isEmpty() && !opdsNode.downloadUrls.isEmpty())
         {
-            url = opdsNode.downloadUrls.first().second;
+            // first try to return epub
+            auto it_download_link =std::find_if( opdsNode.downloadUrls.constBegin(),
+                                                 opdsNode.downloadUrls.constEnd(),[](const QPair<QString, QString>& link){
+                                                     return link.first.contains("epub");
+                                                 });
+            if (it_download_link!= opdsNode.downloadUrls.constEnd())
+                return it_download_link->second;
+            // if not found  -pdf
+             it_download_link =std::find_if( opdsNode.downloadUrls.constBegin(),
+                                                 opdsNode.downloadUrls.constEnd(),[](const QPair<QString, QString>& link){
+                                                     return link.first.contains("pdf");
+                                                 });
+            if (it_download_link!= opdsNode.downloadUrls.constEnd())
+                return it_download_link->second;
+             // if not found  -  fb2
+             it_download_link =std::find_if( opdsNode.downloadUrls.constBegin(),
+                                                 opdsNode.downloadUrls.constEnd(),[](const QPair<QString, QString>& link){
+                                                     return link.first.contains("fb2");
+                                                 });
+            if (it_download_link!= opdsNode.downloadUrls.constEnd())
+                return it_download_link->second;
+          // if nothing was found
+          url = opdsNode.downloadUrls.first().second;
         }
         return url;
     }
