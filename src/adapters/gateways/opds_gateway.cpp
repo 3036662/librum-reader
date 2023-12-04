@@ -183,7 +183,7 @@ void OpdsGateway::getOpdsImage(const QString& id, const QString& url)
 void OpdsGateway::processOpdsImage(const QString& id, const QString& url,
                                    const QByteArray& data)
 {
-    if(boost::ends_with(url, "webp"))
+    if (url.endsWith("webp"))
     {
         int width, height;
         uint8_t* rgbData =
