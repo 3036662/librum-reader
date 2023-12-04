@@ -133,6 +133,7 @@ target_link_libraries(adapters
                     Qt6::Core
                     Qt6::Quick
                     Qt6::Network
+					PkgConfig::WEBP
 )
 
 target_compile_options(adapters PRIVATE "$<$<CONFIG:DEBUG>:${LIBRUM_WARNINGS};${LIBRUM_SANITIZERS};${COVERAGE_COMPILE_OPTIONS};-O0;-g>")
