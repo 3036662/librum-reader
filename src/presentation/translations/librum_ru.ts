@@ -326,37 +326,34 @@ We hope you have a great time using it! Feel free to leave us a rating and some 
         <translation>Светлая</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="144"/>
         <source>Page Color Mode</source>
-        <translation>Цветовой Режим Страницы</translation>
+        <translation type="vanished">Цветовой Режим Страницы</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="156"/>
         <source>Normal</source>
-        <translation>Нормальный</translation>
+        <translation type="vanished">Нормальный</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="158"/>
         <source>Inverted</source>
-        <translation>Инвертированный</translation>
+        <translation type="vanished">Инвертированный</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="174"/>
+        <location filename="../settings/MAppearancePage.qml" line="144"/>
         <source>Language</source>
         <translation>Язык</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="248"/>
+        <location filename="../settings/MAppearancePage.qml" line="218"/>
         <source>Reading</source>
         <translation>Чтение</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="258"/>
+        <location filename="../settings/MAppearancePage.qml" line="228"/>
         <source>Page spacing</source>
         <translation>Расстояние между страницами</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="285"/>
+        <location filename="../settings/MAppearancePage.qml" line="255"/>
         <source>Display book title in titlebar</source>
         <translation>Отображать название книги в строке с названием</translation>
     </message>
@@ -405,22 +402,22 @@ We hope you have a great time using it! Feel free to leave us a rating and some 
         <translation type="vanished">Замена</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="310"/>
+        <location filename="../settings/MAppearancePage.qml" line="280"/>
         <source>Default Zoom</source>
         <translation>Увеличение по-умолчанию</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="356"/>
+        <location filename="../settings/MAppearancePage.qml" line="326"/>
         <source>Highlights</source>
         <translation>Выделение</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="365"/>
+        <location filename="../settings/MAppearancePage.qml" line="335"/>
         <source>Colors</source>
         <translation>Цвета</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="484"/>
+        <location filename="../settings/MAppearancePage.qml" line="454"/>
         <source>Opacity</source>
         <translation>Непрозрачность</translation>
     </message>
@@ -449,23 +446,23 @@ We hope you have a great time using it! Feel free to leave us a rating and some 
         <translation type="vanished">Всегда виден</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="540"/>
+        <location filename="../settings/MAppearancePage.qml" line="510"/>
         <source>Reset settings?</source>
         <translation>Сбросить?</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="541"/>
+        <location filename="../settings/MAppearancePage.qml" line="511"/>
         <source>Resetting your settings is a permanent action, there
  will be no way to restore them!</source>
         <translation>Сброс настроек необратим, Вы не сможете потом их восстановить!</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="542"/>
+        <location filename="../settings/MAppearancePage.qml" line="512"/>
         <source>No, Keep</source>
         <translation>Нет, Оставить</translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="543"/>
+        <location filename="../settings/MAppearancePage.qml" line="513"/>
         <source>Yes, Reset</source>
         <translation>Да, Сбросить</translation>
     </message>
@@ -558,13 +555,13 @@ We hope you have a great time using it! Feel free to leave us a rating and some 
 <context>
     <name>MBook</name>
     <message>
-        <location filename="../homePage/MBook.qml" line="174"/>
-        <location filename="../homePage/MBook.qml" line="189"/>
+        <location filename="../homePage/MBook.qml" line="175"/>
+        <location filename="../homePage/MBook.qml" line="190"/>
         <source>Unknown</source>
         <translation>Неизвестно</translation>
     </message>
     <message>
-        <location filename="../homePage/MBook.qml" line="288"/>
+        <location filename="../homePage/MBook.qml" line="312"/>
         <source>Your book has not been uploaded to the cloud.
 Either you are offline, or your storage is full.</source>
         <translation>Выша книга не была загружена в облако.
@@ -674,6 +671,41 @@ Either you are offline, or your storage is full.</source>
         <location filename="../homePage/MBookDetailsPopup.qml" line="567"/>
         <source>files</source>
         <translation>файлы</translation>
+    </message>
+</context>
+<context>
+    <name>MBookMultiSelectRightClickPopup</name>
+    <message>
+        <source>Save to files</source>
+        <translation type="obsolete">Сохранить</translation>
+    </message>
+    <message>
+        <source>Read book</source>
+        <translation type="obsolete">Читать</translation>
+    </message>
+    <message>
+        <source>Manage tags</source>
+        <translation type="obsolete">Теги</translation>
+    </message>
+    <message>
+        <location filename="../homePage/MBookMultiSelectRightClickPopup.qml" line="25"/>
+        <source>Mark as read</source>
+        <extracomment>If this is too long in any language, use &quot;Read&quot; (past form) instead</extracomment>
+        <translation>Прочитано</translation>
+    </message>
+    <message>
+        <location filename="../homePage/MBookMultiSelectRightClickPopup.qml" line="34"/>
+        <source>Uninstall books</source>
+        <translation>Удалить книги</translation>
+    </message>
+    <message>
+        <location filename="../homePage/MBookMultiSelectRightClickPopup.qml" line="43"/>
+        <source>Delete books</source>
+        <translation>Удалить книги</translation>
+    </message>
+    <message>
+        <source>Remove book</source>
+        <translation type="obsolete">Удалить</translation>
     </message>
 </context>
 <context>
@@ -1197,105 +1229,132 @@ Either you are offline, or your storage is full.</source>
 <context>
     <name>MHomePage</name>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="73"/>
+        <location filename="../homePage/MHomePage.qml" line="69"/>
         <source>A new version is available!</source>
         <translation>Доступна новая версия!</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="75"/>
+        <location filename="../homePage/MHomePage.qml" line="71"/>
         <source>Update Now</source>
         <translation>Обновить Сейчас</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="123"/>
+        <location filename="../homePage/MHomePage.qml" line="119"/>
         <source>Home</source>
         <extracomment>As in &apos;Home Page&apos;, might be closer to &apos;Start&apos; in other languages</extracomment>
         <translation>Главная</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="124"/>
+        <location filename="../homePage/MHomePage.qml" line="120"/>
         <source>You have %1 books</source>
         <translation>У Вас %1 книг</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="140"/>
+        <location filename="../homePage/MHomePage.qml" line="136"/>
         <source>Add books</source>
         <translation>Добавить книги</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="359"/>
+        <location filename="../homePage/MHomePage.qml" line="400"/>
         <source>Remove Book?</source>
         <translation>Удалить Книгу?</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="360"/>
+        <location filename="../homePage/MHomePage.qml" line="401"/>
         <source>Deleting a book is a permanent action, no one will be
  able to restore it afterwards!</source>
         <translation>Удаление книги необратимо,
 после этого её нельзя будет восстановить!</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="361"/>
+        <location filename="../homePage/MHomePage.qml" line="402"/>
         <source>Remove from Device</source>
         <translation>Удалить с Устройства</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="362"/>
+        <location filename="../homePage/MHomePage.qml" line="403"/>
         <source>Delete Everywhere</source>
         <translation>Удалить Везде</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="399"/>
+        <location filename="../homePage/MHomePage.qml" line="440"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="414"/>
+        <location filename="../homePage/MHomePage.qml" line="455"/>
         <source>Limit Reached</source>
         <translation>Достигнут Лимит</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="415"/>
+        <location filename="../homePage/MHomePage.qml" line="456"/>
         <source>You have reached your upload limit.
 Delete unused books to free up space or upgrade.</source>
         <translation>Вы достигли лимита загрузок на сервер.
 Удалите ненужные книги или приобретите улучшение для аккаунта.</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="416"/>
-        <location filename="../homePage/MHomePage.qml" line="434"/>
+        <location filename="../homePage/MHomePage.qml" line="457"/>
+        <location filename="../homePage/MHomePage.qml" line="504"/>
         <source>Ok</source>
         <translation>Хорошо</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="417"/>
+        <location filename="../homePage/MHomePage.qml" line="458"/>
         <source>Upgrade</source>
         <translation>Приобрести улучшение</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="432"/>
+        <location filename="../homePage/MHomePage.qml" line="473"/>
+        <source>Book already exists</source>
+        <translation>Книга уже есть</translation>
+    </message>
+    <message>
+        <location filename="../homePage/MHomePage.qml" line="474"/>
+        <source>It looks like this book already exists in your library:</source>
+        <translation>Похоже, эта книга уже есть в Вашей библиотеке:</translation>
+    </message>
+    <message>
+        <location filename="../homePage/MHomePage.qml" line="477"/>
+        <source>Are you sure you that want to add it again?
+</source>
+        <translation>Вы уверены, что хотите добавить её снова?
+</translation>
+    </message>
+    <message>
+        <location filename="../homePage/MHomePage.qml" line="480"/>
+        <source>Add</source>
+        <translation>Добавить</translation>
+    </message>
+    <message>
+        <location filename="../homePage/MHomePage.qml" line="481"/>
+        <source>Don&apos;t add</source>
+        <translation>Не добавлять</translation>
+    </message>
+    <message>
+        <location filename="../homePage/MHomePage.qml" line="502"/>
         <source>Unsupported File</source>
         <translation>Не поддерживается</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="433"/>
+        <location filename="../homePage/MHomePage.qml" line="503"/>
         <source>Oops! This file is not supported by Librum.</source>
         <translation>Ой! Librum не поддерживает этот файл.</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="445"/>
+        <location filename="../homePage/MHomePage.qml" line="519"/>
         <source>Import</source>
         <translation>Добавить</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="448"/>
+        <location filename="../homePage/MHomePage.qml" line="522"/>
         <source>All files</source>
         <translation>Все файлы</translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="449"/>
-        <location filename="../homePage/MHomePage.qml" line="450"/>
-        <location filename="../homePage/MHomePage.qml" line="451"/>
+        <location filename="../homePage/MHomePage.qml" line="523"/>
+        <location filename="../homePage/MHomePage.qml" line="524"/>
+        <location filename="../homePage/MHomePage.qml" line="525"/>
         <source>files</source>
         <translation>файлы</translation>
     </message>
@@ -1521,17 +1580,17 @@ Delete unused books to free up space or upgrade.</source>
         <translation>Поменять цвета</translation>
     </message>
     <message>
-        <location filename="../readingPage/readingToolbar/MReadingOptionsPopup.qml" line="150"/>
+        <location filename="../readingPage/readingToolbar/MReadingOptionsPopup.qml" line="147"/>
         <source>Sync book</source>
         <translation>Обновить</translation>
     </message>
     <message>
-        <location filename="../readingPage/readingToolbar/MReadingOptionsPopup.qml" line="168"/>
+        <location filename="../readingPage/readingToolbar/MReadingOptionsPopup.qml" line="165"/>
         <source>More options</source>
         <translation>Ещё</translation>
     </message>
     <message>
-        <location filename="../readingPage/readingToolbar/MReadingOptionsPopup.qml" line="189"/>
+        <location filename="../readingPage/readingToolbar/MReadingOptionsPopup.qml" line="186"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
@@ -2086,22 +2145,22 @@ working on fun projects, supporting our community and trying to make the world a
 <context>
     <name>MToolbar</name>
     <message>
-        <location filename="../homePage/toolbar/MToolbar.qml" line="67"/>
+        <location filename="../homePage/toolbar/MToolbar.qml" line="75"/>
         <source>Remove Filters</source>
         <translation>Удалить фильтры</translation>
     </message>
     <message>
-        <location filename="../homePage/toolbar/MToolbar.qml" line="80"/>
+        <location filename="../homePage/toolbar/MToolbar.qml" line="88"/>
         <source>Remove Tags</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../homePage/toolbar/MToolbar.qml" line="146"/>
+        <location filename="../homePage/toolbar/MToolbar.qml" line="154"/>
         <source>You are offline</source>
         <translation>Вы не в сети</translation>
     </message>
     <message>
-        <location filename="../homePage/toolbar/MToolbar.qml" line="153"/>
+        <location filename="../homePage/toolbar/MToolbar.qml" line="161"/>
         <source>Your library is being synchronized with the cloud</source>
         <translation>Сейчас Ваша библиотека синхронизируется с облаком</translation>
     </message>

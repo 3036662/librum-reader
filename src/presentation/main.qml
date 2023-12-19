@@ -177,7 +177,7 @@ ApplicationWindow {
         target: FreeBooksController
 
         function onGettingBookFinished(path, projectGutenbergId) {
-            LibraryController.addBook(path, projectGutenbergId)
+            LibraryController.addBook(path, false, projectGutenbergId)
         }
     }
     Connections {

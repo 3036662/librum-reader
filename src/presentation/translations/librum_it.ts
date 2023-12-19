@@ -326,77 +326,62 @@ We hope you have a great time using it! Feel free to leave us a rating and some 
     </message>
     <message>
         <location filename="../settings/MAppearancePage.qml" line="144"/>
-        <source>Page Color Mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../settings/MAppearancePage.qml" line="156"/>
-        <source>Normal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../settings/MAppearancePage.qml" line="158"/>
-        <source>Inverted</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../settings/MAppearancePage.qml" line="174"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="246"/>
+        <location filename="../settings/MAppearancePage.qml" line="218"/>
         <source>Reading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="256"/>
+        <location filename="../settings/MAppearancePage.qml" line="228"/>
         <source>Page spacing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="283"/>
+        <location filename="../settings/MAppearancePage.qml" line="255"/>
         <source>Display book title in titlebar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="308"/>
+        <location filename="../settings/MAppearancePage.qml" line="280"/>
         <source>Default Zoom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="354"/>
+        <location filename="../settings/MAppearancePage.qml" line="326"/>
         <source>Highlights</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="363"/>
+        <location filename="../settings/MAppearancePage.qml" line="335"/>
         <source>Colors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="482"/>
+        <location filename="../settings/MAppearancePage.qml" line="454"/>
         <source>Opacity</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="538"/>
+        <location filename="../settings/MAppearancePage.qml" line="510"/>
         <source>Reset settings?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="539"/>
+        <location filename="../settings/MAppearancePage.qml" line="511"/>
         <source>Resetting your settings is a permanent action, there
  will be no way to restore them!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="540"/>
+        <location filename="../settings/MAppearancePage.qml" line="512"/>
         <source>No, Keep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MAppearancePage.qml" line="541"/>
+        <location filename="../settings/MAppearancePage.qml" line="513"/>
         <source>Yes, Reset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -439,23 +424,48 @@ We hope you have a great time using it! Feel free to leave us a rating and some 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MBehaviorPage.qml" line="176"/>
+        <location filename="../settings/MBehaviorPage.qml" line="132"/>
+        <source>Hide cursor after delay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settings/MBehaviorPage.qml" line="157"/>
+        <source>ms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settings/MBehaviorPage.qml" line="169"/>
+        <source>Include new lines in copied text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settings/MBehaviorPage.qml" line="181"/>
+        <source>ON</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settings/MBehaviorPage.qml" line="183"/>
+        <source>OFF</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settings/MBehaviorPage.qml" line="205"/>
         <source>Reset settings?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MBehaviorPage.qml" line="177"/>
+        <location filename="../settings/MBehaviorPage.qml" line="206"/>
         <source>Resetting your settings is a permanent action, there
  will be no way to restore them!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MBehaviorPage.qml" line="178"/>
+        <location filename="../settings/MBehaviorPage.qml" line="207"/>
         <source>No, Keep</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../settings/MBehaviorPage.qml" line="179"/>
+        <location filename="../settings/MBehaviorPage.qml" line="208"/>
         <source>Yes, Reset</source>
         <translation type="unfinished"></translation>
     </message>
@@ -463,13 +473,13 @@ We hope you have a great time using it! Feel free to leave us a rating and some 
 <context>
     <name>MBook</name>
     <message>
-        <location filename="../homePage/MBook.qml" line="174"/>
-        <location filename="../homePage/MBook.qml" line="189"/>
+        <location filename="../homePage/MBook.qml" line="175"/>
+        <location filename="../homePage/MBook.qml" line="190"/>
         <source>Unknown</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MBook.qml" line="288"/>
+        <location filename="../homePage/MBook.qml" line="312"/>
         <source>Your book has not been uploaded to the cloud.
 Either you are offline, or your storage is full.</source>
         <translation type="unfinished"></translation>
@@ -581,6 +591,25 @@ Either you are offline, or your storage is full.</source>
     </message>
 </context>
 <context>
+    <name>MBookMultiSelectRightClickPopup</name>
+    <message>
+        <location filename="../homePage/MBookMultiSelectRightClickPopup.qml" line="25"/>
+        <source>Mark as read</source>
+        <extracomment>If this is too long in any language, use &quot;Read&quot; (past form) instead</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../homePage/MBookMultiSelectRightClickPopup.qml" line="34"/>
+        <source>Uninstall books</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../homePage/MBookMultiSelectRightClickPopup.qml" line="43"/>
+        <source>Delete books</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MBookRightClickPopup</name>
     <message>
         <location filename="../homePage/MBookRightClickPopup.qml" line="31"/>
@@ -637,23 +666,23 @@ Either you are offline, or your storage is full.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../readingPage/MBookmarksSidebar.qml" line="142"/>
+        <location filename="../readingPage/MBookmarksSidebar.qml" line="191"/>
         <source>New Bookmark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../readingPage/MBookmarksSidebar.qml" line="160"/>
+        <location filename="../readingPage/MBookmarksSidebar.qml" line="155"/>
         <source>Follow</source>
         <extracomment>Context: &quot;Follow&quot; the bookmark (go to its page)</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../readingPage/MBookmarksSidebar.qml" line="172"/>
+        <location filename="../readingPage/MBookmarksSidebar.qml" line="167"/>
         <source>Rename</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../readingPage/MBookmarksSidebar.qml" line="184"/>
+        <location filename="../readingPage/MBookmarksSidebar.qml" line="179"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
@@ -688,32 +717,32 @@ Either you are offline, or your storage is full.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../modules/CustomComponents/MConfirmAccountDeletionPopup.qml" line="76"/>
+        <location filename="../modules/CustomComponents/MConfirmAccountDeletionPopup.qml" line="78"/>
         <source>Deleting your account is an irreversible action.&lt;br&gt;Once you delete your account, there is &lt;b&gt;no&lt;/b&gt; going back. Please be certain.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../modules/CustomComponents/MConfirmAccountDeletionPopup.qml" line="88"/>
+        <location filename="../modules/CustomComponents/MConfirmAccountDeletionPopup.qml" line="90"/>
         <source>Your Email</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../modules/CustomComponents/MConfirmAccountDeletionPopup.qml" line="90"/>
+        <location filename="../modules/CustomComponents/MConfirmAccountDeletionPopup.qml" line="92"/>
         <source>Confirm the deletion by entering your Account&apos;s email.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../modules/CustomComponents/MConfirmAccountDeletionPopup.qml" line="109"/>
+        <location filename="../modules/CustomComponents/MConfirmAccountDeletionPopup.qml" line="111"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../modules/CustomComponents/MConfirmAccountDeletionPopup.qml" line="125"/>
+        <location filename="../modules/CustomComponents/MConfirmAccountDeletionPopup.qml" line="127"/>
         <source>Delete</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../modules/CustomComponents/MConfirmAccountDeletionPopup.qml" line="135"/>
+        <location filename="../modules/CustomComponents/MConfirmAccountDeletionPopup.qml" line="137"/>
         <source>Your email is wrong</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1037,103 +1066,129 @@ Either you are offline, or your storage is full.</source>
 <context>
     <name>MHomePage</name>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="75"/>
+        <location filename="../homePage/MHomePage.qml" line="69"/>
         <source>A new version is available!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="77"/>
+        <location filename="../homePage/MHomePage.qml" line="71"/>
         <source>Update Now</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="125"/>
+        <location filename="../homePage/MHomePage.qml" line="119"/>
         <source>Home</source>
         <extracomment>As in &apos;Home Page&apos;, might be closer to &apos;Start&apos; in other languages</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="126"/>
+        <location filename="../homePage/MHomePage.qml" line="120"/>
         <source>You have %1 books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="142"/>
+        <location filename="../homePage/MHomePage.qml" line="136"/>
         <source>Add books</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="361"/>
+        <location filename="../homePage/MHomePage.qml" line="400"/>
         <source>Remove Book?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="362"/>
+        <location filename="../homePage/MHomePage.qml" line="401"/>
         <source>Deleting a book is a permanent action, no one will be
  able to restore it afterwards!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="363"/>
+        <location filename="../homePage/MHomePage.qml" line="402"/>
         <source>Remove from Device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="364"/>
+        <location filename="../homePage/MHomePage.qml" line="403"/>
         <source>Delete Everywhere</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="401"/>
+        <location filename="../homePage/MHomePage.qml" line="440"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="416"/>
+        <location filename="../homePage/MHomePage.qml" line="455"/>
         <source>Limit Reached</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="417"/>
+        <location filename="../homePage/MHomePage.qml" line="456"/>
         <source>You have reached your upload limit.
 Delete unused books to free up space or upgrade.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="418"/>
-        <location filename="../homePage/MHomePage.qml" line="436"/>
+        <location filename="../homePage/MHomePage.qml" line="457"/>
+        <location filename="../homePage/MHomePage.qml" line="504"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="419"/>
+        <location filename="../homePage/MHomePage.qml" line="458"/>
         <source>Upgrade</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="434"/>
+        <location filename="../homePage/MHomePage.qml" line="473"/>
+        <source>Book already exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../homePage/MHomePage.qml" line="474"/>
+        <source>It looks like this book already exists in your library:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../homePage/MHomePage.qml" line="477"/>
+        <source>Are you sure you that want to add it again?
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../homePage/MHomePage.qml" line="480"/>
+        <source>Add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../homePage/MHomePage.qml" line="481"/>
+        <source>Don&apos;t add</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../homePage/MHomePage.qml" line="502"/>
         <source>Unsupported File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="435"/>
+        <location filename="../homePage/MHomePage.qml" line="503"/>
         <source>Oops! This file is not supported by Librum.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="447"/>
+        <location filename="../homePage/MHomePage.qml" line="519"/>
         <source>Import</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="450"/>
+        <location filename="../homePage/MHomePage.qml" line="522"/>
         <source>All files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/MHomePage.qml" line="451"/>
-        <location filename="../homePage/MHomePage.qml" line="452"/>
-        <location filename="../homePage/MHomePage.qml" line="453"/>
+        <location filename="../homePage/MHomePage.qml" line="523"/>
+        <location filename="../homePage/MHomePage.qml" line="524"/>
+        <location filename="../homePage/MHomePage.qml" line="525"/>
         <source>files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1271,17 +1326,17 @@ Delete unused books to free up space or upgrade.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../readingPage/readingToolbar/MReadingOptionsPopup.qml" line="150"/>
+        <location filename="../readingPage/readingToolbar/MReadingOptionsPopup.qml" line="147"/>
         <source>Sync book</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../readingPage/readingToolbar/MReadingOptionsPopup.qml" line="168"/>
+        <location filename="../readingPage/readingToolbar/MReadingOptionsPopup.qml" line="165"/>
         <source>More options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../readingPage/readingToolbar/MReadingOptionsPopup.qml" line="189"/>
+        <location filename="../readingPage/readingToolbar/MReadingOptionsPopup.qml" line="186"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1834,22 +1889,22 @@ working on fun projects, supporting our community and trying to make the world a
 <context>
     <name>MToolbar</name>
     <message>
-        <location filename="../homePage/toolbar/MToolbar.qml" line="67"/>
+        <location filename="../homePage/toolbar/MToolbar.qml" line="75"/>
         <source>Remove Filters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/toolbar/MToolbar.qml" line="80"/>
+        <location filename="../homePage/toolbar/MToolbar.qml" line="88"/>
         <source>Remove Tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/toolbar/MToolbar.qml" line="146"/>
+        <location filename="../homePage/toolbar/MToolbar.qml" line="154"/>
         <source>You are offline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../homePage/toolbar/MToolbar.qml" line="153"/>
+        <location filename="../homePage/toolbar/MToolbar.qml" line="161"/>
         <source>Your library is being synchronized with the cloud</source>
         <translation type="unfinished"></translation>
     </message>

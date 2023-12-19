@@ -72,6 +72,8 @@ set(application_SRC
     utility/opds_image_provider.cpp
     utility/zip_unpacker.hpp
     utility/zip_unpacker.cpp
+    utility/book_utils.hpp
+    utility/save_book_helper.hpp
     
     core/page_generator.hpp
     core/page_generator.cpp

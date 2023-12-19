@@ -105,5 +105,6 @@
         <file>readingPage/MExplanationPopup.qml</file>
         <file>opdsPage/MOpdsLibAddPopup.qml</file>
         <file>LanguageModel.qml</file>
+        <file>homePage/MBookMultiSelectRightClickPopup.qml</file>
     </qresource>
 </RCC>
