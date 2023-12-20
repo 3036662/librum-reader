@@ -41,7 +41,7 @@ QNetworkRequest OpdsAccess::createRequest(const QUrl& url)
     QNetworkRequest result { url };
     m_networkAccessManager.setRedirectPolicy(
         QNetworkRequest::UserVerifiedRedirectPolicy);
-    result.setTransferTimeout(10000);  // 10 sec timeout
+    //result.setTransferTimeout(10000);  // 10 sec timeout
     QSslConfiguration sslConfiguration = result.sslConfiguration();
     sslConfiguration.setProtocol(QSsl::AnyProtocol);
     sslConfiguration.setPeerVerifyMode(QSslSocket::QueryPeer);
