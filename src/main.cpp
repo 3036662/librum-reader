@@ -11,6 +11,7 @@
 #include <QQmlContext>
 #include <QQuickStyle>
 #include <QSettings>
+#include <QSslConfiguration>
 #include <QStandardPaths>
 #include <QString>
 #include <QTextStream>
@@ -50,6 +51,7 @@ void setupFonts();
 
 int main(int argc, char* argv[])
 {
+
     // clang-format off
     // App
     QApplication app(argc, argv);
@@ -223,6 +225,9 @@ int main(int argc, char* argv[])
                      &adapters::IFreeBooksController::proccessDownloadedProjectGutenbergIds);
 
     // Startup
+
+    // workaround for QT 6.6 dinamic linking bug
+    QSslConfiguration sslConfiguration =QSslConfiguration::defaultConfiguration();
     QQmlApplicationEngine engine;
     QQuickStyle::setStyle("Basic");
     engine.addImportPath("qrc:/modules");
