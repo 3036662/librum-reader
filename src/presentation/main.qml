@@ -184,7 +184,7 @@ ApplicationWindow {
         target: OpdsController
 
         function onGettingBookFinished(path, opdsId) {
-            LibraryController.addBook(path, 0,opdsId)
+            LibraryController.addBook(path,false, 0,opdsId)
         }
     }
 
